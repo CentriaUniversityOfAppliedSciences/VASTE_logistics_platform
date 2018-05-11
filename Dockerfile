@@ -18,3 +18,5 @@ COPY . .
 EXPOSE 8100
 
 CMD [ "npm", "start" ]
+
+#https://www.codementor.io/olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd
