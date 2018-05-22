@@ -16,7 +16,7 @@ exports.list_all_cars = function(req, res) {
 
 
 exports.create_a_cars = function(req, res) {
-  var new_cars = new cars(req.body);
+  var new_cars = new Cars(req.body);
   new_cars.save(function(err, cars) {
     if (err)
       res.send(err);
