@@ -1,15 +1,17 @@
 'use strict';
 
-const express = require('express');
+
 
 // Constants
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
-//Ladataan mallit käyttöön
-Car = require('./api/models/carModels')
-//Bodyparser jolla saadaan pyynnön sisältö talteen
-bodyParser = require('body-parser');
+var express = require('express'),
+  app = express(),
+  port = process.env.PORT || 3000,
+  mongoose = require('mongoose'),
+  Car = require('./api/models/carModel'), //Ladataan mallit käyttöön
+  bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -22,8 +24,8 @@ app.use(bodyParser.json());
 
 
 //Reittien luominen
-var routes = require('./api/routes/carRoutes'); /
-routes(app); 
+var routes = require('./api/routes/carRoutes'); 
+routes(app);  //http://localhost:3000/api/car
 
 /*
 // App
