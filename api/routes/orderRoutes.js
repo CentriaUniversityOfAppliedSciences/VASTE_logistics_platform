@@ -1,6 +1,7 @@
 'use strict';
-module.exports = function(app) {
-  var orderRoutes = require('../controllers/orderRoutesControllers');
+module.exports = function(app) 
+{
+  var orderRoutes = require('../controllers/orderController');
 
   // orderRoutes Routes
   app.route('/orders')
@@ -12,3 +13,4 @@ module.exports = function(app) {
     .get(orderRoutes.read_a_orders)
     .put(orderRoutes.update_a_orders)
     .delete(orderRoutes.delete_a_orders);
+};

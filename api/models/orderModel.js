@@ -2,14 +2,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var OrderSchema = new schema ({
+var OrderSchema = new Schema ({
 	customer:{
 		name: {
         lastName: {
             type: String,
             required: 'Kindly enter your lastname' // pelkkä nimi? samaan etu ja suku? object tyypillä?
         },
-        firstName: String
+        firstName:  {
+            type: String,
+            required: 'Kindly enter your firstname' // pelkkä nimi? samaan etu ja suku? object tyypillä?
+        },
 		
 		phoneNumber:{			//tuleeko asiakas erikseen ja nämä tiedot sinne?
 			type: String,
@@ -55,6 +58,6 @@ var OrderSchema = new schema ({
 			required: 'Kindly indicate delivery time'
 		},
 	},
-}),
+});
 
 module.exports = mongoose.model('Orders', OrderSchema);
