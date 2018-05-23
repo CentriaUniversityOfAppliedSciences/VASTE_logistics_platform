@@ -4,8 +4,8 @@
 var mongoose = require('mongoose'),
 Vehicles= mongoose.model('Vehicles');
 
-exports.list_all_cars = function(req, vehicles) {
-  Vehicle.find({}, function(err, vehicles) {
+exports.list_all_vehicles = function(req, res) {
+  Vehicles.find({}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
@@ -16,7 +16,7 @@ exports.list_all_cars = function(req, vehicles) {
 
 
 exports.create_a_vehicles = function(req, res) {
-  var new_vehicles = new Cars(req.body);
+  var new_vehicles = new Vehicles(req.body);
   new_vehicles.save(function(err, vehicles) {
     if (err)
       res.send(err);
@@ -34,7 +34,7 @@ exports.read_a_vehicles = function(req, res) {
 };
 
 
-exports.update_a_cars = function(req, res) {
+exports.update_a_vehicle = function(req, res) {
   Vehicles.findOneAndUpdate({_id: req.params.vehicleId}, req.body, {new: true}, function(err, vehicles) {
     if (err)
       res.send(err);

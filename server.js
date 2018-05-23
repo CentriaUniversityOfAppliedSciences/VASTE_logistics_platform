@@ -10,7 +10,7 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  Car = require('./api/models/carModel'), //Ladataan mallit käyttöön
+  Vehicle = require('./api/models/vehicleModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
 
 //Mongoose yhteys
@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 
 //Reittien luominen
-var routes = require('./api/routes/carRoutes'); 
+var routes = require('./api/routes/vehicleRoutes'); 
 routes(app);  //http://localhost:3000/api/car
 
 /*

@@ -9,6 +9,11 @@ var VehicleSchema = new Schema({
     type: String,
     required: 'Please enter the vehicle identifier'
   },
+  registerNumber: 
+    {
+    type: String,
+    required: 'Please enter the vehicle registernumber'
+  },
   type: 
   {
     type: String,
@@ -37,12 +42,12 @@ var VehicleSchema = new Schema({
   },
   longitude: 
   {
-	  type: Double,		//sijainti
+	  type: Number,		//sijainti
       default: -9999.99
   },
   latitude: 
   {
-	  type: Double,	
+	  type: Number,	
       default: -9999.99
   },
 });
