@@ -16,7 +16,7 @@ exports.list_all_orders = function(req, res) {
 
 
 exports.create_a_orders = function(req, res) {
-  var new_orders = new orders(req.body);
+  var new_orders = new Orders(req.body);
   new_orders.save(function(err, orders) {
     if (err)
       res.send(err);

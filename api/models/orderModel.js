@@ -18,10 +18,10 @@ var OrderSchema = new schema ({
 		}
 	},
 	
-	status:{
+	packageStatus:{
 	size: [{				//paketin koko, määritetäänkö jotain standardeja mistä valita? 
 	  type: String,
-		enum: ['small', medium','big']
+		enum: ['small','medium','big']
 	}],
 	default: ['medium']
 	},
@@ -48,11 +48,11 @@ var OrderSchema = new schema ({
 	time: {				//aika, nouto ja toimitus
 		pickupTime:{
 			type: String,
-			required: 'Kindly 
+			required: 'Kindly indicate pickup time'
 		},
 		deliveryTime:{
 			type: String,
-			required:
+			required: 'Kindly indicate delivery time'
 		},
 	},
 }),
