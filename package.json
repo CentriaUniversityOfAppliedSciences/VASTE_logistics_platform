@@ -16,4 +16,8 @@
   "devDependencies": {
     "nodemon": "^1.17.4"
   }
+  scripts": {
+    "start": "forever start server.js",
+    "stop": "forever stopall"
+  }
 }
