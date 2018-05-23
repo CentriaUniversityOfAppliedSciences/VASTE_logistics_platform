@@ -2,56 +2,56 @@
 
 
 var mongoose = require('mongoose'),
-  Cars= mongoose.model('Cars');
+Vehicles= mongoose.model('Vehicles');
 
-exports.list_all_cars = function(req, res) {
-  Cars.find({}, function(err, cars) {
+exports.list_all_cars = function(req, vehicles) {
+  Vehicle.find({}, function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json(cars);
+    res.json(vehicles);
   });
 };
 
 
 
 
-exports.create_a_cars = function(req, res) {
-  var new_cars = new cars(req.body);
-  new_cars.save(function(err, cars) {
+exports.create_a_vehicles = function(req, res) {
+  var new_vehicles = new Cars(req.body);
+  new_vehicles.save(function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json(cars);
+    res.json(vehicles);
   });
 };
 
 
-exports.read_a_cars = function(req, res) {
-  Cars.findById(req.params.carsId, function(err, cars) {
+exports.read_a_vehicles = function(req, res) {
+  Vehicles.findById(req.params.vehicleId, function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json(cars);
+    res.json(vehicles);
   });
 };
 
 
 exports.update_a_cars = function(req, res) {
-  Cars.findOneAndUpdate({_id: req.params.carsId}, req.body, {new: true}, function(err, cars) {
+  Vehicles.findOneAndUpdate({_id: req.params.vehicleId}, req.body, {new: true}, function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json(cars);
+    res.json(vehicles);
   });
 };
 
 
-exports.delete_a_cars = function(req, res) {
+exports.delete_a_vehicles = function(req, res) {
 
 
-  Cars.remove({
-    _id: req.params.carsId
-  }, function(err, cars) {
+  Vehicles.remove({
+    _id: req.params.vehiclesId
+  }, function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json({ message: 'Cars successfully deleted' });
+    res.json({ message: 'Vehicles successfully deleted' });
   });
 };
 
