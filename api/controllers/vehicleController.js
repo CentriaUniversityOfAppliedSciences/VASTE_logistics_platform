@@ -26,7 +26,7 @@ exports.create_a_vehicles = function(req, res) {
 
 
 exports.read_a_vehicles = function(req, res) {
-  Vehicles.findById(req.params.vehicleId, function(err, vehicles) {
+  Vehicles.findById(req.params.vehiclesId, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
@@ -35,7 +35,7 @@ exports.read_a_vehicles = function(req, res) {
 
 
 exports.update_a_vehicle = function(req, res) {
-  Vehicles.findOneAndUpdate({_id: req.params.vehicleId}, req.body, {new: true}, function(err, vehicles) {
+  Vehicles.findOneAndUpdate({_id: req.params.vehiclesId}, req.body, {new: true}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
