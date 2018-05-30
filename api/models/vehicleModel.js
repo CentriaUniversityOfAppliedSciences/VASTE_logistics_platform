@@ -43,12 +43,12 @@ var VehicleSchema = new Schema({
   longitude: 
   {
 	  type: Number,		//sijainti
-      default: -9999.99
+      default: 0.0
   },
   latitude: 
   {
 	  type: Number,	
-      default: -9999.99
+      default: 0.0
   },
 });
 
