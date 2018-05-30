@@ -3,61 +3,129 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var OrderSchema = new Schema ({
-	customer:{
+	subscriber:{		//Tilaaja
 		name: {
         lastName: {
             type: String,
-            required: 'Kindly enter your lastname' // pelkkä nimi? samaan etu ja suku? object tyypillä?
+            required: 'Kindly enter your lastname' 
+			},
+        firstName:  {
+            type: String,
+            required: 'Kindly enter your firstname' 
+			},
+		
+		phoneNumber:{			
+			type: String,
+			required:'Kindly enter your phone number' 
+			},
+		},
+	},
+	
+	receiver:{			//Vastaanottaja
+		name: {
+        lastName: {
+            type: String,
+            required: 'Kindly enter receivers lastname' 
         },
         firstName:  {
             type: String,
-            required: 'Kindly enter your firstname' // pelkkä nimi? samaan etu ja suku? object tyypillä?
+            required: 'Kindly enter receivers firstname' 
         },
 		
-		phoneNumber:{			//tuleeko asiakas erikseen ja nämä tiedot sinne?
+		phoneNumber:{			
 			type: String,
-			required:'Kindly enter your phone number' 
+			required:'Kindly enter receivers phone number' 
 		},
 		}
 	},
 	
-	packageStatus:{
-	size: [{				//paketin koko, määritetäänkö jotain standardeja mistä valita? 
-	  type: String,
-		enum: ['small','medium','big']
-	}],
-	default: ['medium']
-	},
 	
-	status: {
+	status: {			//tilan seuranta
     type: [{
       type: String,
-      enum: ['wait', 'coming','arrived']//odottaa, tulossa, saapunut 'pending', 'ongoing', 'completed'?
+      enum: ['received', 'inProgress', 'done']
     }],
-    default: ['wait']
+    default: ['received']
    },
+
    
    address: {			//osoitteet, nouto ja toimitus
 	  pickup: {
-		  type: String,
-		  required:'Kindly indicate pickup adress'
-	  },
-	  delivery: {
-		  type: String,
-		  required: 'Kindly indicate delivery adress'
-	  },
+			pstreet:{
+			type: String,
+			required:'Please enter pickup street address'
+			},
+			pnumber:{
+			type: String,
+			required:'Please enter pickup postcode'
+			},
+			plocal:{
+			type: String,
+			required: 'Please enter pickup locality'
+			},
+		},	
+		delivery: {
+			dstreet:{
+			type: String,
+			required:'Please enter delivery street address'
+			},
+			dnumber:{
+			type: String,
+			required:'Please enter delivery postcode'
+			},
+			dlocal:{
+			type: String,
+			required: 'Please enter delivery locality'
+			},
+		},	
     },
 	
-	time: {				//aika, nouto ja toimitus
+	time: {				//aikaikkunat, nouto ja toimitus	
 		pickupTime:{
-			type: String,
-			required: 'Kindly indicate pickup time'
+			pAfter:{
+				type: Number,
+			required: 'Please set the date and time when the order is ready to pickup'
+			},
+			pBefore:{
+				type: Number,
+			required: 'Please set the date and time before the order must be pickup'
+			}
 		},
-		deliveryTime:{
-			type: String,
-			required: 'Kindly indicate delivery time'
+		 deliveryTime:{
+			dAfter:{
+			type: Number,
+			required: 'Please set the date and time when the order can be delivered'
+			},
+			dBefore:{
+			type: Number,
+			required: 'Please set the date and time before the order must be delivered'
+			},
 		},
 	},
+	
+	orderStatus: {			//tilauksen sisältö
+		persons: {
+			type: Number,
+			required:'Please add the numbers of persons to pickup'
+			},
+		package:			//array
+		[	{
+				size: {
+					type: String
+					reguired:'Please enter the size of the package: width x height x depth'
+				},
+				weight:{
+					type: Number,
+					required:'Please enter the package weight in grams'
+				},
+				number:{
+				type: Number,
+				required:'Please enter the number of the packages'
+				}
+			}
+		]
+			
+	}	
 });
 
 module.exports = mongoose.model('Orders', OrderSchema);
