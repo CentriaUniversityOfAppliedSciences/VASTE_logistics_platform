@@ -46,9 +46,7 @@ exports.update_a_vehicle = function(req, res) {
 exports.delete_a_vehicles = function(req, res) {
 
 
-  Vehicles.remove({
-    _id: req.params.vehiclesId
-  }, function(err, vehicles) {
+  Vehicles.remove({_id: req.params.vehiclesId}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json({ message: 'Vehicles successfully deleted' });

@@ -49,5 +49,15 @@ exports.delete_a_deliverys = function(req, res) {
       res.send(err);
     res.json({ message: 'Deliverys successfully deleted' });
   });
+  
+export.find_delivery_by_ID = function(req, res){
+	Deliverys.findById(_id:req.params.vehiclesId, function(err, deliverys)
+	if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+  
+
+	
 };
 

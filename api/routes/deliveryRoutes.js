@@ -7,6 +7,9 @@ module.exports = function(app)
   app.route('/deliverys')
     .get(deliveryRoutes.list_all_deliverys)
     .post(deliveryRoutes.create_a_deliverys);
+	//.post(deliveryRoutes.find_delivery_by_ID);
+
+	
 
 
   app.route('/deliverys/:deliverysId')

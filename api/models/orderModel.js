@@ -111,8 +111,8 @@ var OrderSchema = new Schema ({
 		package:			//array
 		[	{
 				size: {
-					type: String
-					reguired:'Please enter the size of the package: width x height x depth'
+					type: String,
+					required:'Please enter the size of the package: width x height x depth'
 				},
 				weight:{
 					type: Number,

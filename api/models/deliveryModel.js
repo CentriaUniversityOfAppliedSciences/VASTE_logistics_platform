@@ -3,7 +3,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var DeliverySchema = new Schema ({
-
+	
+	vehicleID:{
+		type: String
+		},
+		
+	orderID:{
+		type: String
+		},
+	
 	time:{
 		pickupTime:{
 			type: Number,
@@ -13,7 +21,8 @@ var DeliverySchema = new Schema ({
 			type: Number,
 			required: 'Please set the date and time when the order is delivered'
 			},
-		}
+		},
+		
 	status: {			//tilan seuranta
     type: [{
       type: String,
