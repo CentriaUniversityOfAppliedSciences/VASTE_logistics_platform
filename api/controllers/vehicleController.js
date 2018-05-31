@@ -13,8 +13,6 @@ exports.list_all_vehicles = function(req, res) {
 };
 
 
-
-
 exports.create_a_vehicles = function(req, res) {
   var new_vehicles = new Vehicles(req.body);
   new_vehicles.save(function(err, vehicles) {
@@ -44,8 +42,6 @@ exports.update_a_vehicle = function(req, res) {
 
 
 exports.delete_a_vehicles = function(req, res) {
-
-
   Vehicles.remove({_id: req.params.vehiclesId}, function(err, vehicles) {
     if (err)
       res.send(err);
@@ -53,4 +49,19 @@ exports.delete_a_vehicles = function(req, res) {
   });
 };
 
+exports.read_a_vehicles = function(req, res) {
+ Vehicles.findById(req.params.vehiclesId, function(err, vehicles) {
+   if (err)
+     res.send(err);
+   res.json(vehicles);
+ });
+};
 
+
+exports.update_a_vehicle = function(req, res) {
+ Vehicles.findOneAndUpdate({_id: req.params.vehiclesId}, req.body, {new: true}, function(err, vehicles) {
+   if (err)
+     res.send(err);
+   res.json(vehicles);
+ });
+};
