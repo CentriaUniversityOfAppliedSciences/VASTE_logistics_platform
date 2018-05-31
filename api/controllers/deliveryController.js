@@ -13,8 +13,6 @@ exports.list_all_deliverys = function(req, res) {
 };
 
 
-
-
 exports.create_a_deliverys = function(req, res) {
   var new_deliverys = new Deliverys(req.body);
   new_deliverys.save(function(err, deliverys) {
@@ -49,15 +47,17 @@ exports.delete_a_deliverys = function(req, res) {
       res.send(err);
     res.json({ message: 'Deliverys successfully deleted' });
   });
-  
-export.find_delivery_by_ID = function(req, res){
-	Deliverys.findById(_id:req.params.vehiclesId, function(err, deliverys)
+}; 
+
+
+exports.find_delivery_by_ID = function(req, res){
+	Deliverys.find({vehicles:req.params.vehiclesId, orders:req.params.ordersId}, function(err, deliverys){
 	if (err)
       res.send(err);
     res.json(deliverys);
   });
-  
+}; 
 
 	
-};
+
 

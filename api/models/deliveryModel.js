@@ -16,12 +16,12 @@ var DeliverySchema = new Schema ({
 		pickupTime:{
 			type: Number,
 			required: 'Please set the date and time when the order is laden '
-			},
+		},
 		deliveryTime:{
 			type: Number,
 			required: 'Please set the date and time when the order is delivered'
-			},
 		},
+	},
 		
 	status: {			//tilan seuranta
     type: [{
