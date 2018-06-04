@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost/VasteDB');
 
 //määritellään bodyparser käyttöön
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json());//a
 
 
 //Reittien luominen
