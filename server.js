@@ -31,10 +31,10 @@ var routes = require('./api/routes/vehicleRoutes');
 routes(app);  //http://localhost:3000/api/car
 var oRoutes = require('./api/routes/orderRoutes'); 
 oRoutes(app); 
-var oRoutes = require('./api/routes/deliveryRoutes'); 
-oRoutes(app); 
-var oRoutes = require('./api/routes/userRoutes'); 
-oRoutes(app); 
+var dRoutes = require('./api/routes/deliveryRoutes'); 
+dRoutes(app); 
+var uRoutes = require('./api/routes/userRoutes'); 
+uRoutes(app); 
 
 /*
 // App

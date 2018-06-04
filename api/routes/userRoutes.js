@@ -6,8 +6,8 @@ module.exports = function(app)
   // userRoutes Routes
   app.route('/users')
     .get(userRoutes.list_all_users)
-    .post(userRoutes.create_a_users)
-	.post(userRoutes.find_user_by_ID);
+    .post(userRoutes.create_a_users);
+	//.post(userRoutes.find_user_by_ID);
 
 	
 

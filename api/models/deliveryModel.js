@@ -24,11 +24,10 @@ var DeliverySchema = new Schema ({
 	},
 		
 	status: {			//tilan seuranta
-    {
+    
       type: String,
-      enum: ['received', 'inProgress', 'done']
-    },
-    default: ['received']
+      enum: ['received', 'inProgress', 'done'],
+      default: ['received']
    },
 
 });
