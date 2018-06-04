@@ -13,6 +13,7 @@ var express = require('express'),
   Vehicle = require('./api/models/vehicleModel'), //Ladataan mallit käyttöön
   Order = require('./api/models/orderModel'), //Ladataan mallit käyttöön
   Delivery = require('./api/models/deliveryModel'), //Ladataan mallit käyttöön
+  User = require('./api/models/userModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
 
 //Mongoose yhteys
@@ -31,6 +32,8 @@ routes(app);  //http://localhost:3000/api/car
 var oRoutes = require('./api/routes/orderRoutes'); 
 oRoutes(app); 
 var oRoutes = require('./api/routes/deliveryRoutes'); 
+oRoutes(app); 
+var oRoutes = require('./api/routes/userRoutes'); 
 oRoutes(app); 
 
 /*
