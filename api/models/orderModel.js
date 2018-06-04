@@ -41,10 +41,10 @@ var OrderSchema = new Schema ({
 	
 	
 	status: {			//tilan seuranta
-    type: [{
+    {
       type: String,
       enum: ['received', 'inProgress', 'done']
-    }],
+    },
     default: ['received']
    },
 

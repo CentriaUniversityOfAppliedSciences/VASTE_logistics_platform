@@ -26,18 +26,18 @@ var VehicleSchema = new Schema({
   },
   status: 
   {
-    type: [{
+     {
       type: String,
       enum: ['online', 'offline']
-    }],
+    },
     default: ['offline']
   },
   state: 
   {
-    type: [{
+		{
       type: String,
       enum: ['booked', 'available']
-    }],
+    },
     default: ['available']
   },
   longitude: 
