@@ -44,8 +44,6 @@ exports.update_a_orders = function(req, res) {
 
 
 exports.delete_a_orders = function(req, res) {
-
-
   Orders.remove({
     _id: req.params.ordersId
   }, function(err, orders) {

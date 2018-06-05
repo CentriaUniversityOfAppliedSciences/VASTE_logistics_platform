@@ -58,6 +58,18 @@ exports.find_delivery_by_ID = function(req, res){
   });
 }; 
 
-	
+exports.find_delivery_by_ID = function(req, res){
+	Deliverys.find({vehicles:req.params.vehiclesId}, function(err, deliverys){
+	if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+}; 	
 
-
+exports.find_delivery_by_ID = function(req, res){
+	Deliverys.find({orders:req.params.ordersId}, function(err, deliverys){
+	if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+}; 

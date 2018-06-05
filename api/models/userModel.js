@@ -19,7 +19,11 @@ var UserSchema = new Schema ({
             type: String,
             required: 'Please enter your name' 
 		},
-		userphoneNumber:{			
+		userCompany:{
+			type: String,
+			required: 'Please enter your company'
+		},
+		userPhone:{			
 			type: String,
 			required:'Please enter your phone number' 
 		},
