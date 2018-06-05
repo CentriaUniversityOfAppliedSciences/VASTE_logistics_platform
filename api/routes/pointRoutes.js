@@ -6,8 +6,8 @@ module.exports = function(app)
   // pointRoutes Routes
   app.route('/points')
     .get(pointRoutes.list_all_points)
-    .post(pointRoutes.create_a_points);
-	//.post(pointRoutes.find_point_by_ID);
+    .post(pointRoutes.create_a_points)
+	.post(pointRoutes.find_point_by_ID);
 
 	
 
