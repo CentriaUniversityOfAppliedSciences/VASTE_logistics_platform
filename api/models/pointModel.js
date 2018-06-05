@@ -17,7 +17,7 @@ var PointSchema = new Schema ({ //Boxit ja terminaalit
 	pointOuner:{
 		type: String,
 		required:'Company name'
-	}
+	},
 	
 	pointounerId:{
 		type: String,

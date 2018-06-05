@@ -2,7 +2,7 @@
 
 
 var mongoose = require('mongoose'),
-  Point = mongoose.model('Point');
+  Points = mongoose.model('Points');
 
 exports.list_all_points = function(req, res) {
   Point.find({}, function(err, point) {
@@ -14,7 +14,7 @@ exports.list_all_points = function(req, res) {
 
 
 exports.create_a_points = function(req, res) {
-  var new_points = new Point(req.body);
+  var new_points = new Points(req.body);
   new_points.save(function(err, point) {
     if (err)
       res.send(err);

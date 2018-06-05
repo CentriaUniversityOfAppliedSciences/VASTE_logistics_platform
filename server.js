@@ -37,7 +37,7 @@ dRoutes(app);
 var uRoutes = require('./api/routes/userRoutes'); 
 uRoutes(app); 
 var pRoutes = require('./api/routes/pointRoutes'); 
-uRoutes(app); 
+pRoutes(app); 
 
 /*
 // App
