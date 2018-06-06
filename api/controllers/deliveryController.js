@@ -51,23 +51,23 @@ exports.delete_a_deliverys = function(req, res) {
 
 
 exports.find_delivery_by_ID = function(req, res){
-	Deliverys.find({vehicles:req.params.vehiclesId, orders:req.params.ordersId}, function(err, deliverys){
+	Deliverys.find({vehicleID:req.params.vehiclesId, orderID:req.params.ordersId}, function(err, deliverys){
 	if (err)
       res.send(err);
     res.json(deliverys);
   });
 }; 
 
-exports.find_delivery_by_ID = function(req, res){
-	Deliverys.find({vehicles:req.params.vehiclesId}, function(err, deliverys){
+exports.find_delivery_by_vehicle = function(req, res){
+	Deliverys.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
 	if (err)
       res.send(err);
     res.json(deliverys);
   });
 }; 	
 
-exports.find_delivery_by_ID = function(req, res){
-	Deliverys.find({orders:req.params.ordersId}, function(err, deliverys){
+exports.find_delivery_by_order = function(req, res){
+	Deliverys.find({orderID:req.params.ordersId}, function(err, deliverys){
 	if (err)
       res.send(err);
     res.json(deliverys);

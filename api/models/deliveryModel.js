@@ -5,21 +5,23 @@ var Schema = mongoose.Schema;
 var DeliverySchema = new Schema ({
 	
 	vehicleID:{
-		type: String
+		type: String,
+		required: 'Please set the vehicleID'
 		},
 		
 	orderID:{
-		type: String
+		type: String,
+		required: 'Please set the orderID'
 		},
 	
 	time:{
 		pickupTime:{
-			type: Number,
-			required: 'Please set the date and time when the order is laden '
+			type: Number
+			
 		},
 		deliveryTime:{
-			type: Number,
-			required: 'Please set the date and time when the order is delivered'
+			type: Number
+			
 		},
 	},
 		

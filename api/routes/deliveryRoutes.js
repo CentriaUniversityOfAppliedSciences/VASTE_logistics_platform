@@ -6,8 +6,13 @@ module.exports = function(app)
   // deliveryRoutes Routes
   app.route('/deliverys')
     .get(deliveryRoutes.list_all_deliverys)
-    .post(deliveryRoutes.create_a_deliverys)
+    .post(deliveryRoutes.create_a_deliverys);
+  app.route('/findDeliveryById')
 	.post(deliveryRoutes.find_delivery_by_ID);
+  app.route('/findDeliveryByVehicle')
+	.post(deliveryRoutes.find_delivery_by_vehicle);
+  app.route('/findDeliveryByOrder')
+	.post(deliveryRoutes.find_delivery_by_order);
 
 	
 
