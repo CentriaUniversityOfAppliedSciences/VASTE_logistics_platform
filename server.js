@@ -16,6 +16,8 @@ var express = require('express'),
   User = require('./api/models/userModel'), //Ladataan mallit käyttöön
   Point = require('./api/models/pointModel'), //Ladataan mallit käyttöön
   Company = require('./api/models/companyModel'), //Ladataan mallit käyttöön
+  Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
+  Message = require('./api/models/messageModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
 
 //Mongoose yhteys
@@ -41,6 +43,10 @@ var pRoutes = require('./api/routes/pointRoutes');
 pRoutes(app); 
 var cRoutes = require('./api/routes/companyRoutes'); 
 cRoutes(app); 
+var lRoutes = require('./api/routes/lockerRoutes'); 
+lRoutes(app); 
+var mRoutes = require('./api/routes/messageRoutes'); 
+mRoutes(app); 
 
 /*
 // App
