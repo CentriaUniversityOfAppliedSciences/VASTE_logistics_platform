@@ -13,9 +13,15 @@ module.exports = function(app)
 	.post(deliveryRoutes.find_delivery_by_vehicle);
   app.route('/findDeliveryByOrder')
 	.post(deliveryRoutes.find_delivery_by_order);
-
 	
+  app.route('/list_all_received')
+	.post(deliveryRoutes.list_all_received);
 
+  app.route('/list_all_inProgress')
+	.post(deliveryRoutes.list_all_inProgress);
+	
+  app.route('/list_all_done')
+	.post(deliveryRoutes.list_all_done);
 
   app.route('/deliverys/:deliverysId')
     .get(deliveryRoutes.read_a_deliverys)

@@ -13,6 +13,10 @@ var DeliverySchema = new Schema ({
 		type: String,
 		required: 'Please set the orderID'
 		},
+		
+	deliveryID:{
+		type: String		
+		},	
 	
 	time:{
 		pickupTime:{

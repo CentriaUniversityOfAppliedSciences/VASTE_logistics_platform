@@ -12,6 +12,37 @@ exports.list_all_vehicles = function(req, res) {
   });
 };
 
+exports.list_all_online = function(req, res) {
+  Vehicles.find(req.params.status, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
+
+exports.list_all_offline = function(req, res) {
+  Vehicles.find(req.params.offline.status, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
+
+exports.list_all_booked = function(req, res) {
+  Vehicles.find(req.params.state, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
+
+exports.list_all_available = function(req, res) {
+  Vehicles.find(req.params.state, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
 
 exports.create_a_vehicles = function(req, res) {
   var new_vehicles = new Vehicles(req.body);

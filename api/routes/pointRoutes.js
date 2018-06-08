@@ -11,6 +11,11 @@ module.exports = function(app)
   app.route('/points/find_point_by_ID')	
 	.post(pointRoutes.find_point_by_ID);
 
+  app.route('points/list_all_booked')
+	.post(pointRoutes.list_all_booked);
+	
+  app.route('points/list_all_available')
+	.post(pointRoutes.list_all_available);
 	
   app.route('/points/:pointsId')
     .get(pointRoutes.read_a_points)

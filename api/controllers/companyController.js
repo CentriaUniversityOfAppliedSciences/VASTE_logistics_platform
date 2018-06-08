@@ -48,3 +48,11 @@ exports.delete_a_companys = function(req, res) {
     res.json({ message: 'Companys successfully deleted' });
   });
 }; 
+
+exports.find_company_by_ID = function(req, res) {
+  Companys.find({_id: req.params.companysId}, function(err, companys) {
+    if (err)
+      res.send(err);
+    res.json({companys });
+  });
+}; 

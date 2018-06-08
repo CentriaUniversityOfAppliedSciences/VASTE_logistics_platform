@@ -12,6 +12,31 @@ exports.list_all_deliverys = function(req, res) {
   });
 };
 
+exports.list_all_received = function(req, res) {	//statuksen mukaan, received
+  Deliverys.find(req.params.status, function(err, deliverys) {
+    if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+};
+
+exports.list_all_inProgress = function(req, res) {	//statuksen mukaan inProgress
+  Deliverys.find(req.params.status, function(err, deliverys) {
+    if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+};
+
+exports.list_all_done = function(req, res) {	//statuksen mukaan done
+  Deliverys.find(req.params.status, function(err, deliverys) {
+    if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+};
+
+
 
 exports.create_a_deliverys = function(req, res) {
   var new_deliverys = new Deliverys(req.body);

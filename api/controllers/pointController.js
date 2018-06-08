@@ -56,3 +56,21 @@ exports.find_point_by_ID = function(req, res){
     res.json(points);
   });
 }; 
+
+
+
+exports.list_all_booked = function(req, res) {
+  Points.find(req.params.state, function(err, points) {
+    if (err)
+      res.send(err);
+    res.json(points);
+  });
+};
+
+exports.list_all_available = function(req, res) {
+  Points.find(req.params.state, function(err, points) {
+    if (err)
+      res.send(err);
+    res.json(points);
+  });
+};

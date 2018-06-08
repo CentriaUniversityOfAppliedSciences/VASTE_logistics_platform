@@ -14,7 +14,7 @@ var PointSchema = new Schema ({ //Boxit ja terminaalit
 		required:'Address of the point'
 	},
 
-	pointOuner:{
+	pointOuner:{			//onko samoja yrityksiä kuin kulkuneuvojen omistajissa- tiedon yhdistäminen?
 		type: String,
 		required:'Company name'
 	},
@@ -22,6 +22,7 @@ var PointSchema = new Schema ({ //Boxit ja terminaalit
 	pointounerId:{
 		type: String,
 	}
+	
 
 });
 
