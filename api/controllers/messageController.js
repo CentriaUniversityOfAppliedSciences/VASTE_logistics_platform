@@ -49,7 +49,7 @@ exports.delete_a_messages = function(req, res) {
   });
 }; 
 
-exports.find_messages_by_ID = function(req, res) {
+exports.find_message_by_ID = function(req, res) {
   Messages.find({_id: req.params.messagesId}, function(err, messages) {
     if (err)
       res.send(err);
@@ -66,7 +66,7 @@ exports.find_message_by_delivery = function(req, res){
 }; 
 
 exports.find_message_by_phoneNumber = function(req, res){
-	Messages.find(reseiver:req.params.phoneNumber}, function(err, messages){
+	Messages.find({phoneNumber:req.params.phoneNumber}, function(err, messages){
 	if (err)
       res.send(err);
     res.json(messages);

@@ -11,10 +11,10 @@ module.exports = function(app)
   app.route('/messages/find_message_by_ID')
 	.post(messageRoutes.find_message_by_ID);
 
-	  app.route('/findMessageByDelivery')
+  app.route('/findMessageByDelivery')
 	.post(messageRoutes.find_message_by_delivery);
 	
-	 app.route('/find_message_by_phoneNumber')
+  app.route('/find_message_by_phoneNumber')
 	.post(messageRoutes.find_message_by_phoneNumber);
 	
   app.route('/messages/:messagesId')
