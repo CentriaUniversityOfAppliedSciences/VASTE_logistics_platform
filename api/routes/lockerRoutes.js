@@ -10,7 +10,12 @@ module.exports = function(app)
 	
   app.route('/lockers/find_locker_by_ID')
 	.post(lockerRoutes.find_locker_by_ID);
+	
+  app.route('/lockers/find_by_pointID')
+	.post(lockerRoutes.find_by_pointID);
 
+	  app.route('/lockers/find_by_status')
+	.post(lockerRoutes.find_by_status);
 	
   app.route('/lockers/:lockersId')
     .get(lockerRoutes.read_a_lockers)
