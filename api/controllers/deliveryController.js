@@ -12,7 +12,7 @@ exports.list_all_deliverys = function(req, res) {
   });
 };
 
-exports.find_by_status = function(req, res) {	//statuksen mukaan, 
+exports.find_by_status = function(req, res) {	//statuksen mukaan
   Deliverys.find({status:req.params.status}, function(err, deliverys) {
     if (err)
       res.send(err);

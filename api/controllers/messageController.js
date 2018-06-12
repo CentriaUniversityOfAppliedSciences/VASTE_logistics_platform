@@ -70,5 +70,6 @@ exports.find_message_by_phoneNumber = function(req, res){
 	if (err)
       res.send(err);
     res.json(messages);
+	
   });
 };
