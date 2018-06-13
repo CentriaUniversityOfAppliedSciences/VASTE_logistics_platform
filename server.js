@@ -19,7 +19,6 @@ var express = require('express'),
   Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
   Message = require('./api/models/messageModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
-
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
