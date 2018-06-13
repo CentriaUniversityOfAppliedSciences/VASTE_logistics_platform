@@ -26,8 +26,7 @@ var UserSchema = new Schema ({
             required: 'Please enter your name' 
 		},
 		userCompany:{
-			type: String,
-			required: 'Please enter your company'
+			type: String
 		},
 		userPhone:{			
 			type: String,
