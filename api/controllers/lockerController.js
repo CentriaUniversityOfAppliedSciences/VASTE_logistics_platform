@@ -56,3 +56,19 @@ exports.find_locker_by_ID = function(req, res) {
     res.json(lockers );
   });
 }; 
+
+exports.find_by_pointID = function(req, res) {
+  Lockers.find({_id: req.params.pointId}, function(err, lockers) {
+    if (err)
+      res.send(err);
+    res.json(lockers );
+  });
+}; 
+
+exports.find_by_status = function(req, res) {
+  Lockers.find({status: req.params.status}, function(err, lockers) {
+    if (err)
+      res.send(err);
+    res.json(lockers );
+  });
+}; 

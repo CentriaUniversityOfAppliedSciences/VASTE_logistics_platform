@@ -12,24 +12,9 @@ exports.list_all_orders = function(req, res) {
   });
 };
 
-exports.list_all_received = function(req, res) {	//statuksen mukaan received
-  Orders.find(req.params.status, function(err, orders) {
-    if (err)
-      res.send(err);
-    res.json(orders);
-  });
-};
 
-exports.list_all_inProgress = function(req, res) {	//statuksen mukaan inProgress
-  Orders.find(req.params.status, function(err, orders) {
-    if (err)
-      res.send(err);
-    res.json(orders);
-  });
-};
-
-exports.list_all_done = function(req, res) {	//statuksen mukaan done
-  Orders.find(req.params.status, function(err, orders) {
+exports.find_by_status = function(req, res) {	//statuksen mukaan 
+  Orders.find({status:req.params.status}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);

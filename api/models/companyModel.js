@@ -14,10 +14,10 @@ var CompanySchema = new Schema ({
 		required:'Company address'
 		}
 
-	/*companyID:{
+	companyID:{
 		type: String,
 		
-	}*/
+	}
 });
 
 module.exports = mongoose.model('Companys', CompanySchema);
