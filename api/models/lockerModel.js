@@ -13,18 +13,15 @@ var LockerSchema = new Schema ({
 			enum: ['available','booked','in_use'],
 			default: ['available']
 		},
-		
-		{
 		pointID:
-		type: String,
+		{
+		type: String
 		},
-		
 		lockerSize:{
-			type: String,
+			type: String
 		},
-		
 		lockerCode:{
-			type: String,
+			type: String
 		}
 
 	
