@@ -14,19 +14,16 @@ var LockerSchema = new Schema ({
 			default: ['available']
 		},
 		
-		pointID:{
-		type: String,
-
 		pointID:
 		{
-		type: String,
+		type: String
 
 		},
 		lockerSize:{
-			type: String,
+			type: String
 		},
 		lockerCode:{
-			type: String,
+			type: String
 		}
 
 	
