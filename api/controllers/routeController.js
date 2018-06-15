@@ -22,6 +22,8 @@ exports.create_a_routes = function(req, res) {
   });
 };
 
+
+exports.read_a_routes = function(req, res) {
   Routes.findById(req.params.routesId, function(err, routes) {
     if (err)
       res.send(err);
