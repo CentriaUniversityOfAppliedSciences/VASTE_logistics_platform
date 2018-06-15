@@ -46,6 +46,21 @@ var VehicleSchema = new Schema({
 	  type: Number,	
       default: 0.0
   },
+  maxSize:
+  {
+	  type: String,
+	  required: 'high x length x width in mm'
+  },
+  maxWeight:
+  {
+	  type: Number,
+	  required: 'in kilos'
+  },
+  maxPeople:
+  {
+	  type: Number,
+	  required: 'Number of people'
+  }
 });
 
 module.exports = mongoose.model('Vehicles', VehicleSchema);

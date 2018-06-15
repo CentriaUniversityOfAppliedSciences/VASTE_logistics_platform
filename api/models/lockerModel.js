@@ -14,8 +14,7 @@ var LockerSchema = new Schema ({
 			default: ['available']
 		},
 		
-		{
-		pointID:
+		pointID:{
 		type: String,
 		},
 		

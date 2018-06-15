@@ -12,7 +12,7 @@ var CompanySchema = new Schema ({
 	companyAddress:{
 		type: String,
 		required:'Company address'
-		}
+		},
 
 	companyID:{
 		type: String,

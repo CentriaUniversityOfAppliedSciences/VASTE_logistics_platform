@@ -13,6 +13,15 @@ module.exports = function(app)
 
   app.route('vehicles/find_by_state')
 	.post(vehicleRoutes.find_by_state)
+	
+  app.route('vehicles/find_by_size')
+	.post(vehicleRoutes.find_by_size)
+	
+  app.route('vehicles/weight')
+	.post(vehicleRoutes.find_by_weight)
+	
+  app.route('vehicles/people')
+	.post(vehicleRoutes.find_by_people)
 
   app.route('/vehicles/:vehiclesId')
     .get(vehicleRoutes.read_a_vehicles)

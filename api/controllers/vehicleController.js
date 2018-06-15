@@ -66,7 +66,27 @@ exports.delete_a_vehicles = function(req, res) {
   });
 };
 
+exports.find_by_size = function(req, res) {
+  Vehicles.find({maxSize: req.params.maxSize}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json({vehicles });
+  });
+};
 
+exports.find_by_weight = function(req, res) {
+  Vehicles.find({maxWeight: req.params.maxWeight}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json({vehicles });
+  });
+};
 
-
+exports.find_by_people = function(req, res) {
+  Vehicles.find({maxPeople: req.params.maxPeople}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json({vehicles });
+  });
+};
 
