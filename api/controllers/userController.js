@@ -50,10 +50,12 @@ exports.delete_a_users = function(req, res) {
 }; 
 
 
-/*exports.identification = function(req, res) {
-  Users.findIdentification({_id:req.params.usersId, passWord:req.params.passWord }, function(err, users) {
+exports.identification = function(req, res) {
+	
+  Users.find({userID:req.body.userId, passWord:req.body.passWord }, function(err, users) {
     if (err)
       res.send(err);
+	console.log(users);
     res.json(users);
   });
-}; */
+}; 

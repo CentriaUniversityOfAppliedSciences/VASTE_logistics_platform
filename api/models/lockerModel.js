@@ -16,12 +16,15 @@ var LockerSchema = new Schema ({
 		
 		pointID:{
 		type: String,
+
+		pointID:
+		{
+		type: String,
+
 		},
-		
 		lockerSize:{
 			type: String,
 		},
-		
 		lockerCode:{
 			type: String,
 		}

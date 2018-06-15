@@ -15,8 +15,7 @@ var CompanySchema = new Schema ({
 		},
 
 	companyID:{
-		type: String,
-		
+		type: String
 	}
 });
 

@@ -11,8 +11,8 @@ module.exports = function(app)
   //app.route('/users/find_user_by_ID')
 	//.post(userRoutes.find_user_by_ID);
 	
-  /*app.route('/users/identification')
-	.post(userRoutes.identification);*/
+  app.route('/users/identification')
+	.post(userRoutes.identification);
 
   app.route('/users/:usersId')
     .get(userRoutes.read_a_users)

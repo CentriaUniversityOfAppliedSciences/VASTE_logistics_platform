@@ -3,6 +3,8 @@
 
 var mongoose = require('mongoose'),
   Orders = mongoose.model('Orders');
+var Deliveries = mongoose.model('Deliverys');
+var async = require('async');
 
 exports.list_all_orders = function(req, res) {
   Orders.find({}, function(err, orders) {
@@ -57,5 +59,65 @@ exports.delete_a_orders = function(req, res) {
     res.json({ message: 'Orders successfully deleted' });
   });
 };
+
+exports.getVehicleOrders = function(req,res)
+{
+	var orderList = [];
+	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+		if (err)
+		{
+			res.send(err);
+		}
+		else
+		{
+			getOrdersForDelivery(deliverys, function (err,r)
+			{
+				console.log(r);
+				res.json(r);
+			});
+			
+		}
+	});
+};
+
+
+
+
+function getOrdersForDelivery(deliveries, callback)
+{
+	var orders = [];
+	var iteratorFcn = function(delivery,done)
+	{
+		console.log(delivery);
+		if (delivery.orderID == null)
+		{
+			done();
+			return;
+		}
+		
+			var query = {'_id':delivery.orderID};
+			Orders.find(query, function(err, result) {
+				if (err)
+				{
+				  res.send(err);
+				}
+				console.log(result);
+				orders.push(result);
+				done();
+				return;
+			  });
+			
+			
+			
+		 
+		
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,orders);
+	};
+	
+	async.forEach(deliveries, iteratorFcn, doneIteratingFcn);
+}
 
 

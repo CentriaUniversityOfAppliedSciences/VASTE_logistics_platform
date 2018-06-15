@@ -20,7 +20,6 @@ var express = require('express'),
   Message = require('./api/models/messageModel'), //Ladataan mallit käyttöön
   Route = require('./api/models/routeModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
-
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;

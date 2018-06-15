@@ -16,4 +16,7 @@ module.exports = function(app)
     .get(orderRoutes.read_a_orders)
     .put(orderRoutes.update_a_orders)
     .delete(orderRoutes.delete_a_orders);
+	
+	app.route('/orders/getVehicleOrders/:vehiclesId')
+		.get(orderRoutes.getVehicleOrders);
 };
