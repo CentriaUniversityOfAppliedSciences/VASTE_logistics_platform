@@ -34,7 +34,9 @@ var DeliverySchema = new Schema ({
       type: String,
       enum: ['received', 'inProgress', 'done'],
       default: ['received']
-   },
+   }
+   
+	
 
 });
 

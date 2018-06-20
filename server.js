@@ -19,6 +19,7 @@ var express = require('express'),
   Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
   Message = require('./api/models/messageModel'), //Ladataan mallit käyttöön
   Route = require('./api/models/routeModel'), //Ladataan mallit käyttöön
+  DeliveryList = require('./api/models/deliveryListModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -49,6 +50,8 @@ var mRoutes = require('./api/routes/messageRoutes');
 mRoutes(app); 
 var rRoutes = require('./api/routes/routeRoutes'); 
 rRoutes(app); 
+var dLRoutes = require('./api/routes/deliveryListRoutes'); 
+dLRoutes(app); 
 
 /*
 // App
