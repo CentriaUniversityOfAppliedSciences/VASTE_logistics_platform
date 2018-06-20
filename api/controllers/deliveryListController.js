@@ -13,7 +13,7 @@ exports.list_all_deliveryLists = function(req, res) {
 
 
 exports.create_a_deliveryLists = function(req, res) {
-  var new_deliveryList = new DeliveryLists(req.body);
+  var new_deliveryLists = new DeliveryLists(req.body);
   new_deliveryLists.save(function(err, deliveryLists) {
     if (err)
       res.send(err);
