@@ -49,7 +49,7 @@ exports.delete_a_users = function(req, res) {
   });
 }; 
 
-
+//android use, uses req.body instead of req.params
 exports.identification = function(req, res) {
 	
   Users.find({userID:req.body.userId, passWord:req.body.passWord }, function(err, users) {

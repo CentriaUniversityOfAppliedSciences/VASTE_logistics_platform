@@ -72,7 +72,7 @@ exports.getVehicleOrders = function(req,res)
 		{
 			getOrdersForDelivery(deliverys, function (err,r)
 			{
-				console.log(r);
+				//console.log(r);
 				res.json(r);
 			});
 			
@@ -88,7 +88,6 @@ function getOrdersForDelivery(deliveries, callback)
 	var orders = [];
 	var iteratorFcn = function(delivery,done)
 	{
-		console.log(delivery);
 		if (delivery.orderID == null)
 		{
 			done();
@@ -101,8 +100,17 @@ function getOrdersForDelivery(deliveries, callback)
 				{
 				  res.send(err);
 				}
-				console.log(result);
-				orders.push(result);
+				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{} };
+				h.subscriber = result[0].subscriber;
+				h.receiver = result[0].receiver;
+				h.address = result[0].address;
+				h.time = result[0].time;
+				h.orderstatus = result[0].orderstatus;
+				h.status = result[0].status;
+				h._id = result[0]._id;
+				h.delivery = delivery;
+				console.log(h);
+				orders.push(h);
 				done();
 				return;
 			  });

@@ -22,4 +22,7 @@ module.exports = function(app)
     .get(deliveryRoutes.read_a_deliverys)
     .put(deliveryRoutes.update_a_deliverys)
     .delete(deliveryRoutes.delete_a_deliverys);
+  
+  app.route('/deliverys/changeDeliveryStatus')
+	.post(deliveryRoutes.changeDeliveryStatus);
 };

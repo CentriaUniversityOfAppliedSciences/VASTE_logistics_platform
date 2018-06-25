@@ -3,7 +3,7 @@
 
 var mongoose = require('mongoose'),
   Deliverys = mongoose.model('Deliverys');
-
+var Orders = mongoose.model('Orders');
 exports.list_all_deliverys = function(req, res) {
   Deliverys.find({}, function(err, deliverys) {
     if (err)
@@ -81,3 +81,29 @@ exports.find_delivery_by_order = function(req, res){
     res.json(deliverys);
   });
 }; 
+
+exports.changeDeliveryStatus = function(req,res) //android version, uses req.body instead of req.params
+{
+	var query = { _id: req.body.deliveryID };
+	var update = { status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+	console.log(req.body);
+	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+		if(err)
+		{
+			res.send(err);
+		}
+		console.log(deliverys);
+		var oQuery = { _id: req.body.orderID };
+		var oUpdate = { status: req.body.orderStatus };
+		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+		{
+			if (err2)
+			{
+				res.send(err2);
+			}
+			console.log(ord);
+			res.json(deliverys);
+		});
+		
+	});
+};

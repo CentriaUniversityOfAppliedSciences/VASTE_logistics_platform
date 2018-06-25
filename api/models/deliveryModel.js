@@ -32,7 +32,7 @@ var DeliverySchema = new Schema ({
 	status: {			//tilan seuranta
     
       type: String,
-      enum: ['received', 'inProgress', 'done'],
+      enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'], //
       default: ['received']
    },
 
