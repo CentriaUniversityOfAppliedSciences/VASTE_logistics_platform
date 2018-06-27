@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
   Points = mongoose.model('Points');
 
 exports.list_all_points = function(req, res) {
-  Point.find({}, function(err, point) {
+  Points.find({}, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -24,7 +24,7 @@ exports.create_a_points = function(req, res) {
 
 
 exports.read_a_points = function(req, res) {
-  Point.findById(req.params.pointId, function(err, point) {
+  Points.findById(req.params.pointId, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -33,7 +33,7 @@ exports.read_a_points = function(req, res) {
 
 
 exports.update_a_points = function(req, res) {
-  Point.findOneAndUpdate({_id: req.params.pointsId}, req.body, {new: true}, function(err, point) {
+  Points.findOneAndUpdate({_id: req.params.pointsId}, req.body, {new: true}, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -42,7 +42,7 @@ exports.update_a_points = function(req, res) {
 
 
 exports.delete_a_points = function(req, res) {
-  Point.remove({_id: req.params.pointsId}, function(err, point) {
+  Points.remove({_id: req.params.pointsId}, function(err, point) {
     if (err)
       res.send(err);
     res.json({ message: 'Point successfully deleted' });

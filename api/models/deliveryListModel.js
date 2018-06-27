@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var deliveryListSchema = new Schema ({
+var DeliveryListSchema = new Schema ({
 
 
 deliveryList:{
@@ -23,4 +23,4 @@ deliveryList:{
 	
 });
 
-module.exports = mongoose.model('deliveryLists', deliveryListSchema);
+module.exports = mongoose.model('DeliveryLists', DeliveryListSchema);

@@ -1,6 +1,6 @@
 'use strict';
 var mongoose = require('mongoose'),
-DeliveryLists = mongoose.model('deliveryLists');
+DeliveryLists = mongoose.model('DeliveryLists');
 
 
 exports.list_all_deliveryLists = function(req, res) {
