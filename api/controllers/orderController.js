@@ -114,10 +114,6 @@ function getOrdersForDelivery(deliveries, callback)
 				done();
 				return;
 			  });
-			
-			
-			
-		 
 		
 	};
 	var doneIteratingFcn = function(err)
