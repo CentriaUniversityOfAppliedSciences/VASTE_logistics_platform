@@ -86,6 +86,10 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+	if (req.body.status == 'cancelled')
+	{
+		update = { vehicleID: '',status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+	}
 	console.log(req.body);
 	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
 		if(err)
