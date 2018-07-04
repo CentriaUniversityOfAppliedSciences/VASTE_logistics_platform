@@ -45,7 +45,7 @@ var VehicleSchema = new Schema({
   {
 	  type: Number,	
       default: 0.0
-  },
+  }/*,
   maxSize:
   {
 	  type: String,
@@ -60,7 +60,7 @@ var VehicleSchema = new Schema({
   {
 	  type: Number,
 	  required: 'Number of people'
-  }
+  }*/
 });
 
 module.exports = mongoose.model('Vehicles', VehicleSchema);

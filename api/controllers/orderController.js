@@ -81,8 +81,6 @@ exports.getVehicleOrders = function(req,res)
 };
 
 
-
-
 function getOrdersForDelivery(deliveries, callback)
 {
 	var orders = [];
