@@ -107,19 +107,9 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
 			{
 				res.send(err2);
 			}
-			if (req.body.status == 'cancelled')
-			{
-				var new_deliverys = new Deliverys(newer);
-				  new_deliverys.save(function(err, deliverys) {
-					if (err)
-					  res.send(err);
-					res.json(deliverys);
-				  });
-			}
-			else
-			{
-				res.json(deliverys);
-			}
+			
+			res.json(deliverys);
+			
 		});
 		
 	});
