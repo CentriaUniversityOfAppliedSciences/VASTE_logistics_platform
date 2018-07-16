@@ -4,6 +4,7 @@
 var mongoose = require('mongoose'),
   Deliverys = mongoose.model('Deliverys');
 var Orders = mongoose.model('Orders');
+
 exports.list_all_deliverys = function(req, res) {
   Deliverys.find({}, function(err, deliverys) {
     if (err)
@@ -86,17 +87,18 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+	var newer = {};
 	if (req.body.status == 'cancelled')
 	{
-		update = { vehicleID: '',status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+		newer = { vehicleID: null,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime }, orderID: req.body.orderID };
 	}
-	console.log(req.body);
+	
 	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
 		if(err)
 		{
 			res.send(err);
 		}
-		console.log(deliverys);
+		
 		var oQuery = { _id: req.body.orderID };
 		var oUpdate = { status: req.body.orderStatus };
 		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
@@ -105,8 +107,19 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
 			{
 				res.send(err2);
 			}
-			console.log(ord);
-			res.json(deliverys);
+			if (req.body.status == 'cancelled')
+			{
+				var new_deliverys = new Deliverys(newer);
+				  new_deliverys.save(function(err, deliverys) {
+					if (err)
+					  res.send(err);
+					res.json(deliverys);
+				  });
+			}
+			else
+			{
+				res.json(deliverys);
+			}
 		});
 		
 	});

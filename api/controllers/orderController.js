@@ -108,7 +108,10 @@ function getOrdersForDelivery(deliveries, callback)
 				h._id = result[0]._id;
 				h.delivery = delivery;
 				console.log(h);
-				orders.push(h);
+				if (delivery.status != 'cancelled')
+				{
+					orders.push(h);
+				}
 				done();
 				return;
 			  });
