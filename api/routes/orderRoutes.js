@@ -10,7 +10,8 @@ module.exports = function(app)
 
   app.route('/orders/find_by_status')
 	.post(orderRoutes.find_by_status);
-	
+  app.route('/orders/find_by_status_with_nodelivery')
+	.post(orderRoutes.find_by_status_with_nodelivery);
 
   app.route('/orders/:ordersId')
     .get(orderRoutes.read_a_orders)

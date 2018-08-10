@@ -4,7 +4,7 @@ DeliveryLists = mongoose.model('DeliveryLists');
 
 
 exports.list_all_deliveryLists = function(req, res) {
-  DeliveryLists.find({}, function(err, ) {
+  DeliveryLists.find({}, function(err, deliveryLists) {
     if (err)
       res.send(err);
     res.json(deliveryLists);
@@ -26,7 +26,7 @@ exports.read_a_deliveryLists = function(req, res) {
   DeliveryLists.findById(req.params.deliveryListID, function(err, deliveryLists) {
     if (err)
       res.send(err);
-    res.json(DeliveryList);
+    res.json(deliveryLists);
   });
 };
 
