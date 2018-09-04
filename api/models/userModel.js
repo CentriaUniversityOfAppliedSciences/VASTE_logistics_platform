@@ -13,13 +13,11 @@ var UserSchema = new Schema ({
 		type: String,
 		required: 'Please enter your password here'
 	},
-	
 	status:{
 		type: String,
 		enum: ['customer', 'operator', 'driver'],
       default: ['customer']
 	},
-	
 	userInformation:{
 		userName:{		
             type: String,

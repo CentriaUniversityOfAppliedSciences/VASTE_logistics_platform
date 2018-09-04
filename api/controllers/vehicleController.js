@@ -20,7 +20,6 @@ exports.find_by_status = function(req, res) {
   });
 };
 
-
 exports.find_by_state = function(req, res) {
   Vehicles.find({state:req.params.state}, function(err, vehicles) {
     if (err)
@@ -29,6 +28,13 @@ exports.find_by_state = function(req, res) {
   });
 };
 
+exports.find_by_companyid = function(req, res) {
+  Vehicles.find({}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
 
 exports.create_a_vehicles = function(req, res) {
   var new_vehicles = new Vehicles(req.body);
@@ -39,7 +45,6 @@ exports.create_a_vehicles = function(req, res) {
   });
 };
 
-
 exports.read_a_vehicles = function(req, res) {
   Vehicles.findById(req.params.vehiclesId, function(err, vehicles) {
     if (err)
@@ -48,7 +53,6 @@ exports.read_a_vehicles = function(req, res) {
   });
 };
 
-
 exports.update_a_vehicle = function(req, res) {
   Vehicles.findOneAndUpdate({_id: req.params.vehiclesId}, req.body, {new: true}, function(err, vehicles) {
     if (err)
@@ -56,7 +60,6 @@ exports.update_a_vehicle = function(req, res) {
     res.json(vehicles);
   });
 };
-
 
 exports.delete_a_vehicles = function(req, res) {
   Vehicles.remove({_id: req.params.vehiclesId}, function(err, vehicles) {

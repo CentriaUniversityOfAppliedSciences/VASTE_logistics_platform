@@ -36,6 +36,12 @@ var VehicleSchema = new Schema({
     enum: ['booked', 'available'],
     default: ['available']
   },
+  space:
+  {
+	type:String,
+	enum: ['empty','loaded','full'],
+	default: ['empty']
+  },
   longitude: 
   {
 	  type: Number,		//sijainti
@@ -60,6 +66,11 @@ var VehicleSchema = new Schema({
   {
 	  type: Number,
 	  required: 'Number of people'
+  },
+  companyID:
+  {
+	  type: String,
+	  required: 'Company id required'
   }
 });
 

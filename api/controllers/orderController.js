@@ -113,18 +113,22 @@ function getOrdersForDelivery(deliveries, callback)
 				  res.send(err);
 				}
 				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{} };
-				h.subscriber = result[0].subscriber;
-				h.receiver = result[0].receiver;
-				h.address = result[0].address;
-				h.time = result[0].time;
-				h.orderstatus = result[0].orderstatus;
-				h.status = result[0].status;
-				h._id = result[0]._id;
-				h.delivery = delivery;
-				//console.log(h);
-				if (delivery.status != 'cancelled')
+				if (result.length > 0)
 				{
-					orders.push(h);
+					h.subscriber = result[0].subscriber;
+					h.receiver = result[0].receiver;
+					h.address = result[0].address;
+					h.time = result[0].time;
+					h.orderstatus = result[0].orderstatus;
+					h.status = result[0].status;
+					h._id = result[0]._id;
+					h.delivery = delivery;
+				
+					//console.log(h);
+					if (delivery.status != 'cancelled')
+					{
+						orders.push(h);
+					}
 				}
 				done();
 				return;
