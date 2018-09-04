@@ -86,7 +86,7 @@ exports.find_delivery_by_order = function(req, res){
 exports.changeDeliveryStatus = function(req,res) //android version, uses req.body instead of req.params
 {
 	var query = { _id: req.body.deliveryID };
-	var update = { vehicleID:"",status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
 	var newer = {};
 	if (req.body.status == 'cancelled')
 	{
