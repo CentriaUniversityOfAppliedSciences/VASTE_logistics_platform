@@ -124,7 +124,15 @@ var OrderSchema = new Schema ({
 			}
 		]
 			
-	}	
+	},
+	orderInfo: 
+	{
+		type: String
+	},
+	orderDescription:
+	{
+		type: String
+	}
 });
 
 module.exports = mongoose.model('Orders', OrderSchema);

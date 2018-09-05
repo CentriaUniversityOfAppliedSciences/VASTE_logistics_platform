@@ -122,6 +122,7 @@ function getOrdersForDelivery(deliveries, callback)
 					h.orderstatus = result[0].orderstatus;
 					h.status = result[0].status;
 					h._id = result[0]._id;
+					h.orderInfo = result[0].orderInfo;
 					h.delivery = delivery;
 				
 					//console.log(h);
@@ -177,6 +178,7 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.orderstatus = order.orderstatus;
 					h.status = order.status;
 					h._id = order._id;
+					h.orderInfo = order.orderInfo;
 					h.delivery = {};
 					console.log(h);
 							
