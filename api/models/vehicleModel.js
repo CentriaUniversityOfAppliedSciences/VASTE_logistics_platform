@@ -39,8 +39,8 @@ var VehicleSchema = new Schema({
   space:
   {
 	type:String,
-	enum: ['empty','loaded','full'],
-	default: ['empty']
+	enum: ['space','full'],
+	default: ['space']
   },
   longitude: 
   {
