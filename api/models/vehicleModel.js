@@ -70,7 +70,7 @@ var VehicleSchema = new Schema({
   companyID:
   {
 	  type: String,
-	  required: 'Company id required'
+	  default:"0"
   }
 });
 
