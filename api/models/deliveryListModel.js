@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var DeliveryListSchema = new Schema ({
 
 
-deliveryList:{
+
 		list:
 		[	
 			{
@@ -18,23 +18,37 @@ deliveryList:{
 					required:'Kindly enter address'
 					
 				},
-				orderID:{
+				number:{ //order of list, first address of list is 1 -> 
 					type: Number,
 					required:'Kindly enter #'
+				},
+				type:{
+					type: String,
+					required: 'Kindly enter 1 for pickup or 0 for delivery'
 				}
 			}
 		],
 		companyID:
 		{
 			type: String,
-			default: "1"
+			default: "0"
 		},
 		timestamp:
 		{
 			type: Date,
 			default: Date.now
+		},
+		name:
+		{
+			type: String,
+			default: ""
+		},
+		vehicleId:
+		{
+			type: String,
+			default: ""
 		}
-	}
+	
 	
 });
 

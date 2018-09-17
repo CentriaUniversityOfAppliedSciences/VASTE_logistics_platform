@@ -13,11 +13,6 @@ var DeliverySchema = new Schema ({
 		type: String,
 		required: 'Please set the orderID'
 		},
-		
-	deliveryID:{
-		type: String		
-		},	
-	
 	time:{
 		pickupTime:{
 			type: Number
@@ -28,11 +23,14 @@ var DeliverySchema = new Schema ({
 			
 		},
 	},
-		
+	deliveryList:{
+		type: String,
+		default: "0"
+	},
 	status: {			//tilan seuranta
     
       type: String,
-      enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'], //
+      enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'], 
       default: ['received']
    }
    

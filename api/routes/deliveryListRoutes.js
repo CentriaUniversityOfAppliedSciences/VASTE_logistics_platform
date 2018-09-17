@@ -16,4 +16,6 @@ module.exports = function(app)
     .get(deliveryListRoutes.read_a_deliveryLists)
     .put(deliveryListRoutes.update_a_deliveryLists)
     .delete(deliveryListRoutes.delete_a_deliveryLists);
+	app.route('/deliveryListForVehicle')
+		.post(deliveryListRoutes.getDeliveryListsForVehicle);
 };
