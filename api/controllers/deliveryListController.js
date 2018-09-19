@@ -166,7 +166,7 @@ function getOrdersForList(onelist, callback)
 					}
 					else
 					{
-						h.delivery = {};
+						h.delivery = result2[0];
 					}
 					h.type = list.type;
 					h.number = list.number;
