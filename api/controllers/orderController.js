@@ -112,7 +112,7 @@ function getOrdersForDelivery(deliveries, callback)
 				{
 				  res.send(err);
 				}
-				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{} };
+				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"" };
 				if (result.length > 0)
 				{
 					h.subscriber = result[0].subscriber;
@@ -123,6 +123,7 @@ function getOrdersForDelivery(deliveries, callback)
 					h.status = result[0].status;
 					h._id = result[0]._id;
 					h.orderInfo = result[0].orderInfo;
+					h.orderDescription = result[0].orderDescription;
 					h.delivery = delivery;
 				
 					//console.log(h);
@@ -170,7 +171,7 @@ function getOrdersWithoutDelivery(orders, callback)
 				}
 				if (hasDeli != 1)
 				{
-					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{} };
+					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"" };
 					h.subscriber = order.subscriber;
 					h.receiver = order.receiver;
 					h.address = order.address;
@@ -179,6 +180,7 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.status = order.status;
 					h._id = order._id;
 					h.orderInfo = order.orderInfo;
+					h.orderDescription = order.orderDescription;
 					h.delivery = {};
 					console.log(h);
 							

@@ -151,7 +151,7 @@ function getOrdersForList(onelist, callback)
 					}
 					console.log(result2);
 				
-					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{}, "type":"" };
+					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{}, "type":"","orderInfo":"","orderDescription":"" };
 					h.subscriber = result1[0].subscriber;
 					h.receiver = result1[0].receiver;
 					h.address = result1[0].address;
@@ -160,6 +160,7 @@ function getOrdersForList(onelist, callback)
 					h.status = result1[0].status;
 					h._id = result1[0]._id;
 					h.orderInfo = result1[0].orderInfo;
+					h.orderDescription = result1[0].orderDescription;
 					if (result2[0] == [])
 					{
 						h.delivery = {};
