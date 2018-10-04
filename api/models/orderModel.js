@@ -18,6 +18,10 @@ var OrderSchema = new Schema ({
 			type: String,
 			required:'Kindly enter your phone number' 
 			},
+		email:{
+			type: String,
+			required:'Kindly enter your e-mail'
+		}
 		},
 	},
 	
@@ -36,6 +40,10 @@ var OrderSchema = new Schema ({
 			type: String,
 			required:'Kindly enter receivers phone number' 
 		},
+		email:{
+			type: String,
+			required:'Kindly enter your e-mail'
+		}
 		}
 	},
 	
