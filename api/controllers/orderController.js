@@ -119,7 +119,7 @@ function getOrdersForDelivery(deliveries, callback)
 					h.receiver = result[0].receiver;
 					h.address = result[0].address;
 					h.time = result[0].time;
-					h.orderstatus = result[0].orderstatus;
+					h.orderStatus = result[0].orderStatus;
 					h.status = result[0].status;
 					h._id = result[0]._id;
 					h.orderInfo = result[0].orderInfo;
