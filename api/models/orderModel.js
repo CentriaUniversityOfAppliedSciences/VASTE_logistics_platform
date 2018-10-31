@@ -7,47 +7,55 @@ var OrderSchema = new Schema ({
 		name: {
         lastName: {
             type: String,
-            required: 'Kindly enter your lastname' 
+            required: 'Kindly enter your lastname'
 			},
         firstName:  {
             type: String,
-            required: 'Kindly enter your firstname' 
+            required: 'Kindly enter your firstname'
 			},
-		
-		phoneNumber:{			
+
+		phoneNumber:{
 			type: String,
-			required:'Kindly enter your phone number' 
+			required:'Kindly enter your phone number'
 			},
+		email:{
+			type: String,
+			required:'Kindly enter your e-mail'
+		},
 		},
 	},
-	
+
 	receiver:{			//Vastaanottaja
 		name: {
         lastName: {
             type: String,
-            required: 'Kindly enter receivers lastname' 
+            required: 'Kindly enter receivers lastname'
         },
         firstName:  {
             type: String,
-            required: 'Kindly enter receivers firstname' 
+            required: 'Kindly enter receivers firstname'
         },
-		
-		phoneNumber:{			
+
+		phoneNumber:{
 			type: String,
-			required:'Kindly enter receivers phone number' 
+			required:'Kindly enter receivers phone number'
+		},
+		email:{
+			type: String,
+			required:'Kindly enter your e-mail'
 		},
 		}
 	},
-	
-	
+
+
 	status: {			//tilan seuranta
-    
+
 		type: String,
 		enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'],
 		default: ['received']
    },
 
-   
+
    address: {			//osoitteet, nouto ja toimitus
 	  pickup: {
 			pstreet:{
@@ -62,7 +70,10 @@ var OrderSchema = new Schema ({
 			type: String,
 			required: 'Please enter pickup locality'
 			},
-		},	
+			papartmentnumber:{
+				type: String
+			},
+		},
 		delivery: {
 			dstreet:{
 			type: String,
@@ -76,10 +87,13 @@ var OrderSchema = new Schema ({
 			type: String,
 			required: 'Please enter delivery locality'
 			},
-		},	
+			dapartmentnumber:{
+				type: String
+			},
+		},
     },
-	
-	time: {				//aikaikkunat, nouto ja toimitus	
+
+	time: {				//aikaikkunat, nouto ja toimitus
 		pickupTime:{
 			pAfter:{
 				type: Number,
@@ -101,7 +115,7 @@ var OrderSchema = new Schema ({
 			},
 		},
 	},
-	
+
 	orderStatus: {			//tilauksen sisältö
 		persons: {
 			type: Number,
@@ -109,9 +123,21 @@ var OrderSchema = new Schema ({
 			},
 		package:			//array
 		[	{
-				size: {
-					type: String,
-					required:'Please enter the size of the package: width x height x depth'
+				packageHeight:{
+					type: Number,
+					required: 'Please enter the height of the package'
+				},
+				packageWidth:{
+					type: Number,
+					required: 'Please enter the width of the package'
+				},
+				packageLength:{
+					type: Number,
+					required: 'Please enter the length of the package'
+				},
+				packageVolume:{
+					type: Number,
+					required: "Please enter the volume of the package"
 				},
 				weight:{
 					type: Number,
@@ -123,9 +149,9 @@ var OrderSchema = new Schema ({
 				}
 			}
 		]
-			
+
 	},
-	orderInfo: 
+	orderInfo:
 	{
 		type: String
 	},
