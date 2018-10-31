@@ -21,13 +21,11 @@ var OrderSchema = new Schema ({
 		email:{
 			type: String,
 			required:'Kindly enter your e-mail'
-<<<<<<< HEAD
-		},
-=======
+
 		}
->>>>>>> 9b046a8f639ee748dcaa64ec5e1e1b2ea88bcafc
+		}
 		},
-	},
+
 
 	receiver:{			//Vastaanottaja
 		name: {
