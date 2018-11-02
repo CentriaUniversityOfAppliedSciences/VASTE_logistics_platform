@@ -38,18 +38,14 @@ var OrderSchema = new Schema ({
             required: 'Kindly enter receivers firstname'
         },
 
-		phoneNumber:{
-			type: String,
-			required:'Kindly enter receivers phone number'
-		},
-		email:{
-			type: String,
-			required:'Kindly enter your e-mail'
-		},
-		email:{
-			type: String,
-			required:'Kindly enter your e-mail'
-		}
+			phoneNumber:{
+				type: String,
+				required:'Kindly enter receivers phone number'
+			},
+			email:{
+				type: String,
+				required:'Kindly enter your e-mail'
+			}
 		}
 	},
 
