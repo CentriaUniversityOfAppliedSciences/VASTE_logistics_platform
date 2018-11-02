@@ -19,9 +19,7 @@ var OrderSchema = new Schema ({
 			required:'Kindly enter your phone number'
 			},
 		email:{
-			type: String,
-			required:'Kindly enter your e-mail'
-
+			type: String
 		}
 		}
 		},
@@ -43,12 +41,7 @@ var OrderSchema = new Schema ({
 			required:'Kindly enter receivers phone number'
 		},
 		email:{
-			type: String,
-			required:'Kindly enter your e-mail'
-		},
-		email:{
-			type: String,
-			required:'Kindly enter your e-mail'
+			type: String
 		}
 		}
 	},
@@ -124,34 +117,27 @@ var OrderSchema = new Schema ({
 
 	orderStatus: {			//tilauksen sisältö
 		persons: {
-			type: Number,
-			required:'Please add the numbers of persons to pickup'
+			type: Number
 			},
 		package:			//array
 		[	{
 				packageHeight:{
-					type: Number,
-					required: 'Please enter the height of the package'
+					type: Number
 				},
 				packageWidth:{
-					type: Number,
-					required: 'Please enter the width of the package'
+					type: Number
 				},
 				packageLength:{
-					type: Number,
-					required: 'Please enter the length of the package'
+					type: Number
 				},
 				packageVolume:{
-					type: Number,
-					required: "Please enter the volume of the package"
+					type: Number
 				},
 				weight:{
-					type: Number,
-					required:'Please enter the package weight in grams'
+					type: Number
 				},
 				number:{
-				type: Number,
-				required:'Please enter the number of the packages'
+				type: Number
 				}
 			}
 		]
