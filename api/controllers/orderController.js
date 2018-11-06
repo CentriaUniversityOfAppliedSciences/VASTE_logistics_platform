@@ -15,7 +15,7 @@ exports.list_all_orders = function(req, res) {
 };
 
 
-exports.find_by_status = function(req, res) {	//statuksen mukaan 
+exports.find_by_status = function(req, res) {	//statuksen mukaan
 
   Orders.find({status:req.body.status}, function(err, orders) {
     if (err)
@@ -34,19 +34,39 @@ exports.find_by_status_with_nodelivery = function(req, res) {	//statuksen mukaan
 		console.log(r);
 		res.json(r);
 	});
-    
+
   });
 };
 
 exports.create_a_orders = function(req, res) {
-  var new_orders = new Orders(req.body);
-  new_orders.save(function(err, orders) {
-    if (err)
-      res.send(err);
-    res.json(orders);
+  getMaxOrderNum(function(num)
+  {
+    var n = 0;
+    if(typeof num != "undefined" && num != null && num.length != null && num.length > 0){
+      n = num[0].vasteOrder;
+    }
+    else
+    {
+      n = 0;
+    }
+    req.body.vasteOrder = n+1;
+    var new_orders = new Orders(req.body);
+    new_orders.save(function(err, orders) {
+      if (err)
+        res.send(err);
+      res.json(orders);
+    });
   });
 };
 
+var getMaxOrderNum = function(callback)
+{
+  Orders.find({},['vasteOrder'],{limit:1,sort:{vasteOrder: -1}}, function(err, orders) {
+    if (err)
+      callback(null);
+    callback(orders);
+  });
+}
 
 exports.read_a_orders = function(req, res) {
   Orders.findById(req.params.ordersId, function(err, orders) {
@@ -89,7 +109,7 @@ exports.getVehicleOrders = function(req,res)
 				//console.log(r);
 				res.json(r);
 			});
-			
+
 		}
 	});
 };
@@ -105,14 +125,14 @@ function getOrdersForDelivery(deliveries, callback)
 			done();
 			return;
 		}
-		
+
 			var query = {'_id':delivery.orderID};
 			Orders.find(query, function(err, result) {
 				if (err)
 				{
 				  res.send(err);
 				}
-				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"" };
+				var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
 				if (result.length > 0)
 				{
 					h.subscriber = result[0].subscriber;
@@ -125,9 +145,10 @@ function getOrdersForDelivery(deliveries, callback)
 					h.orderInfo = result[0].orderInfo;
 					h.orderDescription = result[0].orderDescription;
 					h.delivery = delivery;
-				
+          h.vasteOrder = result[0].vasteOrder;
+
 					//console.log(h);
-					if (delivery.status != 'cancelled')
+					if (delivery.status != 'cancelled' || delivery.status != 'done')
 					{
 						orders.push(h);
 					}
@@ -135,13 +156,13 @@ function getOrdersForDelivery(deliveries, callback)
 				done();
 				return;
 			  });
-		
+
 	};
 	var doneIteratingFcn = function(err)
 	{
 		callback(err,orders);
 	};
-	
+
 	async.forEach(deliveries, iteratorFcn, doneIteratingFcn);
 }
 function getOrdersWithoutDelivery(orders, callback)
@@ -154,7 +175,7 @@ function getOrdersWithoutDelivery(orders, callback)
 			done();
 			return;
 		}
-		
+
 			var query = {'orderID':order._id};
 			Deliveries.find(query, function(err, result) {
 				if (err)
@@ -171,7 +192,7 @@ function getOrdersWithoutDelivery(orders, callback)
 				}
 				if (hasDeli != 1)
 				{
-					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"" };
+					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
 					h.subscriber = order.subscriber;
 					h.receiver = order.receiver;
 					h.address = order.address;
@@ -182,22 +203,21 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.orderInfo = order.orderInfo;
 					h.orderDescription = order.orderDescription;
 					h.delivery = {};
-					console.log(h);
-							
+          h.vasteOrder = result[0].vasteOrder;
+					//console.log(h);
+
 					ordery.push(h);
 				}
-				
+
 				done();
 				return;
 			  });
-		
+
 	};
 	var doneIteratingFcn = function(err)
 	{
 		callback(err,ordery);
 	};
-	
+
 	async.forEach(orders, iteratorFcn, doneIteratingFcn);
 }
-
-

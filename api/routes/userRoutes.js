@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(app) 
+module.exports = function(app)
 {
   var userRoutes = require('../controllers/userController');
 
@@ -7,10 +7,10 @@ module.exports = function(app)
   app.route('/users')
     .get(userRoutes.list_all_users)
     .post(userRoutes.create_a_users);
-	
+
   //app.route('/users/find_user_by_ID')
 	//.post(userRoutes.find_user_by_ID);
-	
+
   app.route('/users/identification')
 	.post(userRoutes.identification);
 

@@ -22,10 +22,11 @@ var express = require('express'),
   DeliveryList = require('./api/models/deliveryListModel'), //Ladataan mallit käyttöön
   Payment = require('./api/models/paymentModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
+  var logger = require('./api/models/logModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/VasteDB'); 
+mongoose.connect('mongodb://localhost/VasteDB');
 
 //määritellään bodyparser käyttöön
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,33 +34,35 @@ app.use(bodyParser.json());//a
 
 
 //Reittien luominen
-var routes = require('./api/routes/vehicleRoutes'); 
+var routes = require('./api/routes/vehicleRoutes');
 routes(app);  //http://localhost:3000/api/car
-var oRoutes = require('./api/routes/orderRoutes'); 
-oRoutes(app); 
-var dRoutes = require('./api/routes/deliveryRoutes'); 
-dRoutes(app); 
-var uRoutes = require('./api/routes/userRoutes'); 
-uRoutes(app); 
-var pRoutes = require('./api/routes/pointRoutes'); 
-pRoutes(app); 
-var cRoutes = require('./api/routes/companyRoutes'); 
-cRoutes(app); 
-var lRoutes = require('./api/routes/lockerRoutes'); 
-lRoutes(app); 
-var mRoutes = require('./api/routes/messageRoutes'); 
-mRoutes(app); 
-var rRoutes = require('./api/routes/routeRoutes'); 
-rRoutes(app); 
-var dLRoutes = require('./api/routes/deliveryListRoutes'); 
-dLRoutes(app); 
-var pARoutes = require('./api/routes/paymentRoutes'); 
-pARoutes(app); 
+var oRoutes = require('./api/routes/orderRoutes');
+oRoutes(app);
+var dRoutes = require('./api/routes/deliveryRoutes');
+dRoutes(app);
+var uRoutes = require('./api/routes/userRoutes');
+uRoutes(app);
+var pRoutes = require('./api/routes/pointRoutes');
+pRoutes(app);
+var cRoutes = require('./api/routes/companyRoutes');
+cRoutes(app);
+var lRoutes = require('./api/routes/lockerRoutes');
+lRoutes(app);
+var mRoutes = require('./api/routes/messageRoutes');
+mRoutes(app);
+var rRoutes = require('./api/routes/routeRoutes');
+rRoutes(app);
+var dLRoutes = require('./api/routes/deliveryListRoutes');
+dLRoutes(app);
+var pARoutes = require('./api/routes/paymentRoutes');
+pARoutes(app);
+var logRoutes = require('./api/routes/logRoutes');
+logRoutes(app);
 
 /*
 // App
 const app = express();
-app.get('/', (req, res) => 
+app.get('/', (req, res) =>
 {
   res.send('This is Vaste! on se hyvä\n');
 });
@@ -67,4 +70,3 @@ app.get('/', (req, res) =>
 
 app.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);
-

@@ -150,6 +150,10 @@ var OrderSchema = new Schema ({
 	orderDescription:
 	{
 		type: String
+	},
+	vasteOrder:
+	{
+		type: Number
 	}
 });
 
