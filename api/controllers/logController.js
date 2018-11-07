@@ -21,3 +21,11 @@ exports.create_a_log = function(req, res) { //create a new log
       res.json(logs);
     });
 };
+
+exports.logThis = function(jso)
+{
+  var new_log = new logger(jso);
+  new_log.save(function(err, logs) {
+    console.log(logs);
+  });
+}
