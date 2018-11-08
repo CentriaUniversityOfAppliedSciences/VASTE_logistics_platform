@@ -8,9 +8,23 @@ var mongoose = require('mongoose'),
   var apikey = environment.apikey;
 
 exports.list_all_users = function(req, res) {
-  if (req.body.apikey == apikey)
+  if (req.query.apikey == apikey)
   {
     Users.find({}, function(err, users) {
+      if (err)
+        res.send(err);
+      res.json(users);
+    });
+  }
+  else {
+    res.send("error");
+  }
+};
+
+exports.getDrivers = function(req, res) {
+  if (req.query.apikey == apikey)
+  {
+    Users.find({status:'driver'}, function(err, users) {
       if (err)
         res.send(err);
       res.json(users);
@@ -89,7 +103,7 @@ exports.identification = function(req, res) {
     Users.find({userID:req.body.userId, passWord:req.body.passWord }, function(err, users) {
       if (err)
         res.send(err);
-  	
+
       res.json(users);
     });
   }

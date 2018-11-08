@@ -14,6 +14,9 @@ module.exports = function(app)
   app.route('/users/identification')
 	.post(userRoutes.identification);
 
+  app.route('/getdrivers')
+  .get(userRoutes.getDrivers);
+
   app.route('/users/:usersId')
     .get(userRoutes.read_a_users)
     .put(userRoutes.update_a_users)

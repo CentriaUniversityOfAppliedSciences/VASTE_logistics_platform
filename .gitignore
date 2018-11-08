@@ -60,3 +60,4 @@ typings/
 #environment variables
 /environment.json
 /package-lock.json
+environment.json
