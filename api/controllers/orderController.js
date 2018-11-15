@@ -196,7 +196,7 @@ function getOrdersForDelivery(deliveries,mode, callback)
           }
           else if (mode == 'received')
           {
-            if (delivery.status != 'received')
+            if (delivery.status == 'received')
   					{
   						orders.push(h);
   					}
