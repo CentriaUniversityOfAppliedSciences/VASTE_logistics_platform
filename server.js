@@ -23,6 +23,7 @@ var express = require('express'),
   Payment = require('./api/models/paymentModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
   var logger = require('./api/models/logModel');
+  var inUse = require('./api/models/inUseModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -58,15 +59,9 @@ var pARoutes = require('./api/routes/paymentRoutes');
 pARoutes(app);
 var logRoutes = require('./api/routes/logRoutes');
 logRoutes(app);
+var isUseRoutes = require('./api/routes/inUseRoutes');
+isUseRoutes(app);
 
-/*
-// App
-const app = express();
-app.get('/', (req, res) =>
-{
-  res.send('This is Vaste! on se hyvä\n');
-});
-*/
 
 app.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);
