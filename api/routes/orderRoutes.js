@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(app) 
+module.exports = function(app)
 {
   var orderRoutes = require('../controllers/orderController');
 
@@ -17,7 +17,11 @@ module.exports = function(app)
     .get(orderRoutes.read_a_orders)
     .put(orderRoutes.update_a_orders)
     .delete(orderRoutes.delete_a_orders);
-	
+
 	app.route('/orders/getVehicleOrders/:vehiclesId')
 		.get(orderRoutes.getVehicleOrders);
+  app.route('/orders/getVehicleOrdersReceived/:vehiclesId')
+  	.get(orderRoutes.getVehicleOrdersReceived);
+  app.route('/orders/getVehicleOrdersInprogress/:vehiclesId')
+    .get(orderRoutes.getVehicleOrdersInprogress);
 };

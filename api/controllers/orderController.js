@@ -104,7 +104,46 @@ exports.getVehicleOrders = function(req,res)
 		}
 		else
 		{
-			getOrdersForDelivery(deliverys, function (err,r)
+			getOrdersForDelivery(deliverys,"mine", function (err,r)
+			{
+				//console.log(r);
+				res.json(r);
+			});
+
+		}
+	});
+};
+
+exports.getVehicleOrdersReceived = function(req,res)
+{
+	var orderList = [];
+	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+		if (err)
+		{
+			res.send(err);
+		}
+		else
+		{
+			getOrdersForDelivery(deliverys,"received", function (err,r)
+			{
+				//console.log(r);
+				res.json(r);
+			});
+
+		}
+	});
+};
+exports.getVehicleOrdersInprogress = function(req,res)
+{
+	var orderList = [];
+	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+		if (err)
+		{
+			res.send(err);
+		}
+		else
+		{
+			getOrdersForDelivery(deliverys,"inprogress", function (err,r)
 			{
 				//console.log(r);
 				res.json(r);
@@ -115,7 +154,7 @@ exports.getVehicleOrders = function(req,res)
 };
 
 
-function getOrdersForDelivery(deliveries, callback)
+function getOrdersForDelivery(deliveries,mode, callback)
 {
 	var orders = [];
 	var iteratorFcn = function(delivery,done)
@@ -148,10 +187,27 @@ function getOrdersForDelivery(deliveries, callback)
           h.vasteOrder = result[0].vasteOrder;
 
 					//console.log(h);
-					if (delivery.status != 'cancelled' || delivery.status != 'done')
-					{
-						orders.push(h);
-					}
+          if (mode == 'mine')
+          {
+  					if (delivery.status != 'cancelled' || delivery.status != 'done')
+  					{
+  						orders.push(h);
+  					}
+          }
+          else if (mode == 'received')
+          {
+            if (delivery.status != 'received')
+  					{
+  						orders.push(h);
+  					}
+          }
+          else if (mode == 'inprogress')
+          {
+            if (delivery.status == 'accepted' || delivery.status == 'inProgress')
+  					{
+  						orders.push(h);
+  					}
+          }
 				}
 				done();
 				return;
