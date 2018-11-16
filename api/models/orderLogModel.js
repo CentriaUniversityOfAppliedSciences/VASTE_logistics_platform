@@ -1,0 +1,31 @@
+'use strict';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var orderLogSchema = new Schema ({
+
+  user:{ //userID who did something
+    type: String
+  },
+  ip:{ //ip of connection
+    type: String
+  },
+  timestamp:{ //when happened
+    type: Number
+  },
+  code:{ //what happened
+    type: String,
+    enum: ['customer_created', 'operator_delivery', 'driver_accept', 'driver_cancel', 'driver_pickup','driver_delivery','operator_cancel'],
+		default: ['received']
+  },
+  orderID:{ // order mongo _id
+    type: String
+  },
+  deliveryID:{ //delivery mongo _id
+    type: String
+  }
+
+
+});
+
+module.exports = mongoose.model('orderLog', orderLogSchema);

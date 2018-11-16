@@ -53,7 +53,20 @@ exports.create_a_orders = function(req, res) {
     var new_orders = new Orders(req.body);
     new_orders.save(function(err, orders) {
       if (err)
+      {
         res.send(err);
+      }
+      var log = require('../controllers/orderLogController');
+      var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      var jso = {
+        user:"api",
+        ip: ipa,
+        timestamp: Math.floor(new Date() / 1000),
+        code: "customer_created",
+        orderID:orders._id,
+        deliveryID: ""
+      };
+      log.logThis(jso);
       res.json(orders);
     });
   });

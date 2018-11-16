@@ -26,7 +26,21 @@ exports.create_a_deliverys = function(req, res) {
   var new_deliverys = new Deliverys(req.body);
   new_deliverys.save(function(err, deliverys) {
     if (err)
+    {
       res.send(err);
+    }
+    var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "operator_delivery",
+      orderID:deliverys.orderID,
+      deliveryID: deliverys._id
+    };
+    log.logThis(jso);
+
     res.json(deliverys);
   });
 };
@@ -56,7 +70,7 @@ exports.delete_a_deliverys = function(req, res) {
       res.send(err);
     res.json({ message: 'Deliverys successfully deleted' });
   });
-}; 
+};
 
 
 exports.find_delivery_by_ID = function(req, res){
@@ -65,7 +79,7 @@ exports.find_delivery_by_ID = function(req, res){
       res.send(err);
     res.json(deliverys);
   });
-}; 
+};
 
 exports.find_delivery_by_vehicle = function(req, res){
 	Deliverys.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
@@ -73,7 +87,7 @@ exports.find_delivery_by_vehicle = function(req, res){
       res.send(err);
     res.json(deliverys);
   });
-}; 	
+};
 
 exports.find_delivery_by_order = function(req, res){
 	Deliverys.find({orderID:req.params.ordersId}, function(err, deliverys){
@@ -81,24 +95,24 @@ exports.find_delivery_by_order = function(req, res){
       res.send(err);
     res.json(deliverys);
   });
-}; 
+};
 
 exports.changeDeliveryStatus = function(req,res) //android version, uses req.body instead of req.params
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-	var newer = {};
+	/*var newer = {};
 	if (req.body.status == 'cancelled')
 	{
 		newer = { vehicleID: req.body.vehicleID, status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime }, orderID: req.body.orderID };
-	}
-	
+	}*/
+
 	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
 		if(err)
 		{
 			res.send(err);
 		}
-		
+
 		var oQuery = { _id: req.body.orderID };
 		var oUpdate = { status: req.body.orderStatus };
 		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
@@ -107,10 +121,37 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
 			{
 				res.send(err2);
 			}
-			
+      var log = require('../controllers/orderLogController');
+      var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      var c = "";
+      if (req.body.status == "accepted")
+      {
+        c = "driver_accept";
+      }
+      else if (req.body.status == "inProgress")
+      {
+        c = "driver_pickup";
+      }
+      else if (req.body.status == "cancelled")
+      {
+        c = "driver_cancel";
+      }
+      else if (req.body.status == "done")
+      {
+        c = "driver_delivery";
+      }
+      var jso = {
+        user:"api",
+        ip: ipa,
+        timestamp: Math.floor(new Date() / 1000),
+        code: c,
+        orderID:req.body.orderID,
+        deliveryID: req.body.deliveryID
+      };
+      log.logThis(jso);
 			res.json(deliverys);
-			
+
 		});
-		
+
 	});
 };

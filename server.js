@@ -23,6 +23,7 @@ var express = require('express'),
   Payment = require('./api/models/paymentModel'), //Ladataan mallit käyttöön
   bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
   var logger = require('./api/models/logModel');
+  var ologger = require('./api/models/orderLogModel');
   var inUse = require('./api/models/inUseModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -61,7 +62,8 @@ var logRoutes = require('./api/routes/logRoutes');
 logRoutes(app);
 var isUseRoutes = require('./api/routes/inUseRoutes');
 isUseRoutes(app);
-
+var orderLogRoutes = require('./api/routes/orderLogRoutes');
+orderLogRoutes(app);
 
 app.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);
