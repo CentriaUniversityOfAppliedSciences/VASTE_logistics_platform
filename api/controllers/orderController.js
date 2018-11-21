@@ -202,7 +202,7 @@ function getOrdersForDelivery(deliveries,mode, callback)
 					//console.log(h);
           if (mode == 'mine')
           {
-  					if (delivery.status != 'cancelled' || delivery.status != 'done')
+  					if (delivery.status != 'cancelled' && delivery.status != 'done')
   					{
   						orders.push(h);
   					}
