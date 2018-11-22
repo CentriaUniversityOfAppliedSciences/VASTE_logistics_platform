@@ -16,7 +16,7 @@ var orderLogSchema = new Schema ({
   code:{ //what happened
     type: String,
     enum: ['customer_created', 'operator_delivery', 'driver_accept', 'driver_cancel', 'driver_pickup','driver_delivery','operator_cancel'],
-		default: ['received']
+		default: ['customer_created']
   },
   orderID:{ // order mongo _id
     type: String
