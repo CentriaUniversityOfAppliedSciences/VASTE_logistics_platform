@@ -1,3 +1,5 @@
 {
-  "apikey":"DYV35WU7SHNH4APE"
+  "apikey":"DYV35WU7SHNH4APE",
+  "port":3510,
+  "environment": "test"
 }

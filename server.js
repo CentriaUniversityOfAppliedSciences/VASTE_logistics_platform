@@ -1,14 +1,15 @@
 'use strict';
-
+var fs = require('fs');
+var environmentJson = fs.readFileSync("./environment.json");
+var environment = JSON.parse(environmentJson);
 
 
 // Constants
-const PORT = process.env.PORT || 3000;
+const PORT =  environment.port;
 const HOST = '0.0.0.0';
 
 var express = require('express'),
   app = express(),
-  port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   Vehicle = require('./api/models/vehicleModel'), //Ladataan mallit käyttöön
   Order = require('./api/models/orderModel'), //Ladataan mallit käyttöön
@@ -28,16 +29,22 @@ var express = require('express'),
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/VasteDB');
+if (environment.environment == 'prod')
+{
+  mongoose.connect('mongodb://localhost/VasteDB');
+}
+else {
+  mongoose.connect('mongodb://localhost/VasteDBTest');
+}
 
 //määritellään bodyparser käyttöön
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());//a
+app.use(bodyParser.json());
 
 
 //Reittien luominen
 var routes = require('./api/routes/vehicleRoutes');
-routes(app);  //http://localhost:3000/api/car
+routes(app);
 var oRoutes = require('./api/routes/orderRoutes');
 oRoutes(app);
 var dRoutes = require('./api/routes/deliveryRoutes');
