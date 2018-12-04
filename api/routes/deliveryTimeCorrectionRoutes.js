@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(app)
 {
-  var dtcRoutes = require('../controllers/DeliveryTimeCorrectionController');
+  var dtcRoutes = require('../controllers/deliveryTimeCorrectionController');
 
   // dtcRoutes Routes
   app.route('/dtc')
