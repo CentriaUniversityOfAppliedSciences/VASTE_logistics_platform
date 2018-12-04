@@ -26,6 +26,8 @@ var express = require('express'),
   var logger = require('./api/models/logModel');
   var ologger = require('./api/models/orderLogModel');
   var inUse = require('./api/models/inUseModel');
+  var dtc = require('./api/models/deliveryTimeCorrectionModel');
+  var dc = require('./api/models/deliveryConfirmationModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -71,6 +73,11 @@ var isUseRoutes = require('./api/routes/inUseRoutes');
 isUseRoutes(app);
 var orderLogRoutes = require('./api/routes/orderLogRoutes');
 orderLogRoutes(app);
+var dtcRoutes = require('./api/routes/deliveryTimeCorrectionRoutes');
+dtcRoutes(app);
+var dcRoutes = require('./api/routes/deliveryConfirmationRoutes');
+dcRoutes(app);
+
 
 app.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);

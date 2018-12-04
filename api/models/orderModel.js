@@ -154,6 +154,12 @@ var OrderSchema = new Schema ({
 	vasteOrder:
 	{
 		type: Number
+	},
+	destination:
+	{
+		type: String,
+		enum: ['address', 'box', 'depot','driver'],
+		default: ['address']
 	}
 });
 
