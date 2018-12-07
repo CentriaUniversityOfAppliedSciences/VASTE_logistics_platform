@@ -8,13 +8,16 @@ var CompanySchema = new Schema ({
 		type: String,
 		required:'Company name'
 		},
-		
+
 	companyAddress:{
 		type: String,
 		required:'Company address'
 		},
 
 	companyID:{
+		type: String
+	},
+	link:{
 		type: String
 	}
 });

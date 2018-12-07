@@ -8,14 +8,16 @@ module.exports = function(app)
     .get(userRoutes.list_all_users)
     .post(userRoutes.create_a_users);
 
+  app.route('/usersbycompany/:companyID')
+    .get(userRoutes.get_company_drivers);
   //app.route('/users/find_user_by_ID')
 	//.post(userRoutes.find_user_by_ID);
 
   app.route('/users/identification')
-	.post(userRoutes.identification);
+	 .post(userRoutes.identification);
 
   app.route('/getdrivers')
-  .get(userRoutes.getDrivers);
+    .get(userRoutes.getDrivers);
 
   app.route('/users/:usersId')
     .get(userRoutes.read_a_users)

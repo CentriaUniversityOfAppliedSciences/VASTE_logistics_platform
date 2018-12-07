@@ -13,7 +13,13 @@ exports.list_all_orders = function(req, res) {
     res.json(orders);
   });
 };
-
+exports.list_all_orders_by_company = function(req, res) {
+  Orders.find({companyID:req.params.companyID}, function(err, orders) {
+    if (err)
+      res.send(err);
+    res.json(orders);
+  });
+};
 
 exports.find_by_status = function(req, res) {	//statuksen mukaan
 
@@ -31,7 +37,6 @@ exports.find_by_status_with_nodelivery = function(req, res) {	//statuksen mukaan
       res.send(err);
 	getOrdersWithoutDelivery(orders, function(err,r)
 	{
-		console.log(r);
 		res.json(r);
 	});
 
@@ -198,6 +203,7 @@ function getOrdersForDelivery(deliveries,mode, callback)
 					h.orderDescription = result[0].orderDescription;
 					h.delivery = delivery;
           h.vasteOrder = result[0].vasteOrder;
+          h.companyID = result[0].companyID;
 
 					//console.log(h);
           if (mode == 'mine')
@@ -273,6 +279,7 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.orderDescription = order.orderDescription;
 					h.delivery = {};
           h.vasteOrder = result[0].vasteOrder;
+          h.companyID = order.companyID;
 					//console.log(h);
 
 					ordery.push(h);

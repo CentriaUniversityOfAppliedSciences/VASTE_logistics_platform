@@ -29,7 +29,7 @@ exports.find_by_state = function(req, res) {
 };
 
 exports.find_by_companyid = function(req, res) {
-  Vehicles.find({}, function(err, vehicles) {
+  Vehicles.find({"companyID":req.params.companyID}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
@@ -92,4 +92,3 @@ exports.find_by_people = function(req, res) {
     res.json({vehicles });
   });
 };
-

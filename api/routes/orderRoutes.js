@@ -8,10 +8,14 @@ module.exports = function(app)
     .get(orderRoutes.list_all_orders)
     .post(orderRoutes.create_a_orders);
 
+  app.route('/ordersby_company/:companyID')
+    .get(orderRoutes.list_all_orders_by_company);
+
   app.route('/orders/find_by_status')
-	.post(orderRoutes.find_by_status);
+	 .post(orderRoutes.find_by_status);
+
   app.route('/orders/find_by_status_with_nodelivery')
-	.post(orderRoutes.find_by_status_with_nodelivery);
+	 .post(orderRoutes.find_by_status_with_nodelivery);
 
   app.route('/orders/:ordersId')
     .get(orderRoutes.read_a_orders)

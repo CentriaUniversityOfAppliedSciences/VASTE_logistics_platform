@@ -21,6 +21,21 @@ exports.list_all_users = function(req, res) {
   }
 };
 
+exports.get_company_drivers = function(req, res) {
+  if (req.query.apikey == apikey)
+  {
+    Users.find({'userInformation.userCompany':req.params.companyID, status:'driver'}, function(err, users) {
+      if (err)
+        res.send(err);
+      console.log(users);
+      res.json(users);
+    });
+  }
+  else {
+    res.send("error");
+  }
+};
+
 exports.getDrivers = function(req, res) {
   if (req.query.apikey == apikey)
   {

@@ -47,7 +47,7 @@ exports.delete_a_companys = function(req, res) {
       res.send(err);
     res.json({ message: 'Companys successfully deleted' });
   });
-}; 
+};
 
 exports.find_company_by_ID = function(req, res) {
   Companys.find({_id: req.params.companysId}, function(err, companys) {
@@ -55,4 +55,12 @@ exports.find_company_by_ID = function(req, res) {
       res.send(err);
     res.json({companys });
   });
-}; 
+};
+
+exports.find_company_by_link = function(req, res) {
+  Companys.find({link: req.body.link}, function(err, companys) {
+    if (err)
+      res.send(err);
+    res.json({companys});
+  });
+};

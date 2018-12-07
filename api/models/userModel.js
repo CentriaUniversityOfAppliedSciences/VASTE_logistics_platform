@@ -8,27 +8,27 @@ var UserSchema = new Schema ({
 		type: String,
 		required: 'Please enter your user name here'
 	},
-	
+
 	passWord:{
 		type: String,
 		required: 'Please enter your password here'
 	},
 	status:{
 		type: String,
-		enum: ['customer', 'operator', 'driver'],
+		enum: ['customer', 'operator','superoperator', 'driver'],
       default: ['customer']
 	},
 	userInformation:{
-		userName:{		
+		userName:{
             type: String,
-            required: 'Please enter your name' 
+            required: 'Please enter your name'
 		},
 		userCompany:{
 			type: String
 		},
-		userPhone:{			
+		userPhone:{
 			type: String,
-			required:'Please enter your phone number' 
+			required:'Please enter your phone number'
 		},
 		userAddress:{
 			type: String,
@@ -38,7 +38,7 @@ var UserSchema = new Schema ({
 			type: String,
 			required: 'Please enter your email here'
 		}
-	}	
+	}
 
 });
 
