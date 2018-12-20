@@ -14,7 +14,7 @@ exports.list_all_orders = function(req, res) {
   });
 };
 exports.list_all_orders_by_company = function(req, res) {
-  Orders.find({companyID:req.params.companyID}, function(err, orders) {
+  Orders.find({$or:[{companyID:req.params.companyID},{companyID:"0"}]}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -63,15 +63,18 @@ exports.create_a_orders = function(req, res) {
       }
       var log = require('../controllers/orderLogController');
       var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-      var jso = {
-        user:"api",
-        ip: ipa,
-        timestamp: Math.floor(new Date() / 1000),
-        code: "customer_created",
-        orderID:orders._id,
-        deliveryID: ""
-      };
-      log.logThis(jso);
+      if (orders != undefined && orders != null && orders._id.length > 0)
+      {
+        var jso = {
+          user:"api",
+          ip: ipa,
+          timestamp: Math.floor(new Date() / 1000),
+          code: "customer_created",
+          orderID:orders._id,
+          deliveryID: ""
+        };
+        log.logThis(jso);
+      }
       res.json(orders);
     });
   });
@@ -278,12 +281,106 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.orderInfo = order.orderInfo;
 					h.orderDescription = order.orderDescription;
 					h.delivery = {};
-          h.vasteOrder = result[0].vasteOrder;
+          h.vasteOrder = order.vasteOrder;
           h.companyID = order.companyID;
 					//console.log(h);
 
 					ordery.push(h);
 				}
+
+				done();
+				return;
+			  });
+
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,ordery);
+	};
+
+	async.forEach(orders, iteratorFcn, doneIteratingFcn);
+}
+
+exports.getAllForId = function(req, res) {
+  Orders.findById(req.params.ordersId, function(err, orders) {
+    if (err)
+    {
+      res.send(err);
+    }
+    else {
+      var o = [orders];
+      getDeliveryForOrder(o, function(err,resu)
+      {
+        console.log(resu[0]);
+          res.json(resu[0]);
+      });
+    }
+
+  });
+};
+
+function getDeliveryForOrder(orders, callback)
+{
+	var ordery = [];
+	var iteratorFcn = function(order,done)
+	{
+		if (order._id == null)
+		{
+			done();
+			return;
+		}
+
+			var query = {'orderID':order._id};
+			Deliveries.find(query, function(err, result) {
+				if (err)
+				{
+				  res.send(err);
+				}
+				var hasDeli = 0;
+        var deli = {};
+				for (var i = 0;i< result.length;i++)
+				{
+					if (result[i].status != "cancelled")
+					{
+						hasDeli = 1;
+            deli = result[i];
+					}
+				}
+				if (hasDeli != 1)
+				{
+					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
+					h.subscriber = order.subscriber;
+					h.receiver = order.receiver;
+					h.address = order.address;
+					h.time = order.time;
+					h.orderstatus = order.orderstatus;
+					h.status = order.status;
+					h._id = order._id;
+					h.orderInfo = order.orderInfo;
+					h.orderDescription = order.orderDescription;
+					h.delivery = {};
+          h.vasteOrder = order.vasteOrder;
+          h.companyID = order.companyID;
+          h.destination = order.destination;
+					ordery.push(h);
+				}
+        else {
+          var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
+          h.subscriber = order.subscriber;
+          h.receiver = order.receiver;
+          h.address = order.address;
+          h.time = order.time;
+          h.orderstatus = order.orderstatus;
+          h.status = order.status;
+          h._id = order._id;
+          h.orderInfo = order.orderInfo;
+          h.orderDescription = order.orderDescription;
+          h.delivery = deli;
+          h.vasteOrder = order.vasteOrder;
+          h.companyID = order.companyID;
+          h.destination = order.destination;
+          ordery.push(h)
+        }
 
 				done();
 				return;

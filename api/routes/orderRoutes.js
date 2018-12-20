@@ -28,4 +28,6 @@ module.exports = function(app)
   	.get(orderRoutes.getVehicleOrdersReceived);
   app.route('/orders/getVehicleOrdersInprogress/:vehiclesId')
     .get(orderRoutes.getVehicleOrdersInprogress);
+  app.route('/orders/getOrder/:ordersId')
+    .get(orderRoutes.getAllForId);
 };

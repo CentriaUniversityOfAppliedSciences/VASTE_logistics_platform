@@ -22,12 +22,13 @@ var express = require('express'),
   Route = require('./api/models/routeModel'), //Ladataan mallit käyttöön
   DeliveryList = require('./api/models/deliveryListModel'), //Ladataan mallit käyttöön
   Payment = require('./api/models/paymentModel'), //Ladataan mallit käyttöön
-  bodyParser = require('body-parser');//Bodyparser jolla saadaan pyynnön sisältö talteen
-  var logger = require('./api/models/logModel');
-  var ologger = require('./api/models/orderLogModel');
-  var inUse = require('./api/models/inUseModel');
-  var dtc = require('./api/models/deliveryTimeCorrectionModel');
-  var dc = require('./api/models/deliveryConfirmationModel');
+  bodyParser = require('body-parser'),//Bodyparser jolla saadaan pyynnön sisältö talteen
+  logger = require('./api/models/logModel'),
+  ologger = require('./api/models/orderLogModel'),
+  inUse = require('./api/models/inUseModel'),
+  dtc = require('./api/models/deliveryTimeCorrectionModel'),
+  dc = require('./api/models/deliveryConfirmationModel'),
+  cp = require('./api/models/companyPropertiesModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -77,6 +78,8 @@ var dtcRoutes = require('./api/routes/deliveryTimeCorrectionRoutes');
 dtcRoutes(app);
 var dcRoutes = require('./api/routes/deliveryConfirmationRoutes');
 dcRoutes(app);
+var cpRoutes = require('./api/routes/companyPropertiesRoutes');
+cpRoutes(app);
 
 
 app.listen(PORT);

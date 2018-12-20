@@ -4,6 +4,9 @@
 var mongoose = require('mongoose'),
   Deliverys = mongoose.model('Deliverys');
 var Orders = mongoose.model('Orders');
+var fs = require('fs');
+var environmentJson = fs.readFileSync("./environment.json");
+var environment = JSON.parse(environmentJson);
 
 exports.list_all_deliverys = function(req, res) {
   Deliverys.find({}, function(err, deliverys) {
@@ -97,15 +100,11 @@ exports.find_delivery_by_order = function(req, res){
   });
 };
 
-exports.changeDeliveryStatus = function(req,res) //android version, uses req.body instead of req.params
+exports.changeDeliveryStatus = function(req,res)
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-	/*var newer = {};
-	if (req.body.status == 'cancelled')
-	{
-		newer = { vehicleID: req.body.vehicleID, status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime }, orderID: req.body.orderID };
-	}*/
+
 
 	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
 		if(err)
@@ -149,9 +148,44 @@ exports.changeDeliveryStatus = function(req,res) //android version, uses req.bod
         deliveryID: req.body.deliveryID
       };
       log.logThis(jso);
+      sendStatusChange(req.body.orderID,c,ord);
 			res.json(deliverys);
 
 		});
 
 	});
 };
+
+function sendStatusChange(orderID,status,ord)
+{
+  var envi = "test";
+  if (environment.port == 3000)
+  {
+    envi = "prod";
+  }
+
+    var jso = {
+      "orderID":orderID,
+      "status":status,
+      "companyID":ord.companyID,
+      "environment":envi
+    };
+    var request = require('request');
+  	var options = {
+  		uri: "http://localhost:5140/webhook",
+  		method: 'POST',
+  		headers: {
+          "content-type": "application/json",
+          },
+  		json: jso
+  	};
+  	request(options, function (error, response, body) {
+  	  if (!error && response.statusCode == 200) {
+
+  	  }
+  	  else
+  	  {
+  		  console.log(response);
+  	  }
+  	});
+}
