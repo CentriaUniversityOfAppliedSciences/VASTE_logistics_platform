@@ -43,6 +43,7 @@ exports.create_a_deliverys = function(req, res) {
       deliveryID: deliverys._id
     };
     log.logThis(jso);
+    sendStatusChange(deliverys.orderID,"operator_delivery",req.body.companyID);
 
     res.json(deliverys);
   });
@@ -148,7 +149,7 @@ exports.changeDeliveryStatus = function(req,res)
         deliveryID: req.body.deliveryID
       };
       log.logThis(jso);
-      sendStatusChange(req.body.orderID,c,ord);
+      sendStatusChange(req.body.orderID,c,ord.companyID);
 			res.json(deliverys);
 
 		});
@@ -156,7 +157,7 @@ exports.changeDeliveryStatus = function(req,res)
 	});
 };
 
-function sendStatusChange(orderID,status,ord)
+function sendStatusChange(orderID,status,comp)
 {
   var envi = "test";
   if (environment.port == 3000)
@@ -167,7 +168,7 @@ function sendStatusChange(orderID,status,ord)
     var jso = {
       "orderID":orderID,
       "status":status,
-      "companyID":ord.companyID,
+      "companyID":comp,
       "environment":envi
     };
     var request = require('request');
