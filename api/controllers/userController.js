@@ -85,9 +85,11 @@ exports.read_a_users = function(req, res) {
 exports.update_a_users = function(req, res) {
   if (req.body.apikey == apikey)
   {
-    Users.findOneAndUpdate({_id: req.params.usersId}, req.body, {new: true}, function(err, users) {
-      if (err)
+    Users.findOneAndUpdate({_id: req.body.userID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
+      if (err){
+			console.log(err);
         res.send(err);
+			}
       res.json(users);
     });
   }
