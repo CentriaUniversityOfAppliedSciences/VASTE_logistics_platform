@@ -70,7 +70,7 @@ exports.create_a_users = function(req, res) {
 exports.read_a_users = function(req, res) {
   if (req.body.apikey == apikey)
   {
-    Users.findById(req.params.usersId, function(err, users) {
+    Users.find({userID:req.body.userId}, function(err, users) {
       if (err)
         res.send(err);
       res.json(users);
