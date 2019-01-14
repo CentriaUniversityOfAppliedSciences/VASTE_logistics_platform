@@ -69,10 +69,25 @@ exports.update_a_deliverys = function(req, res) {
 
 
 exports.delete_a_deliverys = function(req, res) {
-  Deliverys.remove({_id: req.params.deliverysId}, function(err, deliverys) {
-    if (err)
+  Deliverys.findOneAndDelete({_id: req.body.deliverysId}, function(err, deliverys) {
+		if (err)
+    {
       res.send(err);
-    res.json({ message: 'Deliverys successfully deleted' });
+    }
+    var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "operator_cancel",
+      orderID:deliverys.orderID,
+      deliveryID: undefined
+    };
+    log.logThis(jso);
+    sendStatusChange(deliverys.deliveryID, "operator_cancel");
+
+    res.json(deliverys);
   });
 };
 

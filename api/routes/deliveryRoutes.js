@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(app) 
+module.exports = function(app)
 {
   var deliveryRoutes = require('../controllers/deliveryController');
 
@@ -13,16 +13,16 @@ module.exports = function(app)
 	.post(deliveryRoutes.find_delivery_by_vehicle);
   app.route('/findDeliveryByOrder')
 	.post(deliveryRoutes.find_delivery_by_order);
-	
+
   app.route('/find_by_status')
 	.post(deliveryRoutes.find_by_status);
 
 
   app.route('/deliverys/:deliverysId')
     .get(deliveryRoutes.read_a_deliverys)
-    .put(deliveryRoutes.update_a_deliverys)
+    .post(deliveryRoutes.update_a_deliverys)
     .delete(deliveryRoutes.delete_a_deliverys);
-  
+
   app.route('/deliverys/changeDeliveryStatus')
 	.post(deliveryRoutes.changeDeliveryStatus);
 };
