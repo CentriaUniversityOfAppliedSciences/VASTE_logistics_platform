@@ -121,13 +121,11 @@ exports.changeDeliveryStatus = function(req,res)
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
 
-
 	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
 		if(err)
 		{
 			res.send(err);
 		}
-
 		var oQuery = { _id: req.body.orderID };
 		var oUpdate = { status: req.body.orderStatus };
 		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)

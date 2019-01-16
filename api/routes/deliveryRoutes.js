@@ -23,6 +23,6 @@ module.exports = function(app)
     .post(deliveryRoutes.update_a_deliverys)
     .delete(deliveryRoutes.delete_a_deliverys);
 
-  app.route('/deliverys/changeDeliveryStatus')
-	.post(deliveryRoutes.changeDeliveryStatus);
+  app.route('/changeDeliveryStatus')
+	 .post(deliveryRoutes.changeDeliveryStatus);
 };
