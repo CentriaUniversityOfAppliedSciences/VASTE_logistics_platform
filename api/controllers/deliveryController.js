@@ -81,11 +81,11 @@ exports.delete_a_deliverys = function(req, res) {
       ip: ipa,
       timestamp: Math.floor(new Date() / 1000),
       code: "operator_cancel",
-      orderID:deliverys.orderID,
+      orderID:req.body.orderID,
       deliveryID: undefined
     };
     log.logThis(jso);
-    sendStatusChange(deliverys.deliveryID, "operator_cancel");
+    sendStatusChange(req.body.orderID, "operator_cancel");
 
     res.json(deliverys);
   });
