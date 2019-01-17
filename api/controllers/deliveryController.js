@@ -69,7 +69,7 @@ exports.update_a_deliverys = function(req, res) {
 
 
 exports.delete_a_deliverys = function(req, res) {
-  Deliverys.findOneAndDelete({_id: req.body.deliverysId}, function(err, deliverys) {
+  Deliverys.findOneAndUpdate({_id: req.body.deliverysId},{status:"cancelled"} ,{new: true},function(err, deliverys) {
 		if (err)
     {
       res.send(err);
@@ -82,7 +82,7 @@ exports.delete_a_deliverys = function(req, res) {
       timestamp: Math.floor(new Date() / 1000),
       code: "operator_cancel",
       orderID:req.body.orderID,
-      deliveryID: undefined
+      deliveryID: req.body.deliverysId
     };
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
