@@ -4,34 +4,35 @@ var Schema = mongoose.Schema;
 
 
 var VehicleSchema = new Schema({
-  _id: 
+  _id:
     {
     type: String,
     required: 'Please enter the vehicle identifier'
   },
-  registerNumber: 
+  registerNumber:
     {
     type: String,
-    required: 'Please enter the vehicle registernumber'
+    required: 'Please enter the vehicle registernumber',
+    unique: true
   },
-  type: 
+  type:
   {
     type: String,
     default:  ['Car']
   },
-  updateDate: 
+  updateDate:
     {
     type: Date,
     default: Date.now
   },
-  status: 
+  status:
   {
     type: String,
     enum: ['online', 'offline'],
     default: ['offline']
   },
-  state: 
-  {	
+  state:
+  {
     type: String,
     enum: ['booked', 'available'],
     default: ['available']
@@ -42,14 +43,14 @@ var VehicleSchema = new Schema({
 	enum: ['space','full'],
 	default: ['space']
   },
-  longitude: 
+  longitude:
   {
 	  type: Number,		//sijainti
       default: 0.0
   },
-  latitude: 
+  latitude:
   {
-	  type: Number,	
+	  type: Number,
       default: 0.0
   },
   maxSize:
@@ -75,4 +76,3 @@ var VehicleSchema = new Schema({
 });
 
 module.exports = mongoose.model('Vehicles', VehicleSchema);
-

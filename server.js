@@ -28,6 +28,8 @@ var express = require('express'),
   inUse = require('./api/models/inUseModel'),
   dtc = require('./api/models/deliveryTimeCorrectionModel'),
   dc = require('./api/models/deliveryConfirmationModel'),
+  drivercompany = require('./api/models/driverCompaniesModel'),
+  drivervehicle = require('./api/models/driverVehiclesModel'),
   cp = require('./api/models/companyPropertiesModel');
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -80,7 +82,10 @@ var dcRoutes = require('./api/routes/deliveryConfirmationRoutes');
 dcRoutes(app);
 var cpRoutes = require('./api/routes/companyPropertiesRoutes');
 cpRoutes(app);
-
+var driverCompaniesRoutes = require('./api/routes/driverCompaniesRoutes');
+driverCompaniesRoutes(app);
+var driverVehiclesRoutes = require('./api/routes/driverVehiclesRoutes');
+driverVehiclesRoutes(app);
 
 app.listen(PORT);
 console.log(`Running on http://${HOST}:${PORT}`);

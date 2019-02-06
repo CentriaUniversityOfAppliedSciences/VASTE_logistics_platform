@@ -6,7 +6,8 @@ var UserSchema = new Schema ({
 
 	userID:{
 		type: String,
-		required: 'Please enter your user name here'
+		required: 'Please enter your user name here',
+		unique: true
 	},
 
 	passWord:{
@@ -37,7 +38,8 @@ var UserSchema = new Schema ({
 		userMail:{
 			type: String,
 			required: 'Please enter your email here'
-		}
+		},
+
 	}
 
 });
