@@ -163,6 +163,7 @@ exports.changeDeliveryStatus = function(req,res)
       };
       log.logThis(jso);
       sendStatusChange(req.body.orderID,c,ord.companyID);
+      sendStatusChange2(req.body.orderID,c);
 			res.json(deliverys);
 
 		});
@@ -187,6 +188,41 @@ function sendStatusChange(orderID,status,comp)
     var request = require('request');
   	var options = {
   		uri: "http://localhost:5140/webhook",
+  		method: 'POST',
+  		headers: {
+          "content-type": "application/json",
+          },
+  		json: jso
+  	};
+  	request(options, function (error, response, body) {
+  	  if (!error && response.statusCode == 200) {
+
+  	  }
+  	  else
+  	  {
+  		  console.log(response);
+  	  }
+  	});
+}
+function sendStatusChange2(orderID,status)
+{
+  var toport = "3511";
+  if (environment.port == 3000)
+  {
+    toport = "3501";
+  }
+  else {
+    toport = "3511"
+  }
+
+    var jso = {
+      "orderID":orderID,
+      "status":status
+    };
+    var request = require('request');
+  	var options = {
+  		uri: "https://localhost:"+toport+"/webhook",
+      rejectUnauthorized: false,
   		method: 'POST',
   		headers: {
           "content-type": "application/json",
