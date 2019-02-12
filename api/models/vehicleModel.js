@@ -53,21 +53,37 @@ var VehicleSchema = new Schema({
 	  type: Number,
       default: 0.0
   },
-  maxSize:
-  {
-	  type: String,
-	  required: 'height x length x width in cm'
-  },
+	maxHeight:{
+	 	type: Number,
+	 	required: 'height in cm'
+	},
+	maxWidth:{
+		type: Number,
+		required: "width in cm"
+	},
+	maxLength:{
+		type: Number,
+		required: "length in cm"
+	},
   maxWeight:
   {
 	  type: Number,
 	  required: 'in kilos'
   },
+	maxVolume:{
+		type: Number,
+		required: 'in m3'
+	},
   maxPeople:
   {
 	  type: Number,
 	  required: 'Number of people'
   },
+	homeTown:
+	{
+		type: String,
+		required: "Please choose a home town"
+	},
   companyID:
   {
 	  type: String,
