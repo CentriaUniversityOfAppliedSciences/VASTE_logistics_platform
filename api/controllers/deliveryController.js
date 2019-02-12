@@ -120,55 +120,64 @@ exports.changeDeliveryStatus = function(req,res)
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+  Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$ne:'cancelled',$ne:'done'}}, function(err, deli){
 
-	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
-		if(err)
-		{
-			res.send(err);
-		}
-		var oQuery = { _id: req.body.orderID };
-		var oUpdate = { status: req.body.orderStatus };
-		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
-		{
-			if (err2)
-			{
-				res.send(err2);
-			}
-      var log = require('../controllers/orderLogController');
-      var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-      var c = "";
-      if (req.body.status == "accepted")
-      {
-        c = "driver_accept";
-      }
-      else if (req.body.status == "inProgress")
-      {
-        c = "driver_pickup";
-      }
-      else if (req.body.status == "cancelled")
-      {
-        c = "driver_cancel";
-      }
-      else if (req.body.status == "done")
-      {
-        c = "driver_delivery";
-      }
-      var jso = {
-        user:"api",
-        ip: ipa,
-        timestamp: Math.floor(new Date() / 1000),
-        code: c,
-        orderID:req.body.orderID,
-        deliveryID: req.body.deliveryID
-      };
-      log.logThis(jso);
-      sendStatusChange(req.body.orderID,c,ord.companyID);
-      sendStatusChange2(req.body.orderID,c);
-			res.json(deliverys);
+    var a = deli[0].orderID;
+    if (a.length > 3)
+    {
+    	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+    		if(err)
+    		{
+    			res.send(err);
+    		}
+    		var oQuery = { _id: req.body.orderID };
+    		var oUpdate = { status: req.body.orderStatus };
+    		Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+    		{
+    			if (err2)
+    			{
+    				res.send(err2);
+    			}
+          var log = require('../controllers/orderLogController');
+          var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+          var c = "";
+          if (req.body.status == "accepted")
+          {
+            c = "driver_accept";
+          }
+          else if (req.body.status == "inProgress")
+          {
+            c = "driver_pickup";
+          }
+          else if (req.body.status == "cancelled")
+          {
+            c = "driver_cancel";
+          }
+          else if (req.body.status == "done")
+          {
+            c = "driver_delivery";
+          }
+          var jso = {
+            user:"api",
+            ip: ipa,
+            timestamp: Math.floor(new Date() / 1000),
+            code: c,
+            orderID:req.body.orderID,
+            deliveryID: req.body.deliveryID
+          };
+          log.logThis(jso);
+          sendStatusChange(req.body.orderID,c,ord.companyID);
+          sendStatusChange2(req.body.orderID,c);
+    			res.json(deliverys);
 
-		});
+    	   });
 
-	});
+    });
+    }
+    else {
+      res.json({'error':'Delivery not found'});
+    }
+  });
 };
 
 function sendStatusChange(orderID,status,comp)
