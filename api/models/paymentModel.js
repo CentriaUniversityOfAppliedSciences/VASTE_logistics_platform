@@ -10,25 +10,24 @@ var PaymentSchema = new Schema ({
 	scale:{
 		type: String,
 		enum: ['0-10','10-25','25-100', 'over 100'],
-			default: ['0-10'],	
+			default: ['0-10'],
 	},
-	
-	deliveryId:{
+	amount:{
+		type: Number,
+		required: 'Please give amount for the scale'
+	},
+	companyID:{
 		type: String,
 	},
-		
-	company:{
-		type: String,
+
+	beginTime:{
+		type: Number,
+		required: 'Please set the date and time when the payment is valid (epoch)'
 	},
-	validityTime:{		
-			vBegin:{
-				type: Number,
-			required: 'Please set the date and time when the payment is valid'
-			},
-			vEnd:{
-				type: Number,
-			required: 'Please set the date and time when the payment time ends'
-			}
+	endTime:{
+		type: Number,
+		required: 'Please set the date and time when the payment time ends (epoch)'
 	}
+
 });
 module.exports = mongoose.model('Payments', PaymentSchema);
