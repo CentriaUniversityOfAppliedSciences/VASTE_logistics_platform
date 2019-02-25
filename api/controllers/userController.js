@@ -61,7 +61,7 @@ exports.create_a_users = function(req, res) {
 
 exports.read_a_users = function(req, res) {
 
-    Users.findOne({userID:req.body.userID,companyID:req.body.companyID}, function(err, users) {
+    Users.findOne({userID:req.body.userID,'userInformation.userCompany':req.body.companyID}, function(err, users) {
       if (err)
         res.send(err);
       delete users.passWord;
@@ -73,12 +73,13 @@ exports.read_a_users = function(req, res) {
 
 exports.update_a_users = function(req, res) {
 
-    Users.findOneAndUpdate({_id: req.body.userID, companyID: req.body.companyID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
+    Users.findOneAndUpdate({_id: req.body.userID, 'userInformation.userCompany': req.body.companyID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
       if (err){
 			console.log(err);
         res.send(err);
 			}
-      delete users.passWord;
+      console.log(users);
+      //delete users.passWord;
       res.json(users);
     });
 
@@ -87,7 +88,7 @@ exports.update_a_users = function(req, res) {
 
 exports.delete_a_users = function(req, res) {
 
-    Users.remove({_id: req.body.userID, companyID:req.body.companyID}, function(err, users) {
+    Users.remove({_id: req.body.userID, 'userInformation.userCompany':req.body.companyID}, function(err, users) {
       if (err)
         res.send(err);
       res.json({ message: 'User successfully deleted' });

@@ -65,7 +65,7 @@ app.use(function(req,res,next){
     next();
   }
   else if ((req.path == '/companys' || req.path == '/companyproperties' || req.path == '/users' || req.path == '/companybytempkey'
-            || req.path == '/companybylink' || req.path == '/users/apiidentification')
+            || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs')
             && req.query.apikey == environment.apikey)
   {
     console.log("next");
@@ -73,7 +73,7 @@ app.use(function(req,res,next){
   }
   else if ((req.path == '/users' || req.path == '/companys' || req.path == '/companyproperties'
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
-              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification')
+              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs')
               && req.body.apikey == environment.apikey
           )
   {
