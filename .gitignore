@@ -61,3 +61,11 @@ typings/
 /environment.json
 /package-lock.json
 environment.json
+encryption/DigiCertCA.crt
+encryption/ohjeet.txt
+encryption/secret.json
+encryption/vaste_info.crt
+encryption/www_vaste_info.csr
+encryption/www_vaste_info.key
+environment.json
+secret.json
