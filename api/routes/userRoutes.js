@@ -26,6 +26,10 @@ module.exports = function(app)
     .post(userRoutes.delete_a_users);
   app.route('/users/getUser')
     .post(userRoutes.read_a_users);
+  app.route('/users/getResetUser')
+    .post(userRoutes.read_a_users);
+  app.route('/users/resetPassword')
+    .post(userRoutes.reset_a_user);
 
 
   app.route('/getdrivers')

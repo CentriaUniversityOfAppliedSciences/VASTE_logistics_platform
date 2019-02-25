@@ -73,7 +73,8 @@ app.use(function(req,res,next){
   }
   else if ((req.path == '/users' || req.path == '/companys' || req.path == '/companyproperties'
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
-              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs')
+              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs'
+              || req.path == '/users/resetPassword' || req.path == '/users/getResetUser')
               && req.body.apikey == environment.apikey
           )
   {

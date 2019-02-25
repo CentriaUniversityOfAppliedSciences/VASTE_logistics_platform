@@ -61,10 +61,10 @@ exports.create_a_users = function(req, res) {
 
 exports.read_a_users = function(req, res) {
 
-    Users.findOne({userID:req.body.userID,'userInformation.userCompany':req.body.companyID}, function(err, users) {
+    Users.findOne({userID:req.body.userID}, function(err, users) {
       if (err)
         res.send(err);
-      delete users.passWord;
+      console.log(users);
       res.json(users);
     });
 
@@ -74,6 +74,19 @@ exports.read_a_users = function(req, res) {
 exports.update_a_users = function(req, res) {
 
     Users.findOneAndUpdate({_id: req.body.userID, 'userInformation.userCompany': req.body.companyID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
+      if (err){
+			console.log(err);
+        res.send(err);
+			}
+      console.log(users);
+      //delete users.passWord;
+      res.json(users);
+    });
+
+};
+exports.reset_a_user = function(req, res) {
+
+    Users.findOneAndUpdate({_id: req.body.userID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
       if (err){
 			console.log(err);
         res.send(err);
