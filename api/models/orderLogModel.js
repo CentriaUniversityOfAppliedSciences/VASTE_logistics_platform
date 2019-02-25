@@ -23,6 +23,9 @@ var orderLogSchema = new Schema ({
   },
   deliveryID:{ //delivery mongo _id
     type: String
+  },
+  companyID:{ //company mongo _id
+    type: String
   }
 
 

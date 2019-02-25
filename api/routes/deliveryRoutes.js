@@ -7,12 +7,16 @@ module.exports = function(app)
   app.route('/deliverys')
     .get(deliveryRoutes.list_all_deliverys)
     .post(deliveryRoutes.create_a_deliverys);
+  app.route('/deliveryByCompany')
+    .get(deliveryRoutes.list_by_company);
   app.route('/findDeliveryById')
 	.post(deliveryRoutes.find_delivery_by_ID);
   app.route('/findDeliveryByVehicle')
 	.post(deliveryRoutes.find_delivery_by_vehicle);
   app.route('/findDeliveryByOrder')
 	.post(deliveryRoutes.find_delivery_by_order);
+  app.route('/createDelivery')
+   .post(deliveryRoutes.create_a_deliverys);
 
   app.route('/find_by_status')
 	.post(deliveryRoutes.find_by_status);
@@ -25,4 +29,6 @@ module.exports = function(app)
 
   app.route('/changeDeliveryStatus')
 	 .post(deliveryRoutes.changeDeliveryStatus);
+  app.route('/cancelDelivery')
+ 	 .post(deliveryRoutes.delete_a_deliverys);
 };

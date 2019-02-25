@@ -16,10 +16,13 @@ var LogSchema = new Schema ({
   code:{ //what did they do
     type: String
   },
-  severity:{ // estimated severity of what has been done 0->10 with 10 being highest, 0 page load, 10 very dangerous 
+  severity:{ // estimated severity of what has been done 0->10 with 10 being highest, 0 page load, 10 very dangerous
     type: String
   },
   message:{ //additional info
+    type: String
+  },
+  companyID:{ //company table _id
     type: String
   }
 

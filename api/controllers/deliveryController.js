@@ -15,7 +15,13 @@ exports.list_all_deliverys = function(req, res) {
     res.json(deliverys);
   });
 };
-
+exports.list_by_company = function(req, res) {
+  Deliverys.find({companyID:req.body.companyID}, function(err, deliverys) {
+    if (err)
+      res.send(err);
+    res.json(deliverys);
+  });
+};
 exports.find_by_status = function(req, res) {	//statuksen mukaan
   Deliverys.find({status:req.params.status}, function(err, deliverys) {
     if (err)
@@ -40,7 +46,8 @@ exports.create_a_deliverys = function(req, res) {
       timestamp: Math.floor(new Date() / 1000),
       code: "operator_delivery",
       orderID:deliverys.orderID,
-      deliveryID: deliverys._id
+      deliveryID: deliverys._id,
+      companyID: req.body.companyID
     };
     log.logThis(jso);
     sendStatusChange(deliverys.orderID,"operator_delivery",req.body.companyID);
@@ -69,7 +76,7 @@ exports.update_a_deliverys = function(req, res) {
 
 
 exports.delete_a_deliverys = function(req, res) {
-  Deliverys.findOneAndUpdate({_id: req.body.deliverysId},{status:"cancelled"} ,{new: true},function(err, deliverys) {
+  Deliverys.findOneAndUpdate({_id: req.body.deliveryID, companyID: req.body.companyID},{status:"cancelled"} ,{new: true},function(err, deliverys) {
 		if (err)
     {
       res.send(err);
@@ -82,7 +89,8 @@ exports.delete_a_deliverys = function(req, res) {
       timestamp: Math.floor(new Date() / 1000),
       code: "operator_cancel",
       orderID:req.body.orderID,
-      deliveryID: req.body.deliverysId
+      deliveryID: req.body.deliverysId,
+      companyID: req.body.companyID
     };
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
@@ -120,7 +128,7 @@ exports.changeDeliveryStatus = function(req,res)
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-  Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$ne:'cancelled',$ne:'done'}}, function(err, deli){
+  Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$ne:'cancelled',$ne:'done'}, companyID:req.body.companyID}, function(err, deli){
 
     var a = deli[0].orderID;
     if (a.length > 3)
@@ -163,7 +171,8 @@ exports.changeDeliveryStatus = function(req,res)
             timestamp: Math.floor(new Date() / 1000),
             code: c,
             orderID:req.body.orderID,
-            deliveryID: req.body.deliveryID
+            deliveryID: req.body.deliveryID,
+            companyID: ord.companyID
           };
           log.logThis(jso);
           sendStatusChange(req.body.orderID,c,ord.companyID);
@@ -196,8 +205,9 @@ function sendStatusChange(orderID,status,comp)
     };
     var request = require('request');
   	var options = {
-  		uri: "http://localhost:5140/webhook",
+  		uri: "https://localhost:5140/webhook",
   		method: 'POST',
+      rejectUnauthorized: false,
   		headers: {
           "content-type": "application/json",
           },

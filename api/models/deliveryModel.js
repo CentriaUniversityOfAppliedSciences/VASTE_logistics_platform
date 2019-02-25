@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var DeliverySchema = new Schema ({
-	
+
 	vehicleID:{
 		type: String,
 		required: 'Please set the vehicleID'
 		},
-		
+
 	orderID:{
 		type: String,
 		required: 'Please set the orderID'
@@ -16,11 +16,11 @@ var DeliverySchema = new Schema ({
 	time:{
 		pickupTime:{
 			type: Number
-			
+
 		},
 		deliveryTime:{
 			type: Number
-			
+
 		},
 	},
 	deliveryList:{
@@ -28,13 +28,18 @@ var DeliverySchema = new Schema ({
 		default: "0"
 	},
 	status: {			//tilan seuranta
-    
+
       type: String,
-      enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'], 
+      enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'],
       default: ['received']
-   }
-   
-	
+   },
+	 companyID:
+	 {
+		 type: String,
+		 required: 'Missing companyID'
+	 }
+
+
 
 });
 

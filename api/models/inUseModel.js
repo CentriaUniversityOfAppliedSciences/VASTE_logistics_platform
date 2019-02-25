@@ -16,6 +16,9 @@ var InUseSchema = new Schema ({
     type: String,
     enum: ['active', 'offline'],
     default: ['active']
+  },
+  companyID:{
+    type: String
   }
 
 });

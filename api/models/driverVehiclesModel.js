@@ -11,7 +11,12 @@ var DriverVehiclesSchema = new Schema({
     driverID:{ //_id from driver collection
       type: String,
       required: 'driverID required'
-    }
+    },
+  	companyID:
+  	{
+  		type: String,
+  		required: 'Missing companyID'
+  	}
 
 });
 

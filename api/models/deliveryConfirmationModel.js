@@ -27,6 +27,11 @@ var DeliveryConfirmationSchema = new Schema ({
 		type:String,
 		enum: ['signature', 'image'],
 		default: ['image']
+	},
+	companyID:
+	{
+		type: String,
+		required: 'Missing companyID'
 	}
 
 

@@ -6,5 +6,7 @@ module.exports = function(app)
   app.route('/ologs')
     .get(ologRoutes.list_all_logs)
     .post(ologRoutes.create_a_log);
+  app.route('/companyologs')
+    .get(ologRoutes.list_company_logs);
 
 };

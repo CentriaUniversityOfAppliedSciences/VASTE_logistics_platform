@@ -52,3 +52,10 @@ var mongoose = require('mongoose'),
       res.json({companys});
     });
   };
+  exports.find_company_by_tempkey = function(req, res) {
+    CompanyProperties.find({value: req.body.api_key, type:'tempkey'}, function(err, companys) {
+      if (err)
+        res.send(err);
+      res.json({companys});
+    });
+  };

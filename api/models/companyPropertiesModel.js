@@ -9,7 +9,7 @@ var CompanyPropertiesSchema = new Schema ({
   },
   type: {			//type of property
 		type: String,
-		enum: ['webhook', 'webpage', 'api', 'apikey'],
+		enum: ['webhook', 'webpage', 'api', 'apikey', 'tempkey'],
 		default: ['webhook'],
     required:'Kindly enter type of property'
    },

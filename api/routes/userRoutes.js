@@ -12,9 +12,21 @@ module.exports = function(app)
     .get(userRoutes.get_company_drivers);
   //app.route('/users/find_user_by_ID')
 	//.post(userRoutes.find_user_by_ID);
-
+  app.route('/getCompanyDrivers')
+    .get(userRoutes.get_company_drivers);
+  app.route('/createDriver')
+    .post(userRoutes.create_a_users);
   app.route('/users/identification')
 	 .post(userRoutes.identification);
+  app.route('/users/apiidentification')
+ 	 .post(userRoutes.apiidentification);
+  app.route('/users/updatePassword')
+  	.post(userRoutes.update_a_users);
+  app.route('/users/remove')
+    .post(userRoutes.delete_a_users);
+  app.route('/users/getUser')
+    .post(userRoutes.read_a_users);
+
 
   app.route('/getdrivers')
     .get(userRoutes.getDrivers);

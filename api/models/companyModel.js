@@ -14,7 +14,7 @@ var CompanySchema = new Schema ({
 		required:'Company address'
 		},
 
-	companyID:{
+	companyID:{ //y-tunnus
 		type: String
 	},
 	link:{

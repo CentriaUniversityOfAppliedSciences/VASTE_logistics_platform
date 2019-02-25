@@ -7,9 +7,9 @@ var MessageSchema = new Schema ({
 	messageId:{
 		type: String,
 	},
-	
+
 	phoneNumber:{
-		type: String,	
+		type: String,
 	},
 	messageTime:{
 		type: String,
@@ -20,6 +20,11 @@ var MessageSchema = new Schema ({
 	},
 	deliveryId:{
 		type: String
+	},
+	companyID:
+	{
+		type: String,
+		required: 'Missing companyID'
 	}
 
 

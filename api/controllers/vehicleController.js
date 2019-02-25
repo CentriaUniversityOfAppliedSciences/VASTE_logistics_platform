@@ -54,7 +54,7 @@ exports.read_a_vehicles = function(req, res) {
 };
 
 exports.update_a_vehicle = function(req, res) {
-  Vehicles.findOneAndUpdate({_id: req.params.vehiclesId}, req.body, {new: true}, function(err, vehicles) {
+  Vehicles.findOneAndUpdate({_id: req.body.vehiclesId, companyID:req.body.companyID}, req.body, {new: true}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
@@ -62,10 +62,10 @@ exports.update_a_vehicle = function(req, res) {
 };
 
 exports.delete_a_vehicles = function(req, res) {
-  Vehicles.remove({_id: req.params.vehiclesId}, function(err, vehicles) {
+  Vehicles.remove({_id: req.body.vehiclesId, companyID: req.body.companyID}, function(err, vehicles) {
     if (err)
       res.send(err);
-    res.json({ message: 'Vehicles successfully deleted' });
+    res.json({ message: 'Vehicle successfully deleted' });
   });
 };
 
@@ -90,5 +90,21 @@ exports.find_by_people = function(req, res) {
     if (err)
       res.send(err);
     res.json({vehicles });
+  });
+};
+
+exports.find_by_companyid2 = function(req, res) {
+  Vehicles.find({"companyID":req.params.companyID}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
+
+exports.find_by_companyid3 = function(req, res) {
+  Vehicles.find({"companyID":req.body.companyID}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
   });
 };

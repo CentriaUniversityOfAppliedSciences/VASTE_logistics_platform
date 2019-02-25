@@ -24,6 +24,11 @@ var DeliveryTimeCorrectionSchema = new Schema ({
 	delay:{
 		type: Number,
 		required: 'Please set the delay from estimated arrival'
+	},
+	companyID:
+	{
+		type: String,
+		required: 'Missing companyID'
 	}
 
 

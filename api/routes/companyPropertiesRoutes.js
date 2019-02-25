@@ -16,7 +16,9 @@ module.exports = function(app)
     .put(companyPropertiesRoutes.update_a_property)
     .delete(companyPropertiesRoutes.delete_a_property);
 
-    app.route('/companybyapi')
-      .post(companyPropertiesRoutes.find_company_by_apikey);
+  app.route('/companybyapi')
+    .post(companyPropertiesRoutes.find_company_by_apikey);
+  app.route('/companybytempkey')
+    .post(companyPropertiesRoutes.find_company_by_tempkey);
 
 };

@@ -14,7 +14,7 @@ exports.list_all_orders = function(req, res) {
   });
 };
 exports.list_all_orders_by_company = function(req, res) {
-  Orders.find({$or:[{companyID:req.params.companyID},{companyID:"0"}]}, function(err, orders) {
+  Orders.find({$or:[{companyID:req.body.companyID},{companyID:"0"}]}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -71,7 +71,8 @@ exports.create_a_orders = function(req, res) {
           timestamp: Math.floor(new Date() / 1000),
           code: "customer_created",
           orderID:orders._id,
-          deliveryID: ""
+          deliveryID: "",
+          companyID: orders.companyID
         };
         log.logThis(jso);
       }
@@ -96,7 +97,20 @@ exports.read_a_orders = function(req, res) {
     res.json(orders);
   });
 };
-
+exports.read_single_order = function(req, res) {
+  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID}, function(err, orders) {
+    if (err)
+      res.send(err);
+    res.json(orders);
+  });
+};
+exports.get_api_order = function(req, res) {
+  Orders.find({companyID:req.body.companyID,_id:req.body.orderID}, function(err, orders) {
+    if (err)
+      res.send(err);
+    res.json(orders);
+  });
+};
 
 exports.update_a_orders = function(req, res) {
   Orders.findOneAndUpdate({_id: req.params.ordersId}, req.body, {new: true}, function(err, orders) {
@@ -118,7 +132,7 @@ exports.delete_a_orders = function(req, res) {
 exports.getVehicleOrders = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -138,7 +152,7 @@ exports.getVehicleOrders = function(req,res)
 exports.getVehicleOrdersReceived = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -157,7 +171,7 @@ exports.getVehicleOrdersReceived = function(req,res)
 exports.getVehicleOrdersInprogress = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.params.vehiclesId}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -275,7 +289,7 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.receiver = order.receiver;
 					h.address = order.address;
 					h.time = order.time;
-					h.orderstatus = order.orderstatus;
+					h.orderStatus = order.orderStatus;
 					h.status = order.status;
 					h._id = order._id;
 					h.orderInfo = order.orderInfo;
@@ -302,19 +316,16 @@ function getOrdersWithoutDelivery(orders, callback)
 }
 
 exports.getAllForId = function(req, res) {
-  Orders.findById(req.params.ordersId, function(err, orders) {
+  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID}, function(err, orders) {
     if (err)
     {
       res.send(err);
     }
-    else {
-      var o = [orders];
-      getDeliveryForOrder(o, function(err,resu)
-      {
-        console.log(resu[0]);
-          res.json(resu[0]);
-      });
-    }
+    getDeliveryForOrder(orders, function(err,resu)
+    {
+      res.json(resu[0]);
+    });
+
 
   });
 };
@@ -353,7 +364,7 @@ function getDeliveryForOrder(orders, callback)
 					h.receiver = order.receiver;
 					h.address = order.address;
 					h.time = order.time;
-					h.orderstatus = order.orderstatus;
+					h.orderStatus = order.orderStatus;
 					h.status = order.status;
 					h._id = order._id;
 					h.orderInfo = order.orderInfo;
@@ -370,7 +381,7 @@ function getDeliveryForOrder(orders, callback)
           h.receiver = order.receiver;
           h.address = order.address;
           h.time = order.time;
-          h.orderstatus = order.orderstatus;
+          h.orderStatus = order.orderStatus;
           h.status = order.status;
           h._id = order._id;
           h.orderInfo = order.orderInfo;
