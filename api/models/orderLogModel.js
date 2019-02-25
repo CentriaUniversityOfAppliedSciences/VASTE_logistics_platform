@@ -26,9 +26,11 @@ var orderLogSchema = new Schema ({
   },
   companyID:{ //company mongo _id
     type: String
+  },
+  vehicleID: //vehicle mongo _id
+  {
+      type: String
   }
-
-
 });
 
 module.exports = mongoose.model('orderLog', orderLogSchema);
