@@ -15,7 +15,7 @@ module.exports = function(app)
   app.route('/getCompanyDrivers')
     .get(userRoutes.get_company_drivers);
   app.route('/createDriver')
-    .post(userRoutes.create_a_users);
+    .post(userRoutes.create_a_driver);
   app.route('/users/identification')
 	 .post(userRoutes.identification);
   app.route('/users/apiidentification')
@@ -25,7 +25,7 @@ module.exports = function(app)
   app.route('/users/remove')
     .post(userRoutes.delete_a_users);
   app.route('/users/getUser')
-    .post(userRoutes.read_a_users);
+    .post(userRoutes.get_api_user);
   app.route('/users/getResetUser')
     .post(userRoutes.read_a_users);
   app.route('/users/resetPassword')

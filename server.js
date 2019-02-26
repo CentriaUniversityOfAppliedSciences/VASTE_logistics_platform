@@ -65,7 +65,7 @@ app.use(function(req,res,next){
     next();
   }
   else if ((req.path == '/companys' || req.path == '/companyproperties' || req.path == '/users' || req.path == '/companybytempkey'
-            || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs')
+            || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs' || req.path == '/orders/find_by_status_with_nodelivery')
             && req.query.apikey == environment.apikey)
   {
     console.log("next");
@@ -74,7 +74,7 @@ app.use(function(req,res,next){
   else if ((req.path == '/users' || req.path == '/companys' || req.path == '/companyproperties'
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
               || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs'
-              || req.path == '/users/resetPassword' || req.path == '/users/getResetUser')
+              || req.path == '/users/resetPassword' || req.path == '/users/getResetUser' || req.path == '/orders/find_by_status_with_nodelivery')
               && req.body.apikey == environment.apikey
           )
   {

@@ -26,8 +26,19 @@ exports.get_company_drivers = function(req, res) {
     Users.find({'userInformation.userCompany':req.body.companyID, status:'driver'}, function(err, users) {
       if (err)
         res.send(err);
-      console.log(users);
-      res.json(users);
+      var u = [];
+      if (users != undefined || users != null)
+      {
+
+        for (var i = 0;i< users.length;i++)
+        {
+          var us = users[i].toObject();
+          delete us.passWord;
+          u.push(us);
+        }
+
+      }
+      res.json(u);
     });
 
 };
@@ -38,7 +49,19 @@ exports.getDrivers = function(req, res) {
     Users.find({status:'driver'}, function(err, users) {
       if (err)
         res.send(err);
-      res.json(users);
+        var u = [];
+        if (users != undefined || users != null)
+        {
+
+          for (var i = 0;i< users.length;i++)
+          {
+            var us = users[i].toObject();
+            delete us.passWord;
+            u.push(us);
+          }
+
+        }
+        res.json(u);
     });
   }
   else {
@@ -57,13 +80,52 @@ exports.create_a_users = function(req, res) {
     });
 
 };
+exports.create_a_driver = function(req, res) {
 
+    var new_users = new Users({userID:req.body.userID,passWord:req.body.passWord,status:'driver',
+                                userInformation:{userName:req.body.userName,userCompany:req.body.companyID,
+                                userPhone: req.body.userPhone, userAddress:req.body.userAddress,userMail:req.body.userMail}});
+    new_users.save(function(err, users) {
+      if (err)
+        res.send(err);
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
+      res.json(users);
+    });
+
+};
 
 exports.read_a_users = function(req, res) {
 
     Users.findOne({userID:req.body.userID}, function(err, users) {
       if (err)
         res.send(err);
+
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
+      console.log(users);
+      res.json(users);
+    });
+
+};
+
+exports.get_api_user = function(req, res) {
+
+    Users.findOne({userID:req.body.userID, 'userInformation.userCompany': req.body.companyID}, function(err, users) {
+      if (err)
+        res.send(err);
+
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
       console.log(users);
       res.json(users);
     });
@@ -78,7 +140,11 @@ exports.update_a_users = function(req, res) {
 			console.log(err);
         res.send(err);
 			}
-      console.log(users);
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
       //delete users.passWord;
       res.json(users);
     });
@@ -92,6 +158,11 @@ exports.reset_a_user = function(req, res) {
         res.send(err);
 			}
       console.log(users);
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
       //delete users.passWord;
       res.json(users);
     });
