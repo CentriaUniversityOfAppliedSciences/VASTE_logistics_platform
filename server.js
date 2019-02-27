@@ -58,7 +58,6 @@ var httpsServer = https.createServer(credentials, app);
 
 app.use(function(req,res,next){
   console.log(req.path);
-  console.log(req.body);
   if (req.path == '/users/identification')
   {
     next();

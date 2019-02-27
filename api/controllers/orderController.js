@@ -32,14 +32,12 @@ exports.find_by_status = function(req, res) {	//statuksen mukaan
 
 
 exports.find_by_status_with_nodelivery = function(req, res) {	//statuksen mukaan jos ei deliveryä
-  console.log("status:"+req.body.status);
+
   Orders.find({status:req.body.status}, function(err, orders) {
     if (err)
       res.send(err);
-      console.log(orders);
     	getOrdersWithoutDelivery(orders, function(err,r)
     	{
-        console.log(r);
     		res.json(r);
     	});
 
