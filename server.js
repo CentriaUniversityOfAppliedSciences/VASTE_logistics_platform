@@ -65,7 +65,8 @@ app.use(function(req,res,next){
     next();
   }
   else if ((req.path == '/companys' || req.path == '/companyproperties' || req.path == '/users' || req.path == '/companybytempkey'
-            || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs' || req.path == '/orders/find_by_status_with_nodelivery')
+            || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs' || req.path == '/orders/find_by_status_with_nodelivery'
+            || req.path == '/vehicles')
             && req.query.apikey == environment.apikey)
   {
     console.log("next");

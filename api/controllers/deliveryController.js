@@ -47,7 +47,8 @@ exports.create_a_deliverys = function(req, res) {
       code: "operator_delivery",
       orderID:deliverys.orderID,
       deliveryID: deliverys._id,
-      companyID: req.body.companyID
+      companyID: req.body.companyID,
+      vehicleID:req.body.vehicleID
     };
     log.logThis(jso);
     sendStatusChange(deliverys.orderID,"operator_delivery",req.body.companyID);
@@ -173,7 +174,8 @@ exports.changeDeliveryStatus = function(req,res)
             code: c,
             orderID:req.body.orderID,
             deliveryID: req.body.deliveryID,
-            companyID: ord.companyID
+            companyID: ord.companyID,
+            vehicleID:req.body.vehicleID
           };
           log.logThis(jso);
           sendStatusChange(req.body.orderID,c,ord.companyID);
