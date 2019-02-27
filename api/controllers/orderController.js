@@ -32,13 +32,16 @@ exports.find_by_status = function(req, res) {	//statuksen mukaan
 
 
 exports.find_by_status_with_nodelivery = function(req, res) {	//statuksen mukaan jos ei deliveryä
+  console.log("status:"+req.body.status);
   Orders.find({status:req.body.status}, function(err, orders) {
     if (err)
       res.send(err);
-	getOrdersWithoutDelivery(orders, function(err,r)
-	{
-		res.json(r);
-	});
+      console.log(orders);
+    	getOrdersWithoutDelivery(orders, function(err,r)
+    	{
+        console.log(r);
+    		res.json(r);
+    	});
 
   });
 };
@@ -141,7 +144,6 @@ exports.getVehicleOrders = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"mine", function (err,r)
 			{
-				//console.log(r);
 				res.json(r);
 			});
 
@@ -161,7 +163,6 @@ exports.getVehicleOrdersReceived = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"received", function (err,r)
 			{
-				//console.log(r);
 				res.json(r);
 			});
 
@@ -180,7 +181,6 @@ exports.getVehicleOrdersInprogress = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"inprogress", function (err,r)
 			{
-				//console.log(r);
 				res.json(r);
 			});
 
@@ -222,7 +222,6 @@ function getOrdersForDelivery(deliveries,mode, callback)
           h.vasteOrder = result[0].vasteOrder;
           h.companyID = result[0].companyID;
 
-					//console.log(h);
           if (mode == 'mine')
           {
   					if (delivery.status != 'cancelled' && delivery.status != 'done')
@@ -297,7 +296,6 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.delivery = {};
           h.vasteOrder = order.vasteOrder;
           h.companyID = order.companyID;
-					//console.log(h);
 
 					ordery.push(h);
 				}
@@ -321,12 +319,8 @@ exports.getAllForId = function(req, res) {
     {
       res.send(err);
     }
-    console.log("1");
-    console.log(orders);
     getDeliveryForOrder(orders, function(err,resu)
     {
-      console.log("2");
-      console.log(resu);
       res.json(resu[0]);
     });
 

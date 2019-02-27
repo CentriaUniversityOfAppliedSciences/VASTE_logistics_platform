@@ -61,7 +61,6 @@ app.use(function(req,res,next){
   console.log(req.body);
   if (req.path == '/users/identification')
   {
-    console.log("next");
     next();
   }
   else if ((req.path == '/companys' || req.path == '/companyproperties' || req.path == '/users' || req.path == '/companybytempkey'
@@ -69,18 +68,16 @@ app.use(function(req,res,next){
             || req.path == '/vehicles')
             && req.query.apikey == environment.apikey)
   {
-    console.log("next");
     next();
   }
   else if ((req.path == '/users' || req.path == '/companys' || req.path == '/companyproperties'
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
               || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs'
               || req.path == '/users/resetPassword' || req.path == '/users/getResetUser' || req.path == '/orders/find_by_status_with_nodelivery'
-              || req.path == '/getSeuraaOrder')
+              || req.path == '/getSeuraaOrder' || '/deliveryLists')
               && req.body.apikey == environment.apikey
           )
   {
-    console.log("next");
     next();
   }
   else {
@@ -106,7 +103,6 @@ app.use(function(req,res,next){
               {
                 if (req.body.api_key == rese[i].value && rese[i].companyID == req.body.companyID)
                 {
-                  console.log("found");
                   found = true;
                 }
               }
@@ -114,7 +110,6 @@ app.use(function(req,res,next){
               {
                 if (req.body.api_key == rese[i].value)
                 {
-                  console.log("temp");
                   temp = true;
                 }
               }
@@ -122,7 +117,6 @@ app.use(function(req,res,next){
             }
             if (found == true)
             {
-              console.log("next");
               next();
             }
             else if (temp == true)
@@ -136,12 +130,10 @@ app.use(function(req,res,next){
                       next();
                       }
                       else {
-                        console.log("error");
                         res.send("error");
                     }
                   }
                   else {
-                      console.log("error");
                       res.send("error");
                   }
                 });
@@ -149,24 +141,20 @@ app.use(function(req,res,next){
 
             }
             else {
-              console.log("error");
               res.send("error");
             }
           }
           else {
-            console.log("error");
             res.send("error");
           }
       }
       else {
-        console.log("error");
         res.send("error");
       }
 
       });
     }
     else {
-      console.log("error");
       res.send("error");
     }
 
