@@ -17,6 +17,7 @@ exports.list_company_logs = function(req, res) { // get all logs
   logger.find({companyID:req.body.companyID}, function(err, logs) {
     if (err)
       res.send(err);
+    console.log(logs);
     res.json(logs);
   });
 };

@@ -40,4 +40,6 @@ module.exports = function(app)
     .post(orderRoutes.getAllForId);
   app.route('/getSingleOrder')
     .get(orderRoutes.read_single_order);
+  app.route('/getSeuraaOrder')
+    .post(orderRoutes.read_a_orders);
 };

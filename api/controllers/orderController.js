@@ -91,7 +91,7 @@ var getMaxOrderNum = function(callback)
 }
 
 exports.read_a_orders = function(req, res) {
-  Orders.findById(req.params.ordersId, function(err, orders) {
+  Orders.findById(req.body.ordersId, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -321,8 +321,12 @@ exports.getAllForId = function(req, res) {
     {
       res.send(err);
     }
+    console.log("1");
+    console.log(orders);
     getDeliveryForOrder(orders, function(err,resu)
     {
+      console.log("2");
+      console.log(resu);
       res.json(resu[0]);
     });
 
