@@ -85,7 +85,7 @@ app.use(function(req,res,next){
         || req.path == '/getCompanyDrivers' || req.path == '/createDriver' || req.path == '/orders/createapiorder' || req.path == '/orders/getapiorder'
         || req.path == '/orders/getVehicleOrdersReceived' || req.path == '/orders/getVehicleOrdersInprogress' || req.path == '/inuselist' || req.path == '/inuseupdate'
         || req.path == '/updatevehicle' || req.path == '/changeDeliveryStatus' || req.path == '/createvehicle' || req.path == '/removevehicle'
-        || req.path == '/users/updatePassword' || req.path == '/users/remove' || req.path == '/users/getUser' || req.path == '/cancelDelivery' || req.path == '/logs'
+        || req.path == '/users/updatePassword' || req.path=='/updateOrder'  || req.path=='/deleteOrder' || req.path == '/users/remove' || req.path == '/users/getUser' || req.path == '/cancelDelivery' || req.path == '/logs'
         || req.path == '/orders/getVehicleOrders'
        )
     {

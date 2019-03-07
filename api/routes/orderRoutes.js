@@ -19,8 +19,13 @@ module.exports = function(app)
 
   app.route('/orders/:ordersId')
     .get(orderRoutes.read_a_orders)
-    .put(orderRoutes.update_a_orders)
-    .delete(orderRoutes.delete_a_orders);
+    .put(orderRoutes.update_a_orders);
+
+app.route('/updateOrder')
+    .post(orderRoutes.update_a_orders);
+
+app.route('/deleteOrder')
+		.post(orderRoutes.delete_a_orders);
 
 	app.route('/orders/getVehicleOrders')
 		.post(orderRoutes.getVehicleOrders);

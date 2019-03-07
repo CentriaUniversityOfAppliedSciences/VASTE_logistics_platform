@@ -114,7 +114,7 @@ exports.get_api_order = function(req, res) {
 };
 
 exports.update_a_orders = function(req, res) {
-  Orders.findOneAndUpdate({_id: req.params.ordersId}, req.body, {new: true}, function(err, orders) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, req.body, {new: true}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -122,11 +122,12 @@ exports.update_a_orders = function(req, res) {
 };
 
 
+
 exports.delete_a_orders = function(req, res) {
-  Orders.remove({_id: req.params.ordersId}, function(err, orders) {
+  Orders.remove({_id: req.body.orderID}, function(err, orders) {
     if (err)
       res.send(err);
-    res.json({ message: 'Orders successfully deleted' });
+    res.json(orders);
   });
 };
 
