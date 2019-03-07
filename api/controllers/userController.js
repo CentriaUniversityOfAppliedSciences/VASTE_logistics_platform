@@ -171,7 +171,6 @@ exports.reset_a_user = function(req, res) {
 
 
 exports.delete_a_users = function(req, res) {
-
     Users.remove({_id: req.body.userID, 'userInformation.userCompany':req.body.companyID}, function(err, users) {
       if (err)
         res.send(err);

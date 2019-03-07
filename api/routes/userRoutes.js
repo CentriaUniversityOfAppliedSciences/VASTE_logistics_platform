@@ -38,5 +38,4 @@ module.exports = function(app)
   app.route('/users/:usersId')
     .get(userRoutes.read_a_users)
     .post(userRoutes.update_a_users)
-    .delete(userRoutes.delete_a_users);
 };
