@@ -38,7 +38,8 @@ var express = require('express'),
   drivercompany = require('./api/models/driverCompaniesModel'),
   drivervehicle = require('./api/models/driverVehiclesModel'),
   oe = require('./api/models/orderExtraModel'),
-  cp = require('./api/models/companyPropertiesModel');
+  cp = require('./api/models/companyPropertiesModel'),
+  osm = require('./api/models/orderStatusModel');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -227,6 +228,8 @@ var driverVehiclesRoutes = require('./api/routes/driverVehiclesRoutes');
 driverVehiclesRoutes(app);
 var orderExtraRoutes = require('./api/routes/orderExtraRoutes');
 orderExtraRoutes(app);
+var orderStatusRoutes = require('./api/routes/orderStatusRoutes');
+orderStatusRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
