@@ -25,7 +25,7 @@ app.route('/updateOrder')
     .post(orderRoutes.update_a_orders);
 
 app.route('/deleteOrder')
-		.post(orderRoutes.delete_a_orders);
+		.post(orderRoutes.archive_a_orders_removal);
 
 	app.route('/orders/getVehicleOrders')
 		.post(orderRoutes.getVehicleOrders);
