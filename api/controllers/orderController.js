@@ -7,14 +7,14 @@ var Deliveries = mongoose.model('Deliverys');
 var async = require('async');
 
 exports.list_all_orders = function(req, res) {
-  Orders.find({}, function(err, orders) {
+  Orders.find({archieved:0}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
   });
 };
 exports.list_all_orders_by_company = function(req, res) {
-  Orders.find({$or:[{companyID:req.body.companyID},{companyID:"0"}]}, function(err, orders) {
+  Orders.find({$or:[{companyID:req.body.companyID, archieved:0},{companyID:"0", archieved:0}]}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -23,7 +23,7 @@ exports.list_all_orders_by_company = function(req, res) {
 
 exports.find_by_status = function(req, res) {	//statuksen mukaan
 
-  Orders.find({status:req.body.status}, function(err, orders) {
+  Orders.find({status:req.body.status, archieved:0}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -33,7 +33,7 @@ exports.find_by_status = function(req, res) {	//statuksen mukaan
 
 exports.find_by_status_with_nodelivery = function(req, res) {	//statuksen mukaan jos ei deliveryä
 
-  Orders.find({status:req.body.status}, function(err, orders) {
+  Orders.find({status:req.body.status, archieved:0}, function(err, orders) {
     if (err)
       res.send(err);
     	getOrdersWithoutDelivery(orders, function(err,r)
@@ -99,14 +99,14 @@ exports.read_a_orders = function(req, res) {
   });
 };
 exports.read_single_order = function(req, res) {
-  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID}, function(err, orders) {
+  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID, archieved:0}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
   });
 };
 exports.get_api_order = function(req, res) {
-  Orders.find({companyID:req.body.companyID,_id:req.body.orderID}, function(err, orders) {
+  Orders.find({companyID:req.body.companyID,_id:req.body.orderID, archieved:0}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);
@@ -117,6 +117,28 @@ exports.update_a_orders = function(req, res) {
   Orders.findOneAndUpdate({_id: req.body.orderID}, req.body, {new: true}, function(err, orders) {
     if (err)
       res.send(err);
+    res.json(orders);
+  });
+};
+
+exports.archive_a_orders_removal = function(req, res) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, {archieved:2}, {new: true}, function(err, orders) {
+    if (err)
+		{
+			 res.send(err);
+		}
+		var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "operator_archive_2",
+      orderID:req.body.orderID,
+      companyID: req.body.companyID,
+    };
+    log.logThis(jso);
+
     res.json(orders);
   });
 };
@@ -134,7 +156,7 @@ exports.delete_a_orders = function(req, res) {
 exports.getVehicleOrders = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID, archieved:0}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -153,7 +175,7 @@ exports.getVehicleOrders = function(req,res)
 exports.getVehicleOrdersReceived = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID, archieved:0}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -171,7 +193,7 @@ exports.getVehicleOrdersReceived = function(req,res)
 exports.getVehicleOrdersInprogress = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID, archieved:0}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -313,7 +335,7 @@ function getOrdersWithoutDelivery(orders, callback)
 }
 
 exports.getAllForId = function(req, res) {
-  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID}, function(err, orders) {
+  Orders.find({_id:req.body.ordersId,companyID:req.body.companyID, archieved:0}, function(err, orders) {
     if (err)
     {
       res.send(err);

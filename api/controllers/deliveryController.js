@@ -82,7 +82,7 @@ exports.delete_a_deliverys = function(req, res) {
     {
       res.send(err);
     }
-    var log = require('../controllers/orderLogController');
+		var log = require('../controllers/orderLogController');
     var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var jso = {
       user:"api",
