@@ -156,7 +156,7 @@ exports.delete_a_orders = function(req, res) {
 exports.getVehicleOrders = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID, archieved:0}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -175,7 +175,7 @@ exports.getVehicleOrders = function(req,res)
 exports.getVehicleOrdersReceived = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID, archieved:0}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
@@ -193,7 +193,7 @@ exports.getVehicleOrdersReceived = function(req,res)
 exports.getVehicleOrdersInprogress = function(req,res)
 {
 	var orderList = [];
-	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID, archieved:0}, function(err, deliverys){
+	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
 			res.send(err);
