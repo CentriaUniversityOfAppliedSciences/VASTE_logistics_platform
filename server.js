@@ -75,7 +75,7 @@ app.use(function(req,res,next){
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
               || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs'
               || req.path == '/users/resetPassword' || req.path == '/users/getResetUser' || req.path == '/orders/find_by_status_with_nodelivery'
-              || req.path == '/getSeuraaOrder' || req.path == '/deliveryLists' || req.path == '/stripemessage' || req.path == '/createsingleorder')
+              || req.path == '/getSeuraaOrder' || req.path == '/deliveryLists' || req.path == '/getCompanyApi' || req.path == '/listPayments' || req.path == '/stripemessage' || req.path == '/createsingleorder')
               && req.body.apikey == environment.apikey
           )
   {
@@ -87,8 +87,8 @@ app.use(function(req,res,next){
         || req.path == '/getCompanyDrivers' || req.path == '/createDriver' || req.path == '/orders/createapiorder' || req.path == '/orders/getapiorder'
         || req.path == '/orders/getVehicleOrdersReceived' || req.path == '/orders/getVehicleOrdersInprogress' || req.path == '/inuselist' || req.path == '/inuseupdate'
         || req.path == '/updatevehicle' || req.path == '/changeDeliveryStatus' || req.path == '/createvehicle' || req.path == '/removevehicle'
-        || req.path == '/users/updatePassword' || req.path == '/updateOrder'  || req.path == '/deleteOrder' || req.path == '/users/remove' || req.path == '/users/getUser'
-        || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders'
+        || req.path == '/users/updatePassword' || req.path == '/updateOrder'  || req.path == '/getCompanyPayments' || req.path == '/deleteOrder' || req.path == '/createPaymentExcel' || req.path == '/users/remove' || req.path == '/users/getUser'
+        || req.path == '/cancelDelivery' || /*For superoperator ->*/req.path =='/getCompanies' /*<-*/  || req.path == '/logs' || req.path == '/orders/getVehicleOrders'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
