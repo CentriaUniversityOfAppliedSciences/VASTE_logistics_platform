@@ -5,19 +5,19 @@ var Schema = mongoose.Schema;
 var OrderStatusSchema = new Schema ({
 
 
-	OrderNumber:{
+	OrderNumber:{ // order _id
         type: String
     },
-    StripeID:{
+    StripeID:{ //stripe ch_xxxxxxx
         type: String
     },
     OrderConfirmed:{
         type: Number
     },
-    OrderPaid:{
+    OrderPaid:{ //€
         type: Number
     },
-    CompanyID:{
+    CompanyID:{ //company _id
         type: String
     }
 

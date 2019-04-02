@@ -7,26 +7,26 @@ var LockerSchema = new Schema ({
 		lockerId:{
 			type: String,
 		},
-		
+
 		lockerStatus:{
 			type: String,
 			enum: ['available','booked','in_use'],
 			default: ['available']
 		},
-		
-		pointID:
+
+		pointID: //point _id
 		{
-		type: String
+			type: String
 
 		},
-		lockerSize:{
+		lockerSize:{ //1 small, 2 medium, 3 large, 4 xl
 			type: String
 		},
 		lockerCode:{
 			type: String
 		}
 
-	
+
 });
 
 module.exports = mongoose.model('Lockers', LockerSchema);

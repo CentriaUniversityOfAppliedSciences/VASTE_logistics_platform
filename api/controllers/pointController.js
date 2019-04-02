@@ -3,6 +3,8 @@
 
 var mongoose = require('mongoose'),
   Points = mongoose.model('Points');
+  var Lockers = mongoose.model('Lockers');
+  var async = require('async');
 
 exports.list_all_points = function(req, res) {
   Points.find({}, function(err, point) {
@@ -33,7 +35,7 @@ exports.read_a_points = function(req, res) {
 
 
 exports.update_a_points = function(req, res) {
-  Points.findOneAndUpdate({_id: req.params.pointsId}, req.body, {new: true}, function(err, point) {
+  Points.findOneAndUpdate({_id: req.params.pointId}, req.body, {new: true}, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -42,35 +44,56 @@ exports.update_a_points = function(req, res) {
 
 
 exports.delete_a_points = function(req, res) {
-  Points.remove({_id: req.params.pointsId}, function(err, point) {
+  Points.remove({_id: req.params.pointId}, function(err, point) {
     if (err)
       res.send(err);
     res.json({ message: 'Point successfully deleted' });
   });
-}; 
-
-exports.find_point_by_ID = function(req, res){
-	Points.find({points:req.params.pointounerId}, function(err, points){
-	if (err)
-      res.send(err);
-    res.json(points);
-  });
-}; 
-
-
-
-exports.list_all_booked = function(req, res) {
-  Points.find(req.params.state, function(err, points) {
-    if (err)
-      res.send(err);
-    res.json(points);
-  });
 };
 
-exports.list_all_available = function(req, res) {
-  Points.find(req.params.state, function(err, points) {
+
+
+exports.listboxes = function(req, res) {
+  Points.find({}, function(err, points) {
     if (err)
       res.send(err);
-    res.json(points);
+    getBoxStatuses(points,function(erro,r){
+      res.json(r);
+    });
   });
+
+
 };
+
+function getBoxStatuses(boxes, callback)
+{
+	var boxe = [];
+	var iteratorFcn = function(box,done)
+	{
+		if (box._id == null)
+		{
+			done();
+			return;
+		}
+
+			var query = {'pointID':box._id};
+			Lockers.find(query, function(err, result) {
+				if (err)
+				{
+				  res.send(err);
+				}
+        var b = box.toObject();
+        b.lockers = result;
+				boxe.push(b);
+				done();
+				return;
+			  });
+
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,boxe);
+	};
+
+	async.forEach(boxes, iteratorFcn, doneIteratingFcn);
+}

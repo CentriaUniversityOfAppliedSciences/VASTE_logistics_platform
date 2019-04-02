@@ -2,27 +2,22 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var PointSchema = new Schema ({ //Boxit ja terminaalit
-	
-	pointName:{
+var PointSchema = new Schema ({ //Boxit
+
+	name:{
 		type: String,
 		required:'Name of the point'
 	},
-	
-	pointAddress:{
+	address:{
 		type: String,
 		required:'Address of the point'
 	},
-
-	pointOwner:{			//onko samoja yrityksiä kuin kulkuneuvojen omistajissa- tiedon yhdistäminen?
+	number:{
 		type: String,
-		required:'Company name'
-	},
-	
-	pointOwnerId:{
-		type: String,
+		required:'Serial number'
 	}
-	
+
+
 
 });
 
