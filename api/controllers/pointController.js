@@ -26,7 +26,7 @@ exports.create_a_points = function(req, res) {
 
 
 exports.read_a_points = function(req, res) {
-  Points.findById(req.params.pointId, function(err, point) {
+  Points.findById(req.body.pointId, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -35,7 +35,7 @@ exports.read_a_points = function(req, res) {
 
 
 exports.update_a_points = function(req, res) {
-  Points.findOneAndUpdate({_id: req.params.pointId}, req.body, {new: true}, function(err, point) {
+  Points.findOneAndUpdate({_id: req.body.pointId}, req.body, {new: true}, function(err, point) {
     if (err)
       res.send(err);
     res.json(point);
@@ -44,7 +44,7 @@ exports.update_a_points = function(req, res) {
 
 
 exports.delete_a_points = function(req, res) {
-  Points.remove({_id: req.params.pointId}, function(err, point) {
+  Points.remove({_id: req.body.pointId}, function(err, point) {
     if (err)
       res.send(err);
     res.json({ message: 'Point successfully deleted' });
@@ -58,6 +58,23 @@ exports.listboxes = function(req, res) {
     if (err)
       res.send(err);
     getBoxStatuses(points,function(erro,r){
+      res.json(r);
+    });
+  });
+
+
+};
+
+exports.listbox = function(req, res) {
+  Points.findOne({number:req.body.number}, function(err, points) {
+    if (err)
+      res.send(err);
+    var query = {'pointID':points._id,'lockerSize':req.body.size,'lockerStatus':"available"};
+    Lockers.findOne(query, function(err2, r) {
+      if (err2)
+      {
+        res.send(err2)
+      }
       res.json(r);
     });
   });

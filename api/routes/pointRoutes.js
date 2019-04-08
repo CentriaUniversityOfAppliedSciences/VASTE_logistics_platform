@@ -10,6 +10,7 @@ module.exports = function(app)
 
   app.route('/points/getboxes')
 	 .post(pointRoutes.listboxes);
-
+  app.route('/points/getbox')
+    .post(pointRoutes.listbox);
 
 };

@@ -10,8 +10,7 @@ var OrderSchema = new Schema ({
             required: 'Kindly enter your lastname'
 			},
         firstName:  {
-            type: String,
-            required: 'Kindly enter your firstname'
+            type: String
 			},
 
 		phoneNumber:{
@@ -32,8 +31,7 @@ var OrderSchema = new Schema ({
             required: 'Kindly enter receivers lastname'
         },
         firstName:  {
-            type: String,
-            required: 'Kindly enter receivers firstname'
+            type: String
         },
 
 		phoneNumber:{
@@ -50,7 +48,7 @@ var OrderSchema = new Schema ({
 	status: {			//tilan seuranta
 
 		type: String,
-		enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done'],
+		enum: ['received', 'accepted', 'inProgress', 'cancelled' ,'done'],
 		default: ['received']
    },
 
@@ -166,7 +164,7 @@ var OrderSchema = new Schema ({
 		type: String,
 		default: '0'
 	},
-	archieved: //if 0 shows up in normal orders queries, if 1 archieved (usually when status done) and has to be queried with different separately. 
+	archieved: //if 0 shows up in normal orders queries, if 1 archieved (usually when status done) and has to be queried with different separately.
 	{
 		type: Number,
 		default: 0
