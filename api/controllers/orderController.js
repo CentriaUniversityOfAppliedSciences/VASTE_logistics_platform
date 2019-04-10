@@ -5,6 +5,9 @@ var mongoose = require('mongoose'),
   Orders = mongoose.model('Orders');
 var Deliveries = mongoose.model('Deliverys');
 var async = require('async');
+var fs = require('fs');
+var environmentJson = fs.readFileSync("./environment.json");
+var environment = JSON.parse(environmentJson);
 
 exports.list_all_orders = function(req, res) {
   Orders.find({archieved:0}, function(err, orders) {
@@ -118,6 +121,37 @@ exports.update_a_orders = function(req, res) {
     if (err)
       res.send(err);
     res.json(orders);
+  });
+};
+
+exports.change_order_status = function(req, res) {
+  Orders.findOneAndUpdate({vasteOrder: req.body.vasteOrder}, {status:req.body.status}, {new: true}, function(err, orders) {
+    if (err)
+      res.send(err);
+    var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if (orders != undefined && orders != null)
+    {
+      var jso = {
+        user:"api",
+        ip: ipa,
+        timestamp: Math.floor(new Date() / 1000),
+        code: "order_status_change:"+req.body.status,
+        orderID:req.body.orderID,
+        companyID: orders.companyID,
+      };
+      log.logThis(jso);
+      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled']}},{status:req.body.status},{new: false}, function(err, deliverys){
+
+        sendStatusChange2(orders._id,req.body.status);
+        res.json({"msg":"Order and delivery changed"});
+      });
+    }
+    else {
+      res.json({"msg":"Order not found"});
+    }
+
+
   });
 };
 
@@ -245,21 +279,21 @@ function getOrdersForDelivery(deliveries,mode, callback)
 
           if (mode == 'mine')
           {
-  					if (delivery.status != 'cancelled' && delivery.status != 'done')
+  					if (delivery.status != 'cancelled' && delivery.status != 'done' && delivery.status != 'box_cancelled')
   					{
   						orders.push(h);
   					}
           }
           else if (mode == 'received')
           {
-            if (delivery.status == 'received')
+            if (delivery.status == 'received' || delivery.status == 'pickup_ready')
   					{
   						orders.push(h);
   					}
           }
           else if (mode == 'inprogress')
           {
-            if (delivery.status == 'accepted' || delivery.status == 'inProgress')
+            if (delivery.status == 'accepted' || delivery.status == 'inProgress' || delivery.status == 'box_accepted' || delivery.status == 'delivery_not_ready')
   					{
   						orders.push(h);
   					}
@@ -297,7 +331,7 @@ function getOrdersWithoutDelivery(orders, callback)
 				var hasDeli = 0;
 				for (var i = 0;i< result.length;i++)
 				{
-					if (result[i].status != "cancelled")
+					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled')
 					{
 						hasDeli = 1;
 					}
@@ -370,7 +404,7 @@ function getDeliveryForOrder(orders, callback)
         var deli = {};
 				for (var i = 0;i< result.length;i++)
 				{
-					if (result[i].status != "cancelled")
+					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled')
 					{
 						hasDeli = 1;
             deli = result[i];
@@ -423,4 +457,42 @@ function getDeliveryForOrder(orders, callback)
 	};
 
 	async.forEach(orders, iteratorFcn, doneIteratingFcn);
+}
+
+
+
+function sendStatusChange2(orderID,status)
+{
+  var toport = "3511";
+  if (environment.port == 3000)
+  {
+    toport = "3501";
+  }
+  else {
+    toport = "3511"
+  }
+
+    var jso = {
+      "orderID":orderID,
+      "status":status
+    };
+    var request = require('request');
+  	var options = {
+  		uri: "https://localhost:"+toport+"/webhook",
+      rejectUnauthorized: false,
+  		method: 'POST',
+  		headers: {
+          "content-type": "application/json",
+          },
+  		json: jso
+  	};
+  	request(options, function (error, response, body) {
+  	  if (!error && response.statusCode == 200) {
+
+  	  }
+  	  else
+  	  {
+  		  console.log(response);
+  	  }
+  	});
 }
