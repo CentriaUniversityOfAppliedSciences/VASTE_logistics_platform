@@ -7,6 +7,7 @@ var Orders = mongoose.model('Orders');
 var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
+var Lockers = mongoose.model('Lockers');
 
 exports.list_all_deliverys = function(req, res) {
   Deliverys.find({}, function(err, deliverys) {
@@ -152,7 +153,7 @@ exports.changeDeliveryStatus = function(req,res)
           {
             c = "driver_accept";
           }
-          else if (req.body.status == "inProgress" || req.body.status == 'delivery_not_ready')
+          else if (req.body.status == "inProgress")
           {
             c = "driver_pickup";
           }
@@ -160,9 +161,17 @@ exports.changeDeliveryStatus = function(req,res)
           {
             c = "driver_cancel";
           }
-          else if (req.body.status == "done" || req.body.status == "delivery_ready")
+          else if (req.body.status == "done")
           {
             c = "driver_delivery";
+          }
+          else if (req.body.status == "delivery_ready")
+          {
+            c = "delivery_ready";
+          }
+          else if (req.body.status == "delivery_not_ready")
+          {
+            c = "delivery_not_ready";
           }
           var jso = {
             user:"api",

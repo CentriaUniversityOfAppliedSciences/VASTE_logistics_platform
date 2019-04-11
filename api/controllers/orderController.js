@@ -8,6 +8,7 @@ var async = require('async');
 var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
+var Lockers = mongoose.model('Lockers');
 
 exports.list_all_orders = function(req, res) {
   Orders.find({archieved:0}, function(err, orders) {
@@ -137,14 +138,25 @@ exports.change_order_status = function(req, res) {
         ip: ipa,
         timestamp: Math.floor(new Date() / 1000),
         code: "order_status_change:"+req.body.status,
-        orderID:req.body.orderID,
+        orderID:orders._id,
         companyID: orders.companyID,
       };
       log.logThis(jso);
       Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled']}},{status:req.body.status},{new: false}, function(err, deliverys){
+        if (req.body.status == 'done')
+        {
+          Lockers.updateMany({orderID:orders._id}, {lockerStatus: 'available',lockerCode:'000000',lockerCode2:'000000',orderID:'',type:''}, function(err, lockers) {
+            if (err)
+              res.send(err);
+            sendStatusChange2(orders._id,req.body.status);
+            res.json({"msg":"Order and delivery and locker changed"});
+          });
+        }
+        else {
+          sendStatusChange2(orders._id,req.body.status);
+          res.json({"msg":"Order and delivery changed"});
+        }
 
-        sendStatusChange2(orders._id,req.body.status);
-        res.json({"msg":"Order and delivery changed"});
       });
     }
     else {
@@ -173,6 +185,16 @@ exports.archive_a_orders_removal = function(req, res) {
     };
     log.logThis(jso);
 
+    res.json(orders);
+  });
+};
+
+exports.updatePincode = function(req, res) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, {orderInfo:req.body.orderInfo}, {new: true}, function(err, orders) {
+    if (err)
+		{
+			 res.send(err);
+		}
     res.json(orders);
   });
 };
@@ -370,6 +392,21 @@ function getOrdersWithoutDelivery(orders, callback)
 
 exports.getAllForId = function(req, res) {
   Orders.find({_id:req.body.ordersId,companyID:req.body.companyID, archieved:0}, function(err, orders) {
+    if (err)
+    {
+      res.send(err);
+    }
+    getDeliveryForOrder(orders, function(err,resu)
+    {
+      res.json(resu[0]);
+    });
+
+
+  });
+};
+
+exports.getAllForId2 = function(req, res) {
+  Orders.find({_id:req.body.ordersId, archieved:0}, function(err, orders) {
     if (err)
     {
       res.send(err);

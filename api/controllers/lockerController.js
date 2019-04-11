@@ -74,7 +74,16 @@ exports.find_by_status = function(req, res) {
 };
 
 exports.book_a_locker = function(req, res) {
-  Lockers.findOneAndUpdate({_id: req.body.id,pointID:req.body.pointID}, {lockerStatus: req.body.lockerStatus,lockerCode:req.body.lockerCode}, {new: false}, function(err, lockers) {
+  Lockers.findOneAndUpdate({_id: req.body.id,pointID:req.body.pointID}, {lockerStatus: req.body.lockerStatus,
+    lockerCode:req.body.lockerCode,lockerCode2:req.body.lockerCode2,orderID:req.body.orderID,type:req.body.type}, {new: false}, function(err, lockers) {
+    if (err)
+      res.send(err);
+    res.json(lockers);
+  });
+};
+
+exports.get_locker_pin = function(req, res) {
+  Lockers.findOne({orderID: req.body.orderID, type:req.body.type}, function(err, lockers) {
     if (err)
       res.send(err);
     res.json(lockers);

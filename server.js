@@ -77,7 +77,8 @@ app.use(function(req,res,next){
               || req.path == '/users/resetPassword' || req.path == '/users/getResetUser' || req.path == '/orders/find_by_status_with_nodelivery'
               || req.path == '/getSeuraaOrder' || req.path == '/deliveryLists' || req.path == '/getCompanyApi' || req.path == '/listPayments' || req.path == '/stripemessage'
               || req.path == '/createsingleorder' || req.path == '/points' || req.path == '/lockers' || req.path == '/points/getboxes' || req.path == '/points/getbox'
-              || req.path == '/book_a_locker' || req.path == '/orders/change_order_status'
+              || req.path == '/book_a_locker' || req.path == '/orders/change_order_status' || req.path == '/get_locker_pin' || req.path == '/orders/updatePincode'
+              || req.path == '/getBoxOrder'
             )
               && req.body.apikey == environment.apikey
           )

@@ -24,7 +24,19 @@ var LockerSchema = new Schema ({
 		},
 		lockerCode:{
 			type: String
+		},
+		lockerCode2:{
+			type: String
+		},
+		orderID:{
+			type: String
+		},
+		type:{ //pickup or delivery
+			type: String,
+			enum: ['pickup','delivery'],
+			default: ['pickup']
 		}
+
 
 
 });
