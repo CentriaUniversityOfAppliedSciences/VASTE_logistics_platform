@@ -47,4 +47,13 @@ app.route('/deleteOrder')
     .get(orderRoutes.read_single_order);
   app.route('/getSeuraaOrder')
     .post(orderRoutes.read_a_orders);
+  app.route('/orders/change_order_status')
+    .post(orderRoutes.change_order_status);
+  app.route('/orders/updatePincode')
+    .post(orderRoutes.updatePincode);
+  app.route('/getBoxOrder')
+    .post(orderRoutes.getAllForId2);
+
+
+
 };

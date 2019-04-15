@@ -7,6 +7,7 @@ var Orders = mongoose.model('Orders');
 var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
+var Lockers = mongoose.model('Lockers');
 
 exports.list_all_deliverys = function(req, res) {
   Deliverys.find({}, function(err, deliverys) {
@@ -129,7 +130,7 @@ exports.changeDeliveryStatus = function(req,res)
 {
 	var query = { _id: req.body.deliveryID };
 	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-  Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done']}, companyID:req.body.companyID}, function(err, deli){
+  Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
     if (deli.length > 0)
     {
     	Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
@@ -148,7 +149,7 @@ exports.changeDeliveryStatus = function(req,res)
           var log = require('../controllers/orderLogController');
           var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
           var c = "";
-          if (req.body.status == "accepted")
+          if (req.body.status == "accepted" || req.body.status == 'box_accepted')
           {
             c = "driver_accept";
           }
@@ -156,13 +157,21 @@ exports.changeDeliveryStatus = function(req,res)
           {
             c = "driver_pickup";
           }
-          else if (req.body.status == "cancelled")
+          else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
           {
             c = "driver_cancel";
           }
           else if (req.body.status == "done")
           {
             c = "driver_delivery";
+          }
+          else if (req.body.status == "delivery_ready")
+          {
+            c = "delivery_ready";
+          }
+          else if (req.body.status == "delivery_not_ready")
+          {
+            c = "delivery_not_ready";
           }
           var jso = {
             user:"api",
