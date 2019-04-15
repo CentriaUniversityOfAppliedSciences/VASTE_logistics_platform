@@ -9,10 +9,8 @@ module.exports = function(app)
     .post(companyPropertiesRoutes.create_a_property);
 
   app.route('/companyproperties/find_by_companyid')
-  .post(companyPropertiesRoutes.find_by_companyid);
+  	.post(companyPropertiesRoutes.find_by_companyid);
 
-	app.route('/getCompanyApi')
-		.post(companyPropertiesRoutes.find_by_companyid_and_type);
 
   app.route('/companyproperties/:propertyid')
     .put(companyPropertiesRoutes.update_a_property)

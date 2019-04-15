@@ -46,13 +46,7 @@ var mongoose = require('mongoose'),
     });
   };
 
-	exports.find_by_companyid_and_type = function(req, res) {
-    CompanyProperties.find({companyID: req.body.companyID, type: 'apikey'}, function(err, companys) {
-      if (err)
-        res.send(err);
-      res.json({companys});
-    });
-  };
+
   exports.find_company_by_apikey = function(req, res) {
     CompanyProperties.find({value: req.body.apikey, type:'apikey'}, function(err, companys) {
       if (err)
