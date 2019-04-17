@@ -96,7 +96,7 @@ app.use(function(req,res,next){
         || req.path == '/orders/getVehicleOrdersReceived' || req.path == '/orders/getVehicleOrdersInprogress' || req.path == '/inuselist' || req.path == '/inuseupdate'
         || req.path == '/updatevehicle' || req.path == '/changeDeliveryStatus' || req.path == '/createvehicle' || req.path == '/removevehicle'
         || req.path == '/users/updatePassword' || req.path == '/updateOrder'  || req.path == '/getCompanyPayments' || req.path == '/deleteOrder'  || req.path == '/users/remove' || req.path == '/users/getUser'
-        || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders'
+        || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders' || req.path == '/cancelBoxDelivery'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
