@@ -82,7 +82,7 @@ app.use(function(req,res,next){
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPaymentExcel'
 							|| req.path == '/superDeleteOrder' || req.path == '/superDeliveryLists' || req.path == '/getCompaniesPayments' || req.path == '/superDeleteVehicle'
-							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle'/*<-*/
+							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'/*<-*/
             )
               && req.body.apikey == environment.apikey
           )

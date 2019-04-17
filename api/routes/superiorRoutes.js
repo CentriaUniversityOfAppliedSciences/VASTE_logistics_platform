@@ -58,5 +58,8 @@ module.exports = function(app)
 	app.route('/superAddVehicle')
 		.post(superiorRoutes.super_create_a_vehicle);
 
+	app.route('/superCancelBoxDelivery')
+	 	.post(superiorRoutes.super_delete_a_boxdeliverys);
+
 
 };
