@@ -12,7 +12,7 @@ module.exports = function(app)
 		.post(paymentRoutes.find_by_companyid)
 		.get(paymentRoutes.find_by_companyid);
 
-	app.route('/createPaymentExcel')
+	app.route('/createPayment')
 	   .post(paymentRoutes.create_a_payments);
 
   app.route('/payments/find_payment_by_ID')
