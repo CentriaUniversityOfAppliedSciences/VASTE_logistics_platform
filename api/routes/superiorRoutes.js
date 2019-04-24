@@ -61,5 +61,11 @@ module.exports = function(app)
 	app.route('/superCancelBoxDelivery')
 	 	.post(superiorRoutes.super_delete_a_boxdeliverys);
 
+	app.route('/superCreateSinglePayment')
+		.post(superiorRoutes.super_create_a_payments);
+
+	app.route('/superDeletePayment')
+		.post(superiorRoutes.super_delete_a_payment);
+
 
 };

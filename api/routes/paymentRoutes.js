@@ -15,6 +15,9 @@ module.exports = function(app)
 	app.route('/createPayment')
 	   .post(paymentRoutes.create_a_payments);
 
+	app.route('/createSinglePayment')
+		.post(paymentRoutes.create_a_payments);
+
   app.route('/payments/find_payment_by_ID')
 	.post(paymentRoutes.find_payment_by_ID);
 
@@ -27,5 +30,7 @@ module.exports = function(app)
   app.route('/payments/:paymentsId')
     .get(paymentRoutes.read_a_payments)
     .put(paymentRoutes.update_a_payments)
-    .delete(paymentRoutes.delete_a_payments);
+
+	app.route('/deletePayment')
+		.post(paymentRoutes.delete_a_payments);
 };
