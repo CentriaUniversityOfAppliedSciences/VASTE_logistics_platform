@@ -164,7 +164,7 @@ var OrderSchema = new Schema ({
 		type: String,
 		default: '0'
 	},
-	archieved: //if 0 shows up in normal orders queries, if 1 archieved (usually when status done) and has to be queried with different separately.
+	archieved: //if 0 shows up in normal orders queries, if 1 archieved (usually when status done) and has to be queried with different separately. 2 if removed by operator, 3 if failed box order
 	{
 		type: Number,
 		default: 0

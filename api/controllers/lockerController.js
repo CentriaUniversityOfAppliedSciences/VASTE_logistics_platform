@@ -3,6 +3,7 @@
 
 var mongoose = require('mongoose'),
   Lockers = mongoose.model('Lockers');
+  var boxes = require('../controllers/boxController');
 
 exports.list_all_lockers = function(req, res) {
   Lockers.find({}, function(err, ) {
@@ -74,11 +75,34 @@ exports.find_by_status = function(req, res) {
 };
 
 exports.book_a_locker = function(req, res) {
-  Lockers.findOneAndUpdate({_id: req.body.id,pointID:req.body.pointID}, {lockerStatus: req.body.lockerStatus,
+  Lockers.findOneAndUpdate({_id: req.body.id}, {lockerStatus: req.body.lockerStatus,
     lockerCode:req.body.lockerCode,lockerCode2:req.body.lockerCode2,orderID:req.body.orderID,type:req.body.type}, {new: false}, function(err, lockers) {
     if (err)
+    {
       res.send(err);
-    res.json(lockers);
+    }
+    if (req.body.type == 'pickup' || req.body.type == 'delivery')
+    {
+      if(req.body.machine == "1" || req.body.machine == "2")
+      {
+        req.body.machine = "100"+req.body.machine;
+        boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
+          boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
+          {
+            res.json(lockers);
+          });
+
+        });
+      }
+      else {
+        res.json(lockers);
+      }
+    }
+    else {
+      res.json(lockers);
+    }
+
+
   });
 };
 

@@ -4,16 +4,16 @@ var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
 
-exports.boxAnnounce = function(req, res) {
-  generateParcel(req.body.vasteOrder,function (vast){
+exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
+  generateParcel(vasteOrder,function (vast){
     var parcel = "";
-    if (req.body.status == "pickup")
+    if (status == "pickup")
     {
       parcel = vast["1"];
     }
-    else if (req.body.status == "delivery")
+    else if (status == "delivery")
     {
-      parcel = vast["2"]
+      parcel = vast["2"];
     }
     var options = {
           uri: "http://localhost:"+environment.boxApi+"/api/announce",
@@ -23,14 +23,16 @@ exports.boxAnnounce = function(req, res) {
           },
           json: {
             "ParcelId":parcel,
-            "MachineCode":req.body.machine,
-            "BoxSize":req.body.size,
-            "ValidUntil":req.body.valid
+            "MachineCode":machine,
+            "BoxSize":size,
+            "ValidUntil":valid
           }
 
       };
+      //console.log(options);
+      //callback("error");
       sendToApi(options,function(vast){
-        res.send(vast);
+        callback(vast);
       });
   });
 
@@ -45,7 +47,7 @@ exports.boxCancel = function(req, res) {
     }
     else if (req.body.status == "delivery")
     {
-      parcel = vast["2"]
+      parcel = vast["2"];
     }
     var options = {
         uri: "http://localhost:"+environment.boxApi+"/api/cancel",
@@ -74,7 +76,7 @@ exports.boxFindParcel = function(req, res) {
     }
     else if (req.body.status == "delivery")
     {
-      parcel = vast["2"]
+      parcel = vast["2"];
     }
     var options = {
         uri: "http://localhost:"+environment.boxApi+"/api/findparcel",
@@ -111,16 +113,16 @@ exports.boxFreeLockers = function(req, res) {
     });
 };
 
-exports.boxTrack = function(req, res) {
-  generateParcel(req.body.vasteOrder,function (vast){
+exports.boxTrack = function(vasteOrder,status,callback) {
+  generateParcel(vasteOrder,function (vast){
     var parcel = "";
-    if (req.body.status == "pickup")
+    if (status == "pickup")
     {
       parcel = vast["1"];
     }
-    else if (req.body.status == "delivery")
+    else if (status == "delivery")
     {
-      parcel = vast["2"]
+      parcel = vast["2"];
     }
     var options = {
         uri: "http://localhost:"+environment.boxApi+"/api/trackandtrace",
@@ -133,22 +135,24 @@ exports.boxTrack = function(req, res) {
         }
 
     };
+    //console.log(options);
+    //callback(vasteOrder,status,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
-      res.send(vast);
+      callback(vast);
     });
   });
 };
 
-exports.boxUpdate = function(req, res) {
-  generateParcel(req.body.vasteOrder,function (vast){
+exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
+  generateParcel(vasteOrder,function (vast){
     var parcel = "";
-    if (req.body.status == "pickup")
+    if (status == "pickup")
     {
       parcel = vast["1"];
     }
-    else if (req.body.status == "delivery")
+    else if (status == "delivery")
     {
-      parcel = vast["2"]
+      parcel = vast["2"];
     }
     var options = {
         uri: "http://localhost:"+environment.boxApi+"/api/update",
@@ -158,14 +162,16 @@ exports.boxUpdate = function(req, res) {
         },
         json: {
           "ParcelId":parcel,
-          "MachineCode":req.body.machine,
-          "FetchCode":req.body.fetch,
-          "ValidUntil":req.body.valid
+          "MachineCode":machine,
+          "FetchCode":fetch,
+          "ValidUntil":valid
         }
 
     };
+    //console.log(options);
+    //callback("error");
     sendToApi(options,function(vast){
-      res.send(vast);
+      callback(vast);
     });
   });
 };
