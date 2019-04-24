@@ -1,6 +1,5 @@
 'use strict';
 
-
 var mongoose = require('mongoose'),
   Orders = mongoose.model('Orders');
 var Deliveries = mongoose.model('Deliverys');
@@ -9,6 +8,7 @@ var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
 var Lockers = mongoose.model('Lockers');
+
 
 exports.list_all_orders = function(req, res) {
   Orders.find({archieved:0}, function(err, orders) {
@@ -31,6 +31,16 @@ exports.find_by_status = function(req, res) {	//statuksen mukaan
     if (err)
       res.send(err);
     res.json(orders);
+  });
+};
+
+exports.find_by_status_function = function(stat,callback) {	//statuksen mukaan function
+  console.log("function");
+  Orders.find({status:stat, archieved:0}, function(err, orders) {
+    console.log(err);
+    if (err)
+      callback("err");
+    callback(orders);
   });
 };
 
@@ -182,6 +192,28 @@ exports.archive_a_orders_removal = function(req, res) {
       code: "operator_archive_2",
       orderID:req.body.orderID,
       companyID: req.body.companyID,
+    };
+    log.logThis(jso);
+
+    res.json(orders);
+  });
+};
+
+exports.archive_a_failed_order = function(req, res) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, {archieved:3}, {new: true}, function(err, orders) {
+    if (err)
+		{
+			 res.send(err);
+		}
+		var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "failed_box_order_archive_3",
+      orderID:orders._id,
+      companyID: orders.companyID,
     };
     log.logThis(jso);
 

@@ -53,6 +53,8 @@ app.route('/deleteOrder')
     .post(orderRoutes.updatePincode);
   app.route('/getBoxOrder')
     .post(orderRoutes.getAllForId2);
+  app.route('/failedOrder')
+    .post(orderRoutes.archive_a_failed_order);
 
 
 

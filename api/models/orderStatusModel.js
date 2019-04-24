@@ -14,7 +14,7 @@ var OrderStatusSchema = new Schema ({
     OrderConfirmed:{
         type: Number
     },
-    OrderPaid:{ //€
+    OrderPaid:{ // in cents
         type: Number
     },
     CompanyID:{ //company _id

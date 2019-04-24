@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var StripeSchema = new Schema({
-    
+
     EventType:{
         type: String
     },
