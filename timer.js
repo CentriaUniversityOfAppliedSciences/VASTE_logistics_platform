@@ -96,7 +96,7 @@ function getBoxes()
     }
   });
 }
-setInterval(getBoxes,10000);
+setInterval(getBoxes,180000);
 
 
 var find_by_status_function = function(stat,callback) {	//statuksen mukaan function
