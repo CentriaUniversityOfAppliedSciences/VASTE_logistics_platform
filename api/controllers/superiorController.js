@@ -328,6 +328,29 @@ exports.super_delete_a_boxdeliverys = function(req, res) {
   });
 };
 
+
+exports.super_create_a_payments = function(req, res) {
+  var new_payments = new Payments(req.body);
+  new_payments.save(function(err, payments) {
+    if (err)
+		{
+      res.send(err);
+		}
+    res.json(payments);
+  });
+};
+
+exports.super_delete_a_payment = function(req, res) {
+  Payments.remove({_id: req.body.paymentID}, function(err, payments) {
+    if (err)
+      res.send(err);
+    res.json({ payment: 'Payments successfully deleted' });
+  });
+};
+
+
+
+
 function sendStatusChange(orderID,status,comp)
 {
   var envi = "test";

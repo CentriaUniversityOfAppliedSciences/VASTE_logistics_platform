@@ -22,6 +22,10 @@ exports.create_a_payments = function(req, res) {
 		{
       res.send(err);
 		}
+		if(payments != null || payments != undefined)
+		{
+			payments = payments.toObject();
+		}
     res.json(payments);
   });
 };
@@ -56,9 +60,11 @@ exports.update_a_payments = function(req, res) {
 
 
 exports.delete_a_payments = function(req, res) {
-  Payments.remove({_id: req.params.paymentsId}, function(err, payments) {
+  Payments.remove({_id: req.body.paymentID, companyID: req.body.companyID}, function(err, payments) {
     if (err)
+		{
       res.send(err);
+		}
     res.json({ payment: 'Payments successfully deleted' });
   });
 };
