@@ -139,6 +139,8 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED"});
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
+      console.log("api resp:");
+      console.log(vast);
       callback(vast);
     });
   });
