@@ -35,6 +35,7 @@ function getBoxes()
     {
       for (var i = 0; i< res.length;i++)
       {
+        console.log("getting trackandtrace: "+res[i].vasteOrder);
         boxes.boxTrack(res[i].vasteOrder,res[i]._id, "pickup",function(id,s,a,r)
         {
           console.log(r);
