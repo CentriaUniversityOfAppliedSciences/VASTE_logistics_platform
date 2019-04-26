@@ -29,7 +29,7 @@ exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
           }
 
       };
-      //console.log(options);
+      console.log(options);
       //callback("error");
       sendToApi(options,function(vast){
         callback(vast);
@@ -169,7 +169,7 @@ exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
         }
 
     };
-    //console.log(options);
+    console.log(options);
     //callback("error");
     sendToApi(options,function(vast){
       callback(vast);

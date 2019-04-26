@@ -29,12 +29,14 @@ function getBoxes()
 {
   find_by_status_function("pickup_not_ready",function(res)
   {
+    console.log(res);
     if (res != undefined && res != null && res != 'err')
     {
       for (var i = 0; i< res.length;i++)
       {
         boxes.boxTrack(res[i].vasteOrder,res[i]._id, "pickup",function(id,s,a,r)
         {
+          console.log(r);
           if (r != undefined && r != null && r != 'error')
           {
             if (r["IBstep"] != undefined && r["IBstep"] != null)
@@ -57,10 +59,11 @@ function getBoxes()
                     change_order_status(id,"pickup_ready");
                     get_locker_pin(a,s,function (ty)
                     {
+                      console.log(ty);
                       var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
                       boxes.boxUpdate(id,s,r["IBMachineCode"],ty.lockerCode2,valid,function(rt)
                       {
-
+                        console.log(rt);
                       });
                     });
 
