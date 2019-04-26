@@ -12,5 +12,8 @@ module.exports = function(app)
 	 .post(pointRoutes.listboxes);
   app.route('/points/getbox')
     .post(pointRoutes.listbox);
+  app.route('/points/getById')
+    .post(pointRoutes.getPointById);
+
 
 };

@@ -113,7 +113,7 @@ exports.boxFreeLockers = function(req, res) {
     });
 };
 
-exports.boxTrack = function(vasteOrder,status,callback) {
+exports.boxTrack = function(vasteOrder,id,status,callback) {
   generateParcel(vasteOrder,function (vast){
     var parcel = "";
     if (status == "pickup")
@@ -136,7 +136,8 @@ exports.boxTrack = function(vasteOrder,status,callback) {
 
     };
     //console.log(options);
-    //callback(vasteOrder,status,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
+    //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED"});
+    //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
       callback(vast);
     });
@@ -172,6 +173,39 @@ exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
     //callback("error");
     sendToApi(options,function(vast){
       callback(vast);
+    });
+  });
+};
+
+exports.boxUpdateApi = function(req,res) {
+  generateParcel(req.body.vasteOrder,function (vast){
+    var parcel = "";
+    if (req.body.status == "pickup")
+    {
+      parcel = vast["1"];
+    }
+    else if (req.body.status == "delivery")
+    {
+      parcel = vast["2"];
+    }
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/update",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "ParcelId":parcel,
+          "MachineCode":req.body.machine,
+          "FetchCode":req.body.fetch,
+          "ValidUntil":req.body.valid
+        }
+
+    };
+    //console.log(options);
+    //res.send("error");
+    sendToApi(options,function(vast){
+      res.send(vast);
     });
   });
 };

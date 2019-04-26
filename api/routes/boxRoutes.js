@@ -2,8 +2,7 @@
 module.exports = function(app){
     var boxRoutes = require('../controllers/boxController');
 
-    app.route('/box/announce')
-      .post(boxRoutes.boxAnnounce);
+
     app.route('/box/cancel')
       .post(boxRoutes.boxCancel);
     app.route('/box/findparcel')
@@ -13,6 +12,6 @@ module.exports = function(app){
     app.route('/box/boxtrack')
       .post(boxRoutes.boxTrack);
     app.route('/box/update')
-      .post(boxRoutes.boxUpdate);
+      .post(boxRoutes.boxUpdateApi);
 
 }

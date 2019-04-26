@@ -78,9 +78,9 @@ app.use(function(req,res,next){
               || req.path == '/getSeuraaOrder' || req.path == '/deliveryLists' || req.path == '/getCompanyApi' || req.path == '/listPayments' || req.path == '/stripemessage'
               || req.path == '/createsingleorder' || req.path == '/points' || req.path == '/lockers' || req.path == '/points/getboxes' || req.path == '/points/getbox'
               || req.path == '/book_a_locker' || req.path == '/orders/change_order_status' || req.path == '/get_locker_pin' || req.path == '/orders/updatePincode'
-              || req.path == '/getBoxOrder' || req.path == '/orderstatus/create' || req.path == '/box/announce' || req.path == '/box/cancel'
+              || req.path == '/getBoxOrder' || req.path == '/orderstatus/create' || req.path == '/box/cancel'
               || req.path == '/box/findparcel' || req.path == '/box/getfree' || req.path == '/box/boxtrack' || req.path == '/box/update'
-              || req.path == '/failedOrder'
+              || req.path == '/failedOrder' || req.path == '/points/getById'
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'

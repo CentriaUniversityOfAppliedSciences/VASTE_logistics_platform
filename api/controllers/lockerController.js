@@ -87,10 +87,10 @@ exports.book_a_locker = function(req, res) {
       {
         req.body.machine = "100"+req.body.machine;
         boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
-          boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
-          {
+          //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
+          //{
             res.json(lockers);
-          });
+          //});
 
         });
       }

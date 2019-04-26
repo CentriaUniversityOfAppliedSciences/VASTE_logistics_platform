@@ -65,6 +65,17 @@ exports.listboxes = function(req, res) {
 
 };
 
+exports.getPointById = function(req, res) {
+  Points.findOne({_id:req.body.id}, function(err, points) {
+    if (err)
+      res.send(err);
+
+    res.json(points);
+  });
+
+
+};
+
 exports.listbox = function(req, res) {
   Points.findOne({number:req.body.number}, function(err, points) {
     if (err)

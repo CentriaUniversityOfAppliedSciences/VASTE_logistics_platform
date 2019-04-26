@@ -8,6 +8,8 @@ Delivery = require('./api/models/deliveryModel'), //Ladataan mallit käyttöön
 Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
 ologger = require('./api/models/orderLogModel');
 mongoose.Promise = global.Promise;
+var moment = require('moment');
+
 if (environment.environment == 'prod')
 {
   mongoose.connect('mongodb://localhost/VasteDB');
@@ -27,76 +29,99 @@ function getBoxes()
 {
   find_by_status_function("pickup_not_ready",function(res)
   {
-    for (var i = 0; i< res.length;i++)
+    if (res != undefined && res != null && res != 'err')
     {
-      boxes.boxTrack(res[i].vasteOrder, "pickup",function(id,s,r)
+      for (var i = 0; i< res.length;i++)
       {
-        if (r != undefined && r != null)
+        boxes.boxTrack(res[i].vasteOrder,res[i]._id, "pickup",function(id,s,a,r)
         {
-          if (r["IBstep"] != undefined && r["IBstep"] != null)
+          if (r != undefined && r != null && r != 'error')
           {
-            if (r["PUstep"] != undefined && r["PUstep"] != null)
+            if (r["IBstep"] != undefined && r["IBstep"] != null)
             {
-              if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
+              if (r["PUstep"] != undefined && r["PUstep"] != null)
               {
-                if (s == 'delivery')
+                if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  change_order_status(id,"done");
+                  if (s == 'delivery')
+                  {
+                    change_order_status(id,"done");
+                  }
                 }
               }
-            }
-            else {
-              if (r["IBstep"] == "PARCEL_DELIVERED")
-              {
-                if (s == 'pickup')
+              else {
+                if (r["IBstep"] == "PARCEL_DELIVERED")
                 {
-                  change_order_status(id,"pickup_ready");
+                  if (s == 'pickup')
+                  {
+                    change_order_status(id,"pickup_ready");
+                    get_locker_pin(a,s,function (ty)
+                    {
+                      var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                      boxes.boxUpdate(id,s,r["IBMachineCode"],ty.lockerCode2,valid,function(rt)
+                      {
+
+                      });
+                    });
+
+                  }
                 }
               }
             }
           }
-        }
 
-      });
+        });
+      }
     }
   });
   find_by_status_function("delivery_ready",function(res)
   {
-    for (var i = 0; i< res.length;i++)
+    if (res != undefined && res != null && res != 'err')
     {
-      boxes.boxTrack(res[i].vasteOrder, "delivery",function(id,s,r)
+      for (var i = 0; i< res.length;i++)
       {
-        if (r != undefined && r != null)
+        boxes.boxTrack(res[i].vasteOrder, res[i]._id, "delivery",function(id,s,a,r)
         {
-          if (r["IBstep"] != undefined && r["IBstep"] != null)
+          if (r != undefined && r != null && r != 'error')
           {
-            if (r["PUstep"] != undefined && r["PUstep"] != null)
+            if (r["IBstep"] != undefined && r["IBstep"] != null)
             {
-              if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
+              if (r["PUstep"] != undefined && r["PUstep"] != null)
               {
-                if (s == 'delivery')
+                if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  change_order_status(id,"done");
+                  if (s == 'delivery')
+                  {
+                    change_order_status(id,"done");
+                  }
                 }
               }
-            }
-            else {
-              if (r["IBstep"] == "PARCEL_DELIVERED")
-              {
-                if (s == 'pickup')
+              else {
+                if (r["IBstep"] == "PARCEL_DELIVERED")
                 {
-                  change_order_status(id,"pickup_ready");
+                  if (s == 'pickup')
+                  {
+                    change_order_status(id,"pickup_ready");
+                    get_locker_pin(a,s,function (ty)
+                    {
+                      var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                      boxes.boxUpdate(id,s,r["IBMachineCode"],ty.lockerCode2,valid,function(rt)
+                      {
+
+                      });
+                    });
+                  }
                 }
               }
             }
           }
-        }
 
-      });
+        });
+      }
     }
   });
 }
-setInterval(getBoxes,180000);
+
 
 
 var find_by_status_function = function(stat,callback) {	//statuksen mukaan function
@@ -187,3 +212,23 @@ var logThis = function(jso)
     //console.log(logs);
   });
 }
+
+var get_locker_pin = function(orderID, type, callback) {
+  Lockers.findOne({orderID: orderID, type:type}, function(err, lockers) {
+    if (err)
+      callback("err");
+    callback(lockers);
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+setInterval(getBoxes,180000);
