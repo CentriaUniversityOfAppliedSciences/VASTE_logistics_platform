@@ -135,7 +135,7 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
         }
 
     };
-    //console.log(options);
+    console.log(options);
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED"});
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
@@ -202,7 +202,7 @@ exports.boxUpdateApi = function(req,res) {
         }
 
     };
-    //console.log(options);
+    console.log(options);
     //res.send("error");
     sendToApi(options,function(vast){
       res.send(vast);
