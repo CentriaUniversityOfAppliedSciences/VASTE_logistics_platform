@@ -141,7 +141,7 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
     sendToApi(options,function(vast){
       console.log("api resp:");
       console.log(vast);
-      callback(vast);
+      callback(vasteOrder,status,id,vast);
     });
   });
 };
