@@ -27,6 +27,7 @@ var Lockers = mongoose.model('Lockers');
 
 function getBoxes()
 {
+  console.log("getBoxes()");
   find_by_status_function("pickup_not_ready",function(res)
   {
     console.log(res);
@@ -234,4 +235,4 @@ var get_locker_pin = function(orderID, type, callback) {
 
 
 
-setInterval(getBoxes,180000);
+setInterval(getBoxes,60000);
