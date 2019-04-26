@@ -38,7 +38,7 @@ function getBoxes()
         boxes.boxTrack(res[i].vasteOrder,res[i]._id, "pickup",function(id,s,a,r)
         {
           console.log(r);
-          if (r != undefined && r != null && r != 'error')
+          if (r != undefined && r != null)
           {
             if (r["IBstep"] != undefined && r["IBstep"] != null)
             {
@@ -86,7 +86,7 @@ function getBoxes()
       {
         boxes.boxTrack(res[i].vasteOrder, res[i]._id, "delivery",function(id,s,a,r)
         {
-          if (r != undefined && r != null && r != 'error')
+          if (r != undefined && r != null )
           {
             if (r["IBstep"] != undefined && r["IBstep"] != null)
             {
