@@ -237,7 +237,7 @@ exports.boxUpdateApi = function(req,res) {
 
       };
       sendToApi(options2,function(vast2){
-        console.log(options);
+        //console.log(options);
         //res.send("error");
 
         res.send(vast2);
