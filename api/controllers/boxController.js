@@ -157,24 +157,41 @@ exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
     {
       parcel = vast["2"];
     }
-    var options = {
-        uri: "http://localhost:"+environment.boxApi+"/api/update",
+    var options1 = {
+        uri: "http://localhost:"+environment.boxApi+"/api/findparcel",
         method: 'POST',
         headers: {
         "content-type": "application/json",
         },
         json: {
           "ParcelId":parcel,
-          "MachineCode":machine,
-          "FetchCode":fetch,
-          "ValidUntil":valid
+          "MachineCode":machine
         }
 
     };
-    console.log(options);
-    //callback("error");
-    sendToApi(options,function(vast){
-      callback(vast);
+    sendToApi(options1,function(vast1){
+
+      var options2 = {
+          uri: "http://localhost:"+environment.boxApi+"/api/update",
+          method: 'POST',
+          headers: {
+          "content-type": "application/json",
+          },
+          json: {
+            "ParcelId":parcel,
+            "MachineCode":machine,
+            "FetchCode":fetch,
+            "ValidUntil":valid,
+            "VersionInfo":vast1[0].VersionInfo
+          }
+
+      };
+      sendToApi(options2,function(vast2){
+        callback(vast2);
+      });
+      //console.log(options);
+      //callback("error");
+
     });
   });
 };
@@ -190,24 +207,41 @@ exports.boxUpdateApi = function(req,res) {
     {
       parcel = vast["2"];
     }
-    var options = {
-        uri: "http://localhost:"+environment.boxApi+"/api/update",
+
+    var options1 = {
+        uri: "http://localhost:"+environment.boxApi+"/api/findparcel",
         method: 'POST',
         headers: {
         "content-type": "application/json",
         },
         json: {
           "ParcelId":parcel,
-          "MachineCode":req.body.machine,
-          "FetchCode":req.body.fetch,
-          "ValidUntil":req.body.valid
+          "MachineCode":req.body.machine
         }
 
     };
-    console.log(options);
-    //res.send("error");
-    sendToApi(options,function(vast){
-      res.send(vast);
+    sendToApi(options1,function(vast1){
+      var options2 = {
+          uri: "http://localhost:"+environment.boxApi+"/api/update",
+          method: 'POST',
+          headers: {
+          "content-type": "application/json",
+          },
+          json: {
+            "ParcelId":parcel,
+            "MachineCode":req.body.machine,
+            "FetchCode":req.body.fetch,
+            "ValidUntil":req.body.valid,
+            "VersionInfo":vast1[0].VersionInfo
+          }
+
+      };
+      sendToApi(options2,function(vast2){
+        console.log(options);
+        //res.send("error");
+
+        res.send(vast2);
+      });
     });
   });
 };
