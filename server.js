@@ -86,7 +86,7 @@ app.use(function(req,res,next){
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'
 							|| req.path == '/superDeleteOrder' || req.path == '/superDeliveryLists' || req.path == '/getCompaniesPayments' || req.path == '/superDeleteVehicle'
 							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'
-							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment'/*<-*/
+							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2'/*<-*/
             )
               && req.body.apikey == environment.apikey
           )

@@ -4,6 +4,7 @@ var fs = require('fs');
 var mongoose = require('mongoose');
   var Users = mongoose.model('Users');
 	var Vehicles = mongoose.model('Vehicles');
+	var Lockers = mongoose.model('Lockers');
 	var DeliveryLists = mongoose.model('DeliveryLists');
 	var Companys = mongoose.model('Companys');
 	var Users = mongoose.model('Users');
@@ -346,6 +347,21 @@ exports.super_delete_a_payment = function(req, res) {
       res.send(err);
     res.json({ payment: 'Payments successfully deleted' });
   });
+};
+
+exports.super_update_locker_pin2 = function(req,res){
+	Lockers.findOneAndUpdate({_id: req.body.lockersId, type:req.body.type}, {$set:{lockerCode2:req.body.code}}, {new:true}, function(err,lockers){
+		if(err){
+			console.log(err);
+			res.send(err)
+		}
+
+		if(lockers != undefined || lockers != null){
+			lockers = lockers.toObject();
+		}
+
+		res.json(lockers);
+	})
 };
 
 

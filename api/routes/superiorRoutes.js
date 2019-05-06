@@ -67,5 +67,8 @@ module.exports = function(app)
 	app.route('/superDeletePayment')
 		.post(superiorRoutes.super_delete_a_payment);
 
+	app.route('/updateLockerPin2')
+		.post(superiorRoutes.super_update_locker_pin2);
+
 
 };
