@@ -55,6 +55,8 @@ app.route('/deleteOrder')
     .post(orderRoutes.getAllForId2);
   app.route('/failedOrder')
     .post(orderRoutes.archive_a_failed_order);
+  app.route('/orders/boxOrders')
+    .post(orderRoutes.getVehicleOrdersBoxes);
 
 
 

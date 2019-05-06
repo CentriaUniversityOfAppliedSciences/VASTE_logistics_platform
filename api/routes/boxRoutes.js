@@ -6,7 +6,7 @@ module.exports = function(app){
     app.route('/box/cancel')
       .post(boxRoutes.boxCancel);
     app.route('/box/findparcel')
-      .post(boxRoutes.boxFindParcel);
+      .post(boxRoutes.boxFindParcelApi);
     app.route('/box/getfree')
       .post(boxRoutes.boxFreeLockers);
     app.route('/box/boxtrack')

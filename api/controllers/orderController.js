@@ -35,9 +35,9 @@ exports.find_by_status = function(req, res) {	//statuksen mukaan
 };
 
 exports.find_by_status_function = function(stat,callback) {	//statuksen mukaan function
-  console.log("function");
+
   Orders.find({status:stat, archieved:0}, function(err, orders) {
-    console.log(err);
+
     if (err)
       callback("err");
     callback(orders);
@@ -243,7 +243,6 @@ exports.delete_a_orders = function(req, res) {
 
 exports.getVehicleOrders = function(req,res)
 {
-	var orderList = [];
 	Deliveries.find({vehicleID:req.body.vehicleID, companyID:req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
@@ -262,7 +261,6 @@ exports.getVehicleOrders = function(req,res)
 
 exports.getVehicleOrdersReceived = function(req,res)
 {
-	var orderList = [];
 	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{
@@ -278,9 +276,23 @@ exports.getVehicleOrdersReceived = function(req,res)
 		}
 	});
 };
+
+exports.getVehicleOrdersBoxes = function(req,res)
+{
+  Orders.find({companyID:req.body.companyID, archieved:0, $or:[{status:"pickup_ready"},{status:"terminal_start"}] }, function(err, orders) {
+    if (err)
+      res.send(err);
+    getOrdersWithoutDelivery(orders, function(err,r)
+    {
+      res.json(r);
+    });
+
+  });
+};
+
+
 exports.getVehicleOrdersInprogress = function(req,res)
 {
-	var orderList = [];
 	Deliveries.find({vehicleID:req.body.vehiclesId, companyID: req.body.companyID}, function(err, deliverys){
 		if (err)
 		{

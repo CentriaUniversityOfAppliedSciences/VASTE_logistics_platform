@@ -27,18 +27,14 @@ var Lockers = mongoose.model('Lockers');
 
 function getBoxes()
 {
-  console.log("getBoxes()");
   find_by_status_function("pickup_not_ready",function(res)
   {
-    console.log(res);
     if (res != undefined && res != null && res != 'err')
     {
       for (var i = 0; i< res.length;i++)
       {
-        console.log("getting trackandtrace: "+res[i].vasteOrder);
         boxes.boxTrack(res[i].vasteOrder,res[i]._id, "pickup",function(id,s,a,r)
         {
-          console.log(r);
           if (r != undefined && r != null)
           {
             if (r["IBstep"] != undefined && r["IBstep"] != null)
@@ -47,10 +43,7 @@ function getBoxes()
               {
                 if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  if (s == 'delivery')
-                  {
-                    change_order_status(id,"done");
-                  }
+
                 }
               }
               else {
@@ -116,6 +109,16 @@ function getBoxes()
                       });
                     });
                   }
+                  else if (s == 'delivery')
+                  {
+                    get_locker_pin(a,s,function (ty)
+                    {
+                      if (ty != undefined && ty != null)
+                      {
+                        checkIfPincode(r["IBMachineCode"],id,"delivery",ty.lockerCode2);
+                      }
+                    });
+                  }
                 }
               }
             }
@@ -127,6 +130,24 @@ function getBoxes()
   });
 }
 
+
+var checkIfPincode = function(machine,id,dir,pin)
+{
+  boxes.boxFindParcel(id,machine,dir,pin,function(a,b,c,d,r){
+    if(r != undefined && r != null && r != 'error')
+    {
+      if (r.FetchCode.length < 2)
+      {
+        console.log("no FetchCode found for parcel: "+a);
+        var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+        boxes.boxUpdate(a,c,b,d,valid,function(rt)
+        {
+
+        });
+      }
+    }
+  });
+}
 
 
 var find_by_status_function = function(stat,callback) {	//statuksen mukaan function
@@ -236,4 +257,4 @@ var get_locker_pin = function(orderID, type, callback) {
 
 
 
-setInterval(getBoxes,60000);
+setInterval(getBoxes,360000);
