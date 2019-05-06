@@ -48,7 +48,7 @@ var OrderSchema = new Schema ({
 	status: {			//tilan seuranta //vastaanotettu, kuljettaja hyväksynyt, noudettu, peruutettu, valmis, lähettäjä ei ole vienyt boksiin, lähettäjä vienyt boksiin, kuljettaja ei ole vienyt boksiin,kuljettaja vienyt boksiin
 
 		type: String,
-		enum: ['received', 'accepted', 'inProgress', 'cancelled' ,'done', 'pickup_not_ready','pickup_ready','box_accepted','delivery_not_ready','delivery_ready','box_cancelled'],
+		enum: ['received', 'accepted', 'inProgress', 'cancelled' ,'done', 'pickup_not_ready','pickup_ready','box_accepted','delivery_not_ready','delivery_ready','box_cancelled','terminal_start','terminal_stop'],
 		default: ['received']
    },
 

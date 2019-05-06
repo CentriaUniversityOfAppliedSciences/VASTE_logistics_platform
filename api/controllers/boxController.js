@@ -29,7 +29,7 @@ exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
           }
 
       };
-      console.log(options);
+      //console.log(options);
       //callback("error");
       sendToApi(options,function(vast){
         callback(vast);
@@ -67,7 +67,7 @@ exports.boxCancel = function(req, res) {
   });
 };
 
-exports.boxFindParcel = function(req, res) {
+exports.boxFindParcelApi = function(req, res) {
   generateParcel(req.body.vasteOrder,function (vast){
     var parcel = "";
     if (req.body.status == "pickup")
@@ -92,6 +92,34 @@ exports.boxFindParcel = function(req, res) {
     };
     sendToApi(options,function(vast){
       res.send(vast);
+    });
+  });
+};
+exports.boxFindParcel = function(vasteOrder,machine,status,pin,callback) {
+  generateParcel(vasteOrder,function (vast){
+    var parcel = "";
+    if (status == "pickup")
+    {
+      parcel = vast["1"];
+    }
+    else if (status == "delivery")
+    {
+      parcel = vast["2"];
+    }
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/findparcel",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "ParcelId":parcel,
+          "MachineCode":machine
+        }
+
+    };
+    sendToApi(options,function(vast){
+      callback(vasteOrder,machine,status,pin,vast);
     });
   });
 };
@@ -135,12 +163,12 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
         }
 
     };
-    console.log(options);
+    //console.log(options);
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED"});
     //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
-      console.log("api resp:");
-      console.log(vast);
+      //console.log("api resp:");
+      //console.log(vast);
       callback(vasteOrder,status,id,vast);
     });
   });
@@ -220,6 +248,8 @@ exports.boxUpdateApi = function(req,res) {
         }
 
     };
+    //console.log(options1);
+    //res.send("error");
     sendToApi(options1,function(vast1){
       var options2 = {
           uri: "http://localhost:"+environment.boxApi+"/api/update",
@@ -236,9 +266,8 @@ exports.boxUpdateApi = function(req,res) {
           }
 
       };
+
       sendToApi(options2,function(vast2){
-        //console.log(options);
-        //res.send("error");
 
         res.send(vast2);
       });
