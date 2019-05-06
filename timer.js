@@ -113,7 +113,10 @@ function getBoxes()
                   {
                     get_locker_pin(a,s,function (ty)
                     {
-                      checkIfPincode(r["IBMachineCode"],id,"delivery",ty.lockerCode2);
+                      if (ty != undefined && ty != null)
+                      {
+                        checkIfPincode(r["IBMachineCode"],id,"delivery",ty.lockerCode2);
+                      }
                     });
                   }
                 }
