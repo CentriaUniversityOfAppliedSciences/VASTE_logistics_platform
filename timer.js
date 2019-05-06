@@ -136,7 +136,7 @@ var checkIfPincode = function(machine,id,dir,pin)
   boxes.boxFindParcel(id,machine,dir,pin,function(a,b,c,d,r){
     if(r != undefined && r != null && r != 'error')
     {
-      if (r.FetchCode.length < 2)
+      if (r != undefined && r != null && r.FetchCode.length < 2)
       {
         console.log("no FetchCode found for parcel: "+a);
         var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
