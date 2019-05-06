@@ -43,10 +43,7 @@ function getBoxes()
               {
                 if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  if (s == 'delivery')
-                  {
-                    change_order_status(id,"done");
-                  }
+
                 }
               }
               else {
@@ -116,7 +113,7 @@ function getBoxes()
                   {
                     get_locker_pin(a,s,function (ty)
                     {
-                      checkIfPincode(r["IBMachineCode"],res[i].vasteOrder,"delivery",ty.lockerCode2);
+                      checkIfPincode(r["IBMachineCode"],id,"delivery",ty.lockerCode2);
                     });
                   }
                 }
