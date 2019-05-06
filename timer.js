@@ -117,7 +117,7 @@ function getBoxes()
                     get_locker_pin(a,s,function (ty)
                     {
                       checkIfPincode(r["IBMachineCode"],res[i].vasteOrder,"delivery",ty.lockerCode2);
-                    }
+                    });
                   }
                 }
               }
