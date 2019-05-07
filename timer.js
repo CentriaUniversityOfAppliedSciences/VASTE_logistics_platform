@@ -52,11 +52,11 @@ function getBoxes()
                   if (s == 'pickup')
                   {
                     change_order_status(id,"pickup_ready");
-                    get_locker_pin(a,s,function (ty)
+                    get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                     {
                       console.log(ty);
                       var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                      boxes.boxUpdate(id,s,r["IBMachineCode"],ty.lockerCode2,valid,function(rt)
+                      boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
                       {
                         console.log(rt);
                       });
@@ -100,10 +100,10 @@ function getBoxes()
                   if (s == 'pickup')
                   {
                     change_order_status(id,"pickup_ready");
-                    get_locker_pin(a,s,function (ty)
+                    get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                     {
                       var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                      boxes.boxUpdate(id,s,r["IBMachineCode"],ty.lockerCode2,valid,function(rt)
+                      boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
                       {
 
                       });
@@ -111,11 +111,11 @@ function getBoxes()
                   }
                   else if (s == 'delivery')
                   {
-                    get_locker_pin(a,s,function (ty)
+                    get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                     {
                       if (ty != undefined && ty != null)
                       {
-                        checkIfPincode(r["IBMachineCode"],id,"delivery",ty.lockerCode2);
+                        checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
                       }
                     });
                   }
@@ -239,19 +239,13 @@ var logThis = function(jso)
   });
 }
 
-var get_locker_pin = function(orderID, type, callback) {
+var get_locker_pin = function(orderID, type,vasteOrder,machine, callback) {
   Lockers.findOne({orderID: orderID, type:type}, function(err, lockers) {
     if (err)
       callback("err");
-    callback(lockers);
+    callback(type,vasteOrder,machine,lockers);
   });
 };
-
-
-
-
-
-
 
 
 
