@@ -240,7 +240,7 @@ exports.changeDeliveryStatus = function(req,res)
     var query = { _id: req.body.deliveryID };
   	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
     Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
-      if (deli.length > 0)
+      if (deli != undefined && deli.length > 0)
       {
         Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
           if(err)

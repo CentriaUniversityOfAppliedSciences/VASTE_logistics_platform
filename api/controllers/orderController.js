@@ -342,6 +342,7 @@ function getOrdersForDelivery(deliveries,mode, callback)
 					h.delivery = delivery;
           h.vasteOrder = result[0].vasteOrder;
           h.companyID = result[0].companyID;
+          h.destination = result[0].destination;
 
           if (mode == 'mine')
           {
@@ -417,6 +418,7 @@ function getOrdersWithoutDelivery(orders, callback)
 					h.delivery = {};
           h.vasteOrder = order.vasteOrder;
           h.companyID = order.companyID;
+          h.destination = order.destination;
 
 					ordery.push(h);
 				}
