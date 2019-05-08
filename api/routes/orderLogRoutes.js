@@ -12,5 +12,7 @@ module.exports = function(app)
     .post(ologRoutes.create_company_log);
   app.route('/getsingleolog')
     .post(ologRoutes.get_single_log);
+	app.route('/getOrderLogs')
+		.post(ologRoutes.list_order_logs);
 
 };

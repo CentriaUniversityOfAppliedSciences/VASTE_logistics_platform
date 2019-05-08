@@ -89,6 +89,7 @@ exports.create_a_orders = function(req, res) {
           deliveryID: "",
           companyID: orders.companyID
         };
+				console.log("uus tilaus");
         log.logThis(jso);
       }
       res.json(orders);
@@ -147,7 +148,7 @@ exports.change_order_status = function(req, res) {
         user:"api",
         ip: ipa,
         timestamp: Math.floor(new Date() / 1000),
-        code: "order_status_change:"+req.body.status,
+        code: req.body.status,
         orderID:orders._id,
         companyID: orders.companyID,
       };

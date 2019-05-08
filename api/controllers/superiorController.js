@@ -167,14 +167,14 @@ exports.super_create_a_deliverys = function(req,res){
 			user:"api",
 			ip: ipa,
 			timestamp: Math.floor(new Date() / 1000),
-			code: "superior_delivery",
+			code: "operator_delivery",
 			orderID: deliverys.orderID,
 			deliveryID: deliverys._id,
 			companyID: req.body.companyID,
 			vehicleID: req.body.vehicleID
 		};
 		log.logThis(jso);
-		sendStatusChange(deliverys.orderID, "superoperator_deliver", req.body.companyID);
+		sendStatusChange(deliverys.orderID, "operator_delivery", req.body.companyID);
 
 		res.json(deliverys);
 	});
@@ -200,7 +200,7 @@ exports.super_delete_a_delivery = function(req,res){
       user:"api",
       ip: ipa,
       timestamp: Math.floor(new Date() / 1000),
-      code: "superoperator_cancel",
+      code: "operator_cancel",
       orderID:req.body.orderID,
       deliveryID: req.body.deliverysId,
       companyID: req.body.companyID
@@ -224,7 +224,7 @@ exports.super_archive_a_orders_removal = function(req, res) {
       user:"api",
       ip: ipa,
       timestamp: Math.floor(new Date() / 1000),
-      code: "superoperator_archive_2",
+      code: "operator_archive_2",
       orderID:req.body.orderID,
       companyID: req.body.companyID,
     };
@@ -381,6 +381,8 @@ function sendStatusChange(orderID,status,comp)
       "companyID":comp,
       "environment":envi
     };
+
+		console.log("sendStatusChange jso " + JSON.stringify(jso));
     var request = require('request');
   	var options = {
   		uri: "https://localhost:5140/webhook",
