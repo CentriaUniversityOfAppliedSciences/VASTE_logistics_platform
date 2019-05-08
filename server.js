@@ -80,7 +80,7 @@ app.use(function(req,res,next){
               || req.path == '/book_a_locker' || req.path == '/orders/change_order_status' || req.path == '/get_locker_pin' || req.path == '/orders/updatePincode'
               || req.path == '/getBoxOrder' || req.path == '/orderstatus/create' || req.path == '/box/cancel'
               || req.path == '/box/findparcel' || req.path == '/box/getfree' || req.path == '/box/boxtrack' || req.path == '/box/update'
-              || req.path == '/failedOrder' || req.path == '/points/getById' || req.path == '/getOrderLogs'
+              || req.path == '/failedOrder' || req.path == '/points/getById' || req.path == '/bystripe' || req.path == '/getOrderLogs'
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'

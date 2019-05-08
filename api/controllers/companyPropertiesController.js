@@ -45,7 +45,13 @@ var mongoose = require('mongoose'),
       res.json({companys});
     });
   };
-
+  exports.find_by_stripeaccount = function(req, res) {
+    CompanyProperties.findOne({companyID: req.body.companysId,type:'stripe'}, function(err, companys) {
+      if (err)
+        res.send(err);
+      res.json({companys});
+    });
+  };
 
   exports.find_company_by_apikey = function(req, res) {
     CompanyProperties.find({value: req.body.apikey, type:'apikey'}, function(err, companys) {
