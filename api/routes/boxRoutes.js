@@ -4,7 +4,7 @@ module.exports = function(app){
 
 
     app.route('/box/cancel')
-      .post(boxRoutes.boxCancel);
+      .post(boxRoutes.boxCancelApi);
     app.route('/box/findparcel')
       .post(boxRoutes.boxFindParcelApi);
     app.route('/box/getfree')

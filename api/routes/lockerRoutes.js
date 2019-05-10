@@ -11,6 +11,8 @@ module.exports = function(app)
 
   app.route('/book_a_locker')
     .post(lockerRoutes.book_a_locker);
+  app.route('/unbook_a_locker')
+    .post(lockerRoutes.unbook_a_locker);
   app.route('/get_locker_pin')
     .post(lockerRoutes.get_locker_pin);
 

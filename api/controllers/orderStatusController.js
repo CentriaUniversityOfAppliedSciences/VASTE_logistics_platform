@@ -10,12 +10,12 @@ exports.list_all_orderStatus = function(req, res) {
     });
   };
   exports.find_orderStatus_by_ID = function(req, res) {
-    OrderStatus.find({_id: req.params.OrderNumber}, function(err, OrderStatus) {
+    OrderStatus.findOne({OrderNumber: req.body.OrderNumber}, function(err, OrderStatus) {
       if (err)
         res.send(err);
       res.json(OrderStatus);
     });
-  }; 
+  };
 exports.create_OrderStatus = function(req, res){
   var new_OrderStatus = new OrderStatus(req.body);
   new_OrderStatus.save(function(err, OrderStatus) {
@@ -25,21 +25,21 @@ exports.create_OrderStatus = function(req, res){
   });
 };
 exports.update_OrderStatus = function(req, res){
-  OrderStatus.findOneAndUpdate({_id: req.params.OrderNumber}, req.body, {new: true}, function(err, OrderStatus) {
+  OrderStatus.findOneAndUpdate({OrderNumber: req.body.OrderNumber}, {OrderConfirmed:req.body.status}, {new: true}, function(err, OrderStatus) {
     if (err)
       res.send(err);
     res.json(OrderStatus);
   });
 };
 exports.delete_OrderStatus = function(req, res){
-  OrderStatus.remove({_id: req.params.OrderNumber}, function(err, OrderStatus) {
+  OrderStatus.remove({OrderNumber: req.body.OrderNumber}, function(err, OrderStatus) {
     if (err)
       res.send(err);
     res.json({ OrderStatus: 'OrderStatus successfully deleted' });
   });
 };
 exports.get_OrderStatus = function(req, res){
-  OrderStatus.findById(req.params.OrderNumber, function(err, OrderStatus) {
+  OrderStatus.findById(req.body.id, function(err, OrderStatus) {
     if (err)
       res.send(err);
     res.json(OrderStatus);

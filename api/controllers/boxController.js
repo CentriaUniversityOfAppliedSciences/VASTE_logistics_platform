@@ -38,7 +38,37 @@ exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
 
 };
 
-exports.boxCancel = function(req, res) {
+exports.boxCancel = function(vasteOrder,status,machine,callback) {
+  generateParcel(vasteOrder,function (vast){
+    var parcel = "";
+    if (status == "pickup")
+    {
+      parcel = vast["1"];
+    }
+    else if (status == "delivery")
+    {
+      parcel = vast["2"];
+    }
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/cancel",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "ParcelId":parcel,
+          "MachineCode":machine
+        }
+
+    };
+
+    sendToApi(options,function(vast){
+      callback(vast);
+    });
+  });
+};
+
+exports.boxCancelApi = function(req, res) {
   generateParcel(req.body.vasteOrder,function (vast){
     var parcel = "";
     if (req.body.status == "pickup")

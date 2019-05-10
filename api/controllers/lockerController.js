@@ -112,6 +112,40 @@ exports.book_a_locker = function(req, res) {
   });
 };
 
+exports.unbook_a_locker = function(req, res) {
+  Lockers.findOneAndUpdate({_id: req.body.id}, {lockerStatus: "available",
+    lockerCode:"",lockerCode2:"",orderID:"",type:""}, {new: true}, function(err, lockers) {
+    if (err)
+    {
+      res.send(err);
+    }
+
+      if(req.body.machine == "1" || req.body.machine == "2")
+      {
+        req.body.machine = "100"+req.body.machine;
+
+        boxes.boxCancel(req.body.vasteOrder,req.body.type,req.body.machine,function(vast){
+
+          if (vast != undefined && vast != null /*&& vast != 'error'*/)
+          {
+            res.json(lockers);
+          }
+          else {
+            res.json(null)
+          }
+
+        });
+      }
+      else {
+        res.json(lockers);
+      }
+
+
+
+
+  });
+};
+
 exports.get_locker_pin = function(req, res) {
   Lockers.findOne({orderID: req.body.orderID, type:req.body.type}, function(err, lockers) {
     if (err)
