@@ -13,5 +13,9 @@ module.exports = function(app){
 
     app.route('/orderstatus/update_orderstatus_by_ID')
       .post(orderStatusRoutes.update_OrderStatus);
+    app.route('/orderstatus/list_by_company')
+      .post(orderStatusRoutes.list_by_company);
+
+
 
 }
