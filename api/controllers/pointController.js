@@ -54,7 +54,9 @@ exports.delete_a_points = function(req, res) {
 
 
 exports.listboxes = function(req, res) {
-  Points.find({}, function(err, points) {
+  var mysort = {sort:{number:1}};
+  Points.find({},null,mysort, function(err, points) {
+
     if (err)
       res.send(err);
     getBoxStatuses(points,function(erro,r){
@@ -105,13 +107,14 @@ function getBoxStatuses(boxes, callback)
 		}
 
 			var query = {'pointID':box._id};
-			Lockers.find(query, function(err, result) {
+			Lockers.find(query,null,{sort:{lockerId:1}}, function(err, result) {
 				if (err)
 				{
 				  res.send(err);
 				}
         var b = box.toObject();
         b.lockers = result;
+        b.number = box.number;
 				boxe.push(b);
 				done();
 				return;
