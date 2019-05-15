@@ -82,7 +82,7 @@ app.use(function(req,res,next){
               || req.path == '/box/findparcel' || req.path == '/box/getfree' || req.path == '/box/boxtrack' || req.path == '/box/update'
               || req.path == '/failedOrder' || req.path == '/points/getById' || req.path == '/bystripe' || req.path == '/orderstatus/find_orderstatus_by_ID'
               || req.path == '/unbook_a_locker' || req.path == '/orderstatus/update_orderstatus_by_ID' || req.path == '/getOrderLogs'
-              || req.path == '/orderstatus/list_by_company'
+              || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID'
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'

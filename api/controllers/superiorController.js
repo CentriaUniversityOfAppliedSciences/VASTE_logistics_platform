@@ -382,7 +382,7 @@ function sendStatusChange(orderID,status,comp)
       "environment":envi
     };
 
-		console.log("sendStatusChange jso " + JSON.stringify(jso));
+		//console.log("sendStatusChange jso " + JSON.stringify(jso));
     var request = require('request');
   	var options = {
   		uri: "https://localhost:5140/webhook",

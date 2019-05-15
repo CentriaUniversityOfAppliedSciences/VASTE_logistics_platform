@@ -89,7 +89,6 @@ exports.create_a_orders = function(req, res) {
           deliveryID: "",
           companyID: orders.companyID
         };
-				console.log("uus tilaus");
         log.logThis(jso);
       }
       res.json(orders);

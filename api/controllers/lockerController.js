@@ -32,6 +32,16 @@ exports.read_a_lockers = function(req, res) {
   });
 };
 
+exports.find_locker_by_orderid = function(req,res){
+	Lockers.find({orderID: req.body.orderID}, function(err, lockers){
+		if(err){
+			res.send(err);
+			console.log(err);
+		}
+		res.json(lockers);
+	})
+}
+
 
 exports.update_a_lockers = function(req, res) {
   Lockers.findOneAndUpdate({_id: req.body.lockersId}, req.body, {new: true}, function(err, lockers) {

@@ -7,6 +7,8 @@ module.exports = function(app)
   app.route('/lockers')
     .get(lockerRoutes.list_all_lockers)
     .post(lockerRoutes.create_a_lockers);
+	app.route('/find_locker_by_orderID')
+		.post(lockerRoutes.find_locker_by_orderid);
 
 
   app.route('/book_a_locker')
