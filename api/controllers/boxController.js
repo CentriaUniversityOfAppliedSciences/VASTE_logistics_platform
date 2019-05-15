@@ -305,6 +305,28 @@ exports.boxUpdateApi = function(req,res) {
   });
 };
 
+
+exports.getStates = function(machine,callback) {
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/getBoxesState",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "MachineCode":machine
+        }
+    };
+    //console.log(options);
+    sendToApi(options,function(vast){
+      //console.log(vast);
+      callback(machine,vast);
+    });
+};
+
+
+
+
 function sendToApi(options, callback)
 {
       request(options, function (error, response, body) {
