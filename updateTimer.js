@@ -2,7 +2,7 @@
 var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
-var secretJson = fs.readFileSync("./secret.json");
+var secretJson = fs.readFileSync("./encryption/secret.json");
 var secret = JSON.parse(secretJson);
 var mongoose = require('mongoose');
 var Order = require('./api/models/orderModel'), //Ladataan mallit käyttöön
