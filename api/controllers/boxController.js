@@ -228,25 +228,30 @@ exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
 
     };
     sendToApi(options1,function(vast1){
+      if (vast1 != undefined && vast1 != null)
+      {
+        var options2 = {
+            uri: "http://localhost:"+environment.boxApi+"/api/update",
+            method: 'POST',
+            headers: {
+              "content-type": "application/json",
+            },
+            json: {
+              "ParcelId":parcel,
+              "MachineCode":machine,
+              "FetchCode":fetch,
+              "ValidUntil":valid,
+              "VersionInfo":vast1[0].VersionInfo
+            }
 
-      var options2 = {
-          uri: "http://localhost:"+environment.boxApi+"/api/update",
-          method: 'POST',
-          headers: {
-          "content-type": "application/json",
-          },
-          json: {
-            "ParcelId":parcel,
-            "MachineCode":machine,
-            "FetchCode":fetch,
-            "ValidUntil":valid,
-            "VersionInfo":vast1[0].VersionInfo
-          }
-
-      };
-      sendToApi(options2,function(vast2){
-        callback(vast2);
-      });
+          };
+          sendToApi(options2,function(vast2){
+            callback(vast2);
+          });
+      }
+      else {
+        callback("error")
+      }
       //console.log(options);
       //callback("error");
 
