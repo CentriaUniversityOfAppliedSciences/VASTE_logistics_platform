@@ -10,7 +10,7 @@ var LockerSchema = new Schema ({
 
 		lockerStatus:{
 			type: String,
-			enum: ['available','booked','in_use'],
+			enum: ['available','booked','in_use','malfunction'],
 			default: ['available']
 		},
 
