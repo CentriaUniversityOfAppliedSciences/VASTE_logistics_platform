@@ -228,7 +228,7 @@ exports.boxUpdate = function(vasteOrder,status,machine,fetch,valid,callback) {
 
     };
     sendToApi(options1,function(vast1){
-      if (vast1 != undefined && vast1 != null)
+      if (vast1 != undefined && vast1 != null && vast1.length > 0)
       {
         var options2 = {
             uri: "http://localhost:"+environment.boxApi+"/api/update",
