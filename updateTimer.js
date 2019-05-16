@@ -579,8 +579,8 @@ var sendEmail = function(receiver, subject, msgHTML, callback)
 }
 
 
-//setInterval(checkBoxes,600000);
-setInterval(checkBoxes,10000);
+setInterval(checkBoxes,600000);
+//setInterval(checkBoxes,10000);
 
 var testFunc = function(m,callback)
 {
