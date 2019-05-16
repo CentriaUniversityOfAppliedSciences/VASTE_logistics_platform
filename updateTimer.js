@@ -32,20 +32,22 @@ var Points = mongoose.model('Points');
 
 var boxJson = {
   "1":"1001",
-  "2":"1002",
+  "2":"1002"/*,
   "3":"1003",
   "4":"1004",
   "5":"1005",
-  "6":"1006"
+  "6":"1006"*/
 };
 
 function checkBoxes()
 {
   console.log("updateTimer running:" + Date().toString());
-  for (var i = 0; i < boxJson.length; i++)
+
+  for (var i = 1; i < 3; i++)
   {
     boxes.getStates(boxJson[i],function(m,r)
     {
+      console.log(r);
 
     //testFunc("1007",function(m,r)
     //{
@@ -577,7 +579,8 @@ var sendEmail = function(receiver, subject, msgHTML, callback)
 }
 
 
-setInterval(checkBoxes,600000);
+//setInterval(checkBoxes,600000);
+setInterval(checkBoxes,10000);
 
 var testFunc = function(m,callback)
 {
