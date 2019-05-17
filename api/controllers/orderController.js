@@ -119,6 +119,8 @@ exports.read_single_order = function(req, res) {
     res.json(orders);
   });
 };
+
+
 exports.get_api_order = function(req, res) {
   Orders.find({companyID:req.body.companyID,_id:req.body.orderID, archieved:0}, function(err, orders) {
     if (err)
@@ -192,6 +194,27 @@ exports.archive_a_orders_removal = function(req, res) {
       code: "operator_archive_2",
       orderID:req.body.orderID,
       companyID: req.body.companyID,
+    };
+    log.logThis(jso);
+
+    res.json(orders);
+  });
+};
+
+exports.customer_archive_a_orders_removal = function(req, res) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, {archieved:2}, {new: true}, function(err, orders) {
+    if (err)
+		{
+			 res.send(err);
+		}
+		var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "customer_archive_2",
+      orderID:req.body.orderID,
     };
     log.logThis(jso);
 

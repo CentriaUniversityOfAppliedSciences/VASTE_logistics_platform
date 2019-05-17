@@ -57,6 +57,9 @@ app.route('/deleteOrder')
     .post(orderRoutes.archive_a_failed_order);
   app.route('/orders/boxOrders')
     .post(orderRoutes.getVehicleOrdersBoxes);
+	app.route('/customerDeleteOrder')
+		.post(orderRoutes.customer_archive_a_orders_removal);
+
 
 
 
