@@ -232,8 +232,38 @@ exports.boxAnnounceTrack = function(vasteOrder,id,status,callback) {
     };
     //console.log(options);
     sendToApi(options,function(vast){
-      //console.log(vast);
+      
       callback(vasteOrder,status,id,vast);
+    });
+  });
+};
+
+exports.boxAnnounceTrackApi = function(req,res) {
+  generateParcel(req.body.vasteOrder,function (vast){
+    var parcel = "";
+    if (req.body.status == "pickup")
+    {
+      parcel = vast["1"];
+    }
+    else if (req.body.status == "delivery")
+    {
+      parcel = vast["2"];
+    }
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/findannouncement",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "ParcelId":parcel
+        }
+
+    };
+    //console.log(options);
+    sendToApi(options,function(vast){
+      //console.log(vast);
+      res.send(vast);
     });
   });
 };

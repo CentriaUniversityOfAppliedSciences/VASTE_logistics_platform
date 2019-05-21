@@ -180,10 +180,6 @@ exports.unbook_a_locker = function(req, res) {
       else {
         res.json(lockers);
       }
-
-
-
-
   });
 };
 
