@@ -160,80 +160,88 @@ exports.changeDeliveryStatus = function(req,res)
       "companyID":req.body.companyID,
       "status":"box_accepted"
     });
-    new_deliverys.save(function(err, deliverys22) {
+    Deliverys.find({orderID:req.body.orderID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
+      if (deli == undefined || deli == null || deli.length < 1)
+      {
+        new_deliverys.save(function(err, deliverys22) {
 
-      var update = { vehicleID:req.body.vehicleID,status: "box_accepted", time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-      Deliverys.find({orderID:req.body.orderID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
-        if (deli.length > 0)
-        {
-          var query = { _id: deli[0]._id };
-          Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
-            if(err)
+          var update = { vehicleID:req.body.vehicleID,status: "box_accepted", time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+          Deliverys.find({orderID:req.body.orderID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
+            if (deli.length > 0)
             {
-              res.send(err);
+              var query = { _id: deli[0]._id };
+              Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+                if(err)
+                {
+                  res.send(err);
+                }
+                var oQuery = { _id: req.body.orderID };
+                var oUpdate = { status: req.body.orderStatus };
+                Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+                {
+                  if (err2)
+                  {
+                    res.send(err2);
+                  }
+                  var log = require('../controllers/orderLogController');
+                  var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+                  var c = "";
+                  if (req.body.status == "accepted" || req.body.status == 'box_accepted')
+                  {
+                    c = "driver_accept";
+                  }
+                  else if (req.body.status == "box_auto")
+                  {
+                    c = "box_auto";
+                  }
+                  else if (req.body.status == "inProgress")
+                  {
+                    c = "driver_pickup";
+                  }
+                  else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
+                  {
+                    c = "driver_cancel";
+                  }
+                  else if (req.body.status == "done")
+                  {
+                    c = "driver_delivery";
+                  }
+                  else if (req.body.status == "delivery_ready")
+                  {
+                    c = "delivery_ready";
+                  }
+                  else if (req.body.status == "delivery_not_ready")
+                  {
+                    c = "delivery_not_ready";
+                  }
+                  var jso = {
+                    user:"api",
+                    ip: ipa,
+                    timestamp: Math.floor(new Date() / 1000),
+                    code: c,
+                    orderID:req.body.orderID,
+                    deliveryID: deliverys._id,
+                    companyID: ord.companyID,
+                    vehicleID:req.body.vehicleID
+                  };
+                  log.logThis(jso);
+                  sendStatusChange(req.body.orderID,c,ord.companyID);
+                  sendStatusChange2(req.body.orderID,c);
+                  res.json(deliverys);
+
+                 });
+
+            });
             }
-            var oQuery = { _id: req.body.orderID };
-            var oUpdate = { status: req.body.orderStatus };
-            Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
-            {
-              if (err2)
-              {
-                res.send(err2);
-              }
-              var log = require('../controllers/orderLogController');
-              var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-              var c = "";
-              if (req.body.status == "accepted" || req.body.status == 'box_accepted')
-              {
-                c = "driver_accept";
-              }
-              else if (req.body.status == "box_auto")
-              {
-                c = "box_auto";
-              }
-              else if (req.body.status == "inProgress")
-              {
-                c = "driver_pickup";
-              }
-              else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
-              {
-                c = "driver_cancel";
-              }
-              else if (req.body.status == "done")
-              {
-                c = "driver_delivery";
-              }
-              else if (req.body.status == "delivery_ready")
-              {
-                c = "delivery_ready";
-              }
-              else if (req.body.status == "delivery_not_ready")
-              {
-                c = "delivery_not_ready";
-              }
-              var jso = {
-                user:"api",
-                ip: ipa,
-                timestamp: Math.floor(new Date() / 1000),
-                code: c,
-                orderID:req.body.orderID,
-                deliveryID: deliverys._id,
-                companyID: ord.companyID,
-                vehicleID:req.body.vehicleID
-              };
-              log.logThis(jso);
-              sendStatusChange(req.body.orderID,c,ord.companyID);
-              sendStatusChange2(req.body.orderID,c);
-              res.json(deliverys);
-
-             });
-
+            else {
+              res.json({'error':'Delivery not found'});
+            }
+          });
         });
-        }
-        else {
-          res.json({'error':'Delivery not found'});
-        }
-      });
+      }
+      else {
+        res.json({'error':'Delivery not found'});
+      }
     });
   }
   else {

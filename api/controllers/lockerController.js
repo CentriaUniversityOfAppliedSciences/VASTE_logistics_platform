@@ -115,7 +115,7 @@ exports.book_a_locker = function(req, res) {
         boxes.boxAnnounce(req.body.type,req.body.vasteOrder,"8600",req.body.size,req.body.valid ,function(vast){
           //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
           //{
-          if (vast != undefined && vast != null /*&& vast != 'error'*/)
+          if (vast != undefined && vast != null && vast != 'error')
           {
             res.json(lockers);
           }

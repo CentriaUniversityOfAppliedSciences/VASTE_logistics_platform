@@ -149,7 +149,13 @@ exports.boxFindParcel = function(vasteOrder,machine,status,pin,callback) {
 
     };
     sendToApi(options,function(vast){
-      callback(vasteOrder,machine,status,pin,vast);
+      if (vast != undefined && vast != null && vast.length > 0)
+      {
+        callback(vasteOrder,machine,status,pin,vast[0]);
+      }
+      else {
+        callback(vasteOrder,machine,status,pin,"error")
+      }
     });
   });
 };
@@ -194,10 +200,38 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
 
     };
     //console.log(options);
-    //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED"});
-    //callback(vasteOrder,status,id,{"IBstep":"PARCEL_DELIVERED","PUstep":"PARCEL_PICKED_UP_BY_RECIPIENT"});
     sendToApi(options,function(vast){
       //console.log("api resp:");
+      //console.log(vast);
+      callback(vasteOrder,status,id,vast);
+    });
+  });
+};
+
+exports.boxAnnounceTrack = function(vasteOrder,id,status,callback) {
+  generateParcel(vasteOrder,function (vast){
+    var parcel = "";
+    if (status == "pickup")
+    {
+      parcel = vast["1"];
+    }
+    else if (status == "delivery")
+    {
+      parcel = vast["2"];
+    }
+    var options = {
+        uri: "http://localhost:"+environment.boxApi+"/api/findannouncement",
+        method: 'POST',
+        headers: {
+        "content-type": "application/json",
+        },
+        json: {
+          "ParcelId":parcel
+        }
+
+    };
+    //console.log(options);
+    sendToApi(options,function(vast){
       //console.log(vast);
       callback(vasteOrder,status,id,vast);
     });
