@@ -572,6 +572,5 @@ var generateVasteOrderNum3 = function(num,callback){
 }
 
 
-//setInterval(getBoxes,360000); //6min
+setInterval(getBoxes,360000); //6min
 //setInterval(getBoxes,10000); //10s
-checkIfOvertime("181","pickup","5ce3d091b5bbe109b49c50a6");
