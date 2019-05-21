@@ -87,7 +87,7 @@ function getBoxes()
       }
     }
   });
-  find_by_status_function("delivery_not_ready",function(res) //kuljettajalla kyydissä
+  /*find_by_status_function("delivery_not_ready",function(res) //kuljettajalla kyydissä
   {
     if (res != undefined && res != null && res != 'err')
     {
@@ -107,7 +107,7 @@ function getBoxes()
         });
       }
     }
-  });
+  });*/
 
   find_by_status_function("delivery_ready",function(res) // vastaanottaja ei vielä hakenut
   {
