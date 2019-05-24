@@ -160,13 +160,13 @@ exports.changeDeliveryStatus = function(req,res)
       "companyID":req.body.companyID,
       "status":"box_accepted"
     });
-    Deliverys.find({orderID:req.body.orderID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
+    Deliverys.find({orderID:req.body.orderID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
       if (deli == undefined || deli == null || deli.length < 1)
       {
         new_deliverys.save(function(err, deliverys22) {
 
           var update = { vehicleID:req.body.vehicleID,status: "box_accepted", time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-          Deliverys.find({orderID:req.body.orderID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
+          Deliverys.find({orderID:req.body.orderID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
             if (deli.length > 0)
             {
               var query = { _id: deli[0]._id };
@@ -244,10 +244,105 @@ exports.changeDeliveryStatus = function(req,res)
       }
     });
   }
+  else if (req.body.status == 'terminal_stop')
+  {
+    var query = { _id: req.body.deliveryID };
+    var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+    Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
+      if (deli != undefined && deli.length > 0)
+      {
+        Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+          if(err)
+          {
+            res.send(err);
+          }
+            var oQuery = { _id: req.body.orderID };
+
+            var oUpdate = { status: "terminal_start" };
+            Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+            {
+              var log = require('../controllers/orderLogController');
+              var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+              var c = "terminal_stop";
+
+              var jso = {
+                user:"api",
+                ip: ipa,
+                timestamp: Math.floor(new Date() / 1000),
+                code: c,
+                orderID:req.body.orderID,
+                deliveryID: req.body.deliveryID,
+                companyID: req.body.companyID,
+                vehicleID:req.body.vehicleID
+              };
+              log.logThis(jso);
+              res.json(deliverys);
+            });
+            sendStatusChange2(req.body.orderID,c);
+
+
+        });
+      }
+      else {
+        res.json({'error':'Delivery not found'});
+      }
+    });
+  }
+  else if (req.body.status == 'terminal_start')
+  {
+    var query = { _id: req.body.deliveryID };
+    var update = { vehicleID:req.body.vehicleID,status: req.body.status};
+    var new_deliverys = new Deliverys({
+      "vehicleID": req.body.vehicleID,
+    	"orderID": req.body.orderID,
+      "companyID":req.body.companyID,
+      "status":"delivery_not_ready",
+      "start":"terminal"
+    });
+    Deliverys.find({orderID:req.body.orderID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
+      if (deli == undefined || deli == null || deli.length < 1)
+      {
+        new_deliverys.save(function(err, deliverys22) {
+          if(err)
+          {
+            res.send(err);
+          }
+            var oQuery = { _id: req.body.orderID };
+
+            var oUpdate = { status: "delivery_not_ready" };
+            Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+            {
+              var log = require('../controllers/orderLogController');
+              var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+              var c = "terminal_start";
+
+              var jso = {
+                user:"api",
+                ip: ipa,
+                timestamp: Math.floor(new Date() / 1000),
+                code: c,
+                orderID:req.body.orderID,
+                deliveryID: req.body.deliveryID,
+                companyID: req.body.companyID,
+                vehicleID:req.body.vehicleID
+              };
+              log.logThis(jso);
+              res.json(deliverys22);
+            });
+
+
+
+        });
+      }
+      else {
+        res.json({'error':'Delivery already found'});
+      }
+    });
+  }
   else {
     var query = { _id: req.body.deliveryID };
   	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-    Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled']}, companyID:req.body.companyID}, function(err, deli){
+    Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
       if (deli != undefined && deli.length > 0)
       {
         Deliverys.findOneAndUpdate(query,update, function(err, deliverys){

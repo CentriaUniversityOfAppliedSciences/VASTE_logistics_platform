@@ -9,7 +9,10 @@ var Order = require('./api/models/orderModel'), //Ladataan mallit käyttöön
 Delivery = require('./api/models/deliveryModel'), //Ladataan mallit käyttöön
 Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
 ologger = require('./api/models/orderLogModel'),
-poi = require('./api/models/pointModel');
+poi = require('./api/models/pointModel'),
+Message = require('./api/models/messageModel');
+
+
 mongoose.Promise = global.Promise;
 var moment = require('moment');
 
@@ -28,6 +31,7 @@ var Orders = mongoose.model('Orders');
 var Deliveries = mongoose.model('Deliverys');
 var Lockers = mongoose.model('Lockers');
 var Points = mongoose.model('Points');
+var Messages = mongoose.model('Messages');
 
 function getBoxes()
 {
@@ -110,6 +114,39 @@ function getBoxes()
           }
 
         });
+        boxes.boxTrack(res[i].vasteOrder, res[i]._id, "delivery",function(id,s,a,r)
+        {
+          if (r != undefined && r != null )
+          {
+            if (r["IBstep"] != undefined && r["IBstep"] != null)
+            {
+              if (r["PUstep"] != undefined && r["PUstep"] != null)
+              {
+
+              }
+              else {
+                if (r["IBstep"] == "PARCEL_DELIVERED")
+                {
+                  if (s == 'delivery')
+                  {
+                    console.log("driver delivery completed");
+                    get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
+                    {
+                      var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                      boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                      {
+
+                      });
+                      checkIfSendMessage(idd,ss,a,ty.lockerCode2);
+
+                    });
+
+                  }
+                }
+              }
+            }
+          }
+        });
       }
     }
   });
@@ -159,6 +196,7 @@ function getBoxes()
                       {
                         checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
                       }
+                      checkIfSendMessage(idd,ss,a,ty.lockerCode2);
                     });
                   }
                 }
@@ -500,6 +538,27 @@ var sendAlert = function(r,v)
 			}
 	});
 }
+// Käyttö boksien avauskoodin lähetyksessä
+var sendBoxPasscode = function(receiver,address,code,last,tunnus, callback)
+{
+    var msg = '<h2>Toimitus noudettavissa!</h2>' +
+    '<br><br>Toimituksen tunnus: ' + tunnus +
+    '<br><br>Toimitus saapunut kohteeseen: ' + address +
+    '<br><br>Lokeron avauskoodi: ' + code +
+    '<br><img src="cid:uniqbarcode"/>' +
+    '<br><br><br> Toimitus on noudettava viimeistään ennen: ' + last +
+    '<br><br><br>Terveisin Vastetiimi,' +
+    '<br><br>Palvelun tarjoaa Centria-ammattikorkeakoulun EAKR-rahoitettu Vaste-hanke.';
+    sendEmailWithBar(receiver, 'Toimitus saapunut', msg,code, function(mailResult, error){
+
+        if (!mailResult) {
+            callback(false, error);
+        } else {
+            callback(true);
+        }
+    });
+}
+
 
 
 var sendEmail = function(receiver, subject, msgHTML, callback)
@@ -539,6 +598,69 @@ var sendEmail = function(receiver, subject, msgHTML, callback)
     });
 }
 
+var sendEmailWithBar = function(receiver, subject, msgHTML, barcode, callback)
+{
+    const bwipjs = require('bwip-js');
+    var nodemailer = require('nodemailer');
+    // Create the transporter with the required configuration for Outlook
+    // change the user and pass !
+    bwipjs.toBuffer({
+        bcid:        'code128',       // Barcode type
+        text:        barcode,    // Text to encode
+        scale:       3,               // 3x scaling factor
+        height:      10,              // Bar height, in millimeters
+        includetext: false,            // Show human-readable text
+        textxalign:  'center',        // Always good to set this
+    },
+    function (err, bar){
+      if (err)
+      {
+
+      }
+      else {
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+               ciphers:'SSLv3'
+            },
+            auth: {
+                user: secret.email,
+                pass: secret.email_pass
+            }
+        });
+
+        // setup e-mail data, even with unicode symbols
+        var mailOptions = {
+            from: '"noreply vaste.info" <vaste.noreply@centria.fi>', // sender address (who sends)
+            to: receiver, // list of receivers (who receives)
+            subject: subject, // Subject line
+            text: '', // plaintext body
+            html: msgHTML, // html body
+            attachments: [
+              {
+                filename: 'barcode.png',
+                content: bar,
+                cid: 'uniqbarcode'
+              }
+            ]
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                callback(false, error);
+            } else {
+                callback(true);
+            }
+        });
+      }
+
+    });
+
+}
+
 var generateVasteOrderNum3 = function(num,callback){
 	var ret = {"1":"","2":""};
 
@@ -569,6 +691,48 @@ var generateVasteOrderNum3 = function(num,callback){
 		}
 		callback(ret);
 
+}
+
+var checkIfSendMessage = function(vasteOrder,status,id,code)
+{
+  Messages.find({orderID: id}, function(err, messages) {
+    if (err)
+    {
+      console.log(err);
+    }
+    if (messages != undefined && messages != null && messages.length == 0)
+    {
+      find_order_by_id(vasteOrder,id,status,function(v,ij,s,res)
+      {
+        var add = res.address.delivery.dstreet + ", " + res.address.delivery.dnumber + " " + res.address.delivery.dlocal;
+        var last = moment(res.time.deliveryTime.dBefore).format("DD.MM.YYYY HH:mm");
+        var em = res.receiver.name.email;
+        generateVasteOrderNum3(res.vasteOrder,function(hhs)
+        {
+          sendBoxPasscode(em,add,code,last,hhs["1"], function(hhh){
+            if (hhh)
+            {
+              var new_messages = new Messages({
+                "timestamp": Date.now(),
+                "receiver":em,
+                "orderID":ij,
+                "companyID":res.companyID
+              });
+              new_messages.save(function(err, mes) {
+                if (err)
+                {
+                  console.log(err);
+                }
+                console.log("sent sendBoxPasscode");
+              });
+            }
+          });
+        });
+      });
+
+
+    }
+  });
 }
 
 

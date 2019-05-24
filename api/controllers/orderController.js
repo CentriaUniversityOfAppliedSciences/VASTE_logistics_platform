@@ -154,7 +154,7 @@ exports.change_order_status = function(req, res) {
         companyID: orders.companyID,
       };
       log.logThis(jso);
-      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled']}},{status:req.body.status},{new: false}, function(err, deliverys){
+      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},{status:req.body.status},{new: false}, function(err, deliverys){
         if (req.body.status == 'done')
         {
           Lockers.updateMany({orderID:orders._id}, {lockerStatus: 'available',lockerCode:'000000',lockerCode2:'000000',orderID:'',type:''}, function(err, lockers) {
@@ -369,7 +369,7 @@ function getOrdersForDelivery(deliveries,mode, callback)
 
           if (mode == 'mine')
           {
-  					if (delivery.status != 'cancelled' && delivery.status != 'done' && delivery.status != 'box_cancelled')
+  					if (delivery.status != 'cancelled' && delivery.status != 'done' && delivery.status != 'box_cancelled' && delivery.status != 'terminal_stop')
   					{
   						orders.push(h);
   					}
@@ -413,6 +413,7 @@ function getOrdersWithoutDelivery(orders, callback)
 		}
 
 			var query = {'orderID':order._id};
+      var rrr = {};
 			Deliveries.find(query, function(err, result) {
 				if (err)
 				{
@@ -421,12 +422,17 @@ function getOrdersWithoutDelivery(orders, callback)
 				var hasDeli = 0;
 				for (var i = 0;i< result.length;i++)
 				{
-					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled')
+					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled' && result[i].status != 'terminal_stop')
 					{
 						hasDeli = 1;
 					}
+          if (result[i].status == 'terminal_start')
+          {
+            hasDeli = 2;
+            rrr = result[i];
+          }
 				}
-				if (hasDeli != 1)
+				if (hasDeli == 0)
 				{
 					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
 					h.subscriber = order.subscriber;
@@ -445,6 +451,25 @@ function getOrdersWithoutDelivery(orders, callback)
 
 					ordery.push(h);
 				}
+        else if (hasDeli == 2)
+        {
+          var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{},"orderInfo":"","orderDescription":"","vasteOrder":"" };
+          h.subscriber = order.subscriber;
+          h.receiver = order.receiver;
+          h.address = order.address;
+          h.time = order.time;
+          h.orderStatus = order.orderStatus;
+          h.status = order.status;
+          h._id = order._id;
+          h.orderInfo = order.orderInfo;
+          h.orderDescription = order.orderDescription;
+          h.delivery = rrr;
+          h.vasteOrder = order.vasteOrder;
+          h.companyID = order.companyID;
+          h.destination = order.destination;
+
+          ordery.push(h);
+        }
 
 				done();
 				return;
@@ -510,7 +535,7 @@ function getDeliveryForOrder(orders, callback)
         var deli = {};
 				for (var i = 0;i< result.length;i++)
 				{
-					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled')
+					if (result[i].status != "cancelled" && result[i].status != 'box_cancelled' && result[i].status != 'terminal_stop')
 					{
 						hasDeli = 1;
             deli = result[i];

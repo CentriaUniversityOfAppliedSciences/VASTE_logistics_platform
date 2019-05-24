@@ -4,21 +4,13 @@ var Schema = mongoose.Schema;
 
 var MessageSchema = new Schema ({
 
-	messageId:{
+	timestamp:{
 		type: String,
 	},
-
-	phoneNumber:{
-		type: String,
+	receiver:{
+		type: String
 	},
-	messageTime:{
-		type: String,
-	},
-	messageContent:{
-		type: String,
-		required:' message to receiver'
-	},
-	deliveryId:{
+	orderID:{
 		type: String
 	},
 	companyID:

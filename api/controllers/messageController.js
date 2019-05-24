@@ -42,34 +42,17 @@ exports.update_a_messages = function(req, res) {
 
 
 exports.delete_a_messages = function(req, res) {
-  Messages.remove({_id: req.params.messagesId}, function(err, messages) {
+  Messages.remove({_id: req.body.id}, function(err, messages) {
     if (err)
       res.send(err);
     res.json({ message: 'Messages successfully deleted' });
   });
-}; 
+};
 
 exports.find_message_by_ID = function(req, res) {
-  Messages.find({_id: req.params.messagesId}, function(err, messages) {
+  Messages.find({orderID: req.body.orderID}, function(err, messages) {
     if (err)
       res.send(err);
     res.json(messages );
-  });
-}; 
-
-exports.find_message_by_delivery = function(req, res){
-	Messages.find({deliveryId:req.params.deliverysId}, function(err, messages){
-	if (err)
-      res.send(err);
-    res.json(messages);
-  });
-}; 
-
-exports.find_message_by_phoneNumber = function(req, res){
-	Messages.find({phoneNumber:req.params.phoneNumber}, function(err, messages){
-	if (err)
-      res.send(err);
-    res.json(messages);
-	
   });
 };
