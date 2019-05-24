@@ -10,6 +10,7 @@ exports.list_all_payments = function(req, res) {
 		{
       res.send(err);
 		}
+    console.log(payments);
     res.json({payments});
   });
 };
