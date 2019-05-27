@@ -333,6 +333,7 @@ exports.changeDeliveryStatus = function(req,res)
               };
               log.logThis(jso);
               res.json(deliverys22);
+              sendStatusChange2(req.body.orderID,c);
             });
 
 
