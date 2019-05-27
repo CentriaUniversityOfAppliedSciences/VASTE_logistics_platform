@@ -261,6 +261,10 @@ exports.changeDeliveryStatus = function(req,res)
             var oUpdate = { status: "terminal_start" };
             Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
             {
+              if (err2)
+              {
+                console.log(err2);
+              }
               var log = require('../controllers/orderLogController');
               var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
               var c = "terminal_stop";
@@ -277,8 +281,9 @@ exports.changeDeliveryStatus = function(req,res)
               };
               log.logThis(jso);
               res.json(deliverys);
+              sendStatusChange2(req.body.orderID,c);
             });
-            sendStatusChange2(req.body.orderID,c);
+
 
 
         });
@@ -328,6 +333,7 @@ exports.changeDeliveryStatus = function(req,res)
               };
               log.logThis(jso);
               res.json(deliverys22);
+              sendStatusChange2(req.body.orderID,c);
             });
 
 
