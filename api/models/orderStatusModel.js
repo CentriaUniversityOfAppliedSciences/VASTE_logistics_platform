@@ -11,7 +11,7 @@ var OrderStatusSchema = new Schema ({
     StripeID:{ //stripe ch_xxxxxxx or pi_xxxxxxxxxx
         type: String
     },
-    OrderConfirmed:{ // 1 = charge uncaptured, 2 = charge captured
+    OrderConfirmed:{ // 1 = charge uncaptured, 2 = charge captured, 3 = charge cancelled
         type: Number
     },
     OrderPaid:{ // in cents
