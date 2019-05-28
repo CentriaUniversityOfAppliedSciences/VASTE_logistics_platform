@@ -298,7 +298,7 @@ var find_by_status_function = function(stat,callback) {	//statuksen mukaan funct
 };
 
 var find_order_by_id = function(v,id,s,callback) {	//statuksen mukaan function
-  Orders.findOne({_id:id, archieved:0,status: {$nin:['cancelled','done','box_cancelled']}}, function(err, orders) {
+  Orders.findOne({_id:id, archieved:0,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}}, function(err, orders) {
     if (err)
       callback("err");
     callback(v,id,s,orders);
@@ -321,7 +321,7 @@ var change_order_status = function(vasteOrder, stat) {
         companyID: orders.companyID,
       };
       logThis(jso);
-      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled']}},
+      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},
       {status:stat},{new: true}, function(err, deliverys){
         if (stat == 'done')
         {

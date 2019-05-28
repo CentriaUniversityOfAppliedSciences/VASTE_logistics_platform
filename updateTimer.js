@@ -32,23 +32,21 @@ var Points = mongoose.model('Points');
 
 var boxJson = {
   "1":"1001",
-  "2":"1002"/*,
+  "2":"1002",
   "3":"1003",
   "4":"1004",
   "5":"1005",
-  "6":"1006"*/
+  "6":"1006"
 };
 
 function checkBoxes()
 {
   console.log("updateTimer running:" + Date().toString());
 
-  for (var i = 1; i < 3; i++)
+  for (var i = 1; i < Object.keys(boxJson).length; i++)
   {
     boxes.getStates(boxJson[i],function(m,r)
     {
-      console.log(r);
-
     //testFunc("1007",function(m,r)
     //{
       if (r != undefined && r != null && r != 'error')
@@ -345,7 +343,7 @@ var checkIfRightSize = function(machine,parcel,size)
               {
                 if (sss == "Small")
                 {
-                  console.log("oikea koko!");
+                  //console.log("oikea koko!");
                 }
                 else {
                   handleWrongSize(mmm,ppp,sss,momomo,rrr,tyy,lo)
@@ -359,7 +357,7 @@ var checkIfRightSize = function(machine,parcel,size)
               {
                 if (sss == "Medium")
                 {
-                  console.log("oikea koko!");
+                  //console.log("oikea koko!");
                 }
                 else {
                   handleWrongSize(mmm,ppp,sss,momomo,rrr,tyy,lo)
@@ -373,7 +371,7 @@ var checkIfRightSize = function(machine,parcel,size)
               {
                 if (sss == "Large")
                 {
-                  console.log("oikea koko!");
+                //  console.log("oikea koko!");
                 }
                 else {
                   handleWrongSize(mmm,ppp,sss,momomo,rrr,tyy,lo)
@@ -387,7 +385,7 @@ var checkIfRightSize = function(machine,parcel,size)
               {
                 if (sss == "XLarge")
                 {
-                  console.log("oikea koko!");
+                //  console.log("oikea koko!");
                 }
                 else {
                   handleWrongSize(mmm,ppp,sss,momomo,rrr,tyy,lo)
