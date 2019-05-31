@@ -760,6 +760,7 @@ var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
               });
             }
           });
+          sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
         });
       });
 
@@ -768,20 +769,27 @@ var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
   });
 }
 
-var sendDeliveryDoneSMS = function()
+var sendDeliveryDoneSMS = function(dphone,code,machine)
 {
 	if(dphone != undefined && dphone != null)
 	{
 		//dphone = vastaanottajan puh nro
 		//code = toimituspisteen 6-numeroinen lokerokoodi
-		var code = r.lockerCode2;
-		var dphone = result.receiver.name.phoneNumber;
+		//var code = r.lockerCode2;
+		//var dphone = result.receiver.name.phoneNumber;
 		var letter = dphone.charAt(0);
 
 		if(letter == "0")
 		{
 			var phone2 = dphone.replace(letter, "+358");
-			sms.sendSMS(["tel:"+phone2], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
+      if (machine == "1006")
+      {
+        sms.sendSMS(["tel:"+phone2], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+", ulko-oven avauskoodi: 27537", "Vastetiimi");
+      }
+      else {
+        sms.sendSMS(["tel:"+phone2], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
+      }
+
 		}
 		else
 		{
@@ -790,7 +798,7 @@ var sendDeliveryDoneSMS = function()
 	}
 }
 
-var sendOrderReceivedSMS = function()
+var sendOrderReceivedSMS = function(phone,pin0)
 {
 	//phone = lähettäjän puhelin nro.
 	if(phone != undefined && phone != null && phone.length > 5)
