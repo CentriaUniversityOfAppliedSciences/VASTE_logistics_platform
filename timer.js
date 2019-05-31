@@ -139,7 +139,7 @@ function getBoxes()
                       {
 
                       });
-                      checkIfSendMessage(idd,ss,a,ty.lockerCode2);
+                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
 
                     });
 
@@ -198,7 +198,7 @@ function getBoxes()
                       {
                         checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
                       }
-                      checkIfSendMessage(idd,ss,a,ty.lockerCode2);
+                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
                     });
                   }
                 }
@@ -557,9 +557,23 @@ var sendAlert = function(r,v)
 	});
 }
 // Käyttö boksien avauskoodin lähetyksessä
-var sendBoxPasscode = function(receiver,address,code,last,tunnus, callback)
+var sendBoxPasscode = function(receiver,address,code,last,tunnus,machine, callback)
 {
-    var msg = '<h2>Toimitus noudettavissa!</h2>' +
+  var msg = "";
+  if (machine == "1006")
+  {
+    msg = '<h2>Toimitus noudettavissa!</h2>' +
+    '<br><br>Toimituksen tunnus: ' + tunnus +
+    '<br><br>Toimitus saapunut kohteeseen: ' + address +
+    '<br><br>Lokeron avauskoodi: ' + code +
+    '<br><img src="cid:uniqbarcode"/>' +
+    '<br><br>Ala-Viirteen ulko-oven avauskoodi: 27537' +
+    '<br><br><br> Toimitus on noudettava viimeistään ennen: ' + last +
+    '<br><br><br>Terveisin Vastetiimi,' +
+    '<br><br>Palvelun tarjoaa Centria-ammattikorkeakoulun EAKR-rahoitettu Vaste-hanke.';
+  }
+  else {
+    msg = '<h2>Toimitus noudettavissa!</h2>' +
     '<br><br>Toimituksen tunnus: ' + tunnus +
     '<br><br>Toimitus saapunut kohteeseen: ' + address +
     '<br><br>Lokeron avauskoodi: ' + code +
@@ -567,6 +581,7 @@ var sendBoxPasscode = function(receiver,address,code,last,tunnus, callback)
     '<br><br><br> Toimitus on noudettava viimeistään ennen: ' + last +
     '<br><br><br>Terveisin Vastetiimi,' +
     '<br><br>Palvelun tarjoaa Centria-ammattikorkeakoulun EAKR-rahoitettu Vaste-hanke.';
+  }
     sendEmailWithBar(receiver, 'Toimitus saapunut', msg,code, function(mailResult, error){
 
         if (!mailResult) {
@@ -711,7 +726,7 @@ var generateVasteOrderNum3 = function(num,callback){
 
 }
 
-var checkIfSendMessage = function(vasteOrder,status,id,code)
+var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
 {
   Messages.find({orderID: id}, function(err, messages) {
     if (err)
@@ -727,7 +742,7 @@ var checkIfSendMessage = function(vasteOrder,status,id,code)
         var em = res.receiver.name.email;
         generateVasteOrderNum3(res.vasteOrder,function(hhs)
         {
-          sendBoxPasscode(em,add,code,last,hhs["1"], function(hhh){
+          sendBoxPasscode(em,add,code,last,hhs["1"],machine, function(hhh){
             if (hhh)
             {
               var new_messages = new Messages({
