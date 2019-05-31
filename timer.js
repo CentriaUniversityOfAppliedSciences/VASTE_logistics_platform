@@ -11,6 +11,8 @@ Locker = require('./api/models/lockerModel'), //Ladataan mallit käyttöön
 ologger = require('./api/models/orderLogModel'),
 poi = require('./api/models/pointModel'),
 Message = require('./api/models/messageModel');
+var sms = require("./sms");
+
 
 
 mongoose.Promise = global.Promise;
@@ -749,6 +751,46 @@ var checkIfSendMessage = function(vasteOrder,status,id,code)
 
     }
   });
+}
+
+var sendDeliveryDoneSMS = function()
+{
+	if(dphone != undefined && dphone != null)
+	{
+		//dphone = vastaanottajan puh nro
+		//code = toimituspisteen 6-numeroinen lokerokoodi
+		var code = r.lockerCode2;
+		var dphone = result.receiver.name.phoneNumber;
+		var letter = phone.charAt(0);
+
+		if(letter == "0")
+		{
+			var phone2 = phone.replace(letter, "+358");
+			sms.sendSMS(["tel:"+phone2], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
+		}
+		else
+		{
+			sms.sendSMS(["tel:"+phone], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
+		}
+	}
+}
+
+var sendOrderReceivedSMS = function()
+{
+	//phone = lähettäjän puhelin nro.
+	if(phone != undefined && phone != null && phone.length > 5)
+	{
+		//pin0 = FC-alkunen koodi
+		var letter = phone.charAt(0);
+
+		if(letter == "0"){
+			var phone2 = phone.replace(letter, "+358");
+			sms.sendSMS(["tel:"+phone2], "Tilaus vastaanotettu! \n\nVastepisteen avauskoodisi on: "+pin0+"\n\nTilauksen tiedot on lähetetty sähköpostiisi.", "Vastetiimi");
+		}
+		else{
+			sms.sendSMS(["tel:"+phone], "Tilaus vastaanotettu! \n\nVastepisteen avauskoodisi on: "+pin0+"\n\nTilauksen tiedot on lähetetty sähköpostiisi.", "Vastetiimi");
+		}
+	}
 }
 
 

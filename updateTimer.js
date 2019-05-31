@@ -12,6 +12,7 @@ ologger = require('./api/models/orderLogModel'),
 pointy = require('./api/models/pointModel');
 mongoose.Promise = global.Promise;
 var moment = require('moment');
+var sms = require("./sms");
 
 if (environment.environment == 'prod')
 {
