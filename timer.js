@@ -776,16 +776,16 @@ var sendDeliveryDoneSMS = function()
 		//code = toimituspisteen 6-numeroinen lokerokoodi
 		var code = r.lockerCode2;
 		var dphone = result.receiver.name.phoneNumber;
-		var letter = phone.charAt(0);
+		var letter = dphone.charAt(0);
 
 		if(letter == "0")
 		{
-			var phone2 = phone.replace(letter, "+358");
+			var phone2 = dphone.replace(letter, "+358");
 			sms.sendSMS(["tel:"+phone2], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
 		}
 		else
 		{
-			sms.sendSMS(["tel:"+phone], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
+			sms.sendSMS(["tel:"+dphone], "Tilauksesi on valmis noudettavaksi! \n\nVastepisteen avauskoodisi on: "+code+"", "Vastetiimi");
 		}
 	}
 }
