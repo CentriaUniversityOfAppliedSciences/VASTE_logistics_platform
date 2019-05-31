@@ -422,19 +422,20 @@ var checkIfOvertime = function(vasteOrder,status,id)
                   console.log(err);
                   }
 
-                    if(p.number == "1" || p.number == "2")
+                    /*if(p.number == "1" || p.number == "2")
                     {
-
                       boxes.boxCancel(vv,ss,n,function(vast){
 
-                        if (vast != undefined && vast != null /*&& vast != 'error'*/)
+                        if (vast != undefined && vast != null)
                         {
                           console.log(lockers);
                         }
 
                       });
+
                     }
-                    else if (p.number == "7" || p.number == "8")
+                    else*/
+                    if (p.number == "7" || p.number == "8")
                     {
                       boxes.boxCancel(vv,ss,"8600",function(vast){
 
@@ -446,7 +447,14 @@ var checkIfOvertime = function(vasteOrder,status,id)
                       });
                     }
                     else {
-                      console.log(lockers);
+                      boxes.boxCancel(vv,ss,n,function(vast){
+
+                        if (vast != undefined && vast != null /*&& vast != 'error'*/)
+                        {
+                          console.log(lockers);
+                        }
+
+                      });
                     }
                     removeOrder(idd);
                     sendStatusChange2(idd,"auto_remove");
@@ -468,19 +476,20 @@ var checkIfOvertime = function(vasteOrder,status,id)
                   console.log(err);
                   }
 
-                    if(p.number == "1" || p.number == "2")
+                    /*if(p.number == "1" || p.number == "2")
                     {
 
                       boxes.boxCancel(vv,ss,n,function(vast){
 
-                        if (vast != undefined && vast != null /*&& vast != 'error'*/)
+                        if (vast != undefined && vast != null )
                         {
                           console.log(lockers);
                         }
 
                       });
                     }
-                    else if (p.number == "7" || p.number == "8")
+                    else*/
+                    if (p.number == "7" || p.number == "8")
                     {
                       boxes.boxCancel(vv,ss,"8600",function(vast){
 
@@ -492,7 +501,14 @@ var checkIfOvertime = function(vasteOrder,status,id)
                       });
                     }
                     else {
-                      console.log(lockers);
+                      boxes.boxCancel(vv,ss,n,function(vast){
+
+                        if (vast != undefined && vast != null )
+                        {
+                          console.log(lockers);
+                        }
+
+                      });
                     }
                     removeOrder(idd);
                     sendStatusChange2(idd,"auto_remove");

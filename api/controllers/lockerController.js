@@ -93,7 +93,7 @@ exports.book_a_locker = function(req, res) {
     }
     if (req.body.type == 'pickup' || req.body.type == 'delivery')
     {
-      if(req.body.machine == "1" || req.body.machine == "2")
+      /*if(req.body.machine == "1" || req.body.machine == "2")
       {
         req.body.machine = "100"+req.body.machine;
         boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
@@ -110,7 +110,8 @@ exports.book_a_locker = function(req, res) {
 
         });
       }
-      else if (req.body.machine == "7" || req.body.machine == "8")
+      else */
+      if (req.body.machine == "7" || req.body.machine == "8")
       {
         boxes.boxAnnounce(req.body.type,req.body.vasteOrder,"8600",req.body.size,req.body.valid ,function(vast){
           //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
@@ -131,7 +132,20 @@ exports.book_a_locker = function(req, res) {
       }
     }
     else {
-      res.json(lockers);
+      req.body.machine = "100"+req.body.machine;
+      boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
+        //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
+        //{
+        if (vast != undefined && vast != null && vast != 'error')
+        {
+          res.json(lockers);
+        }
+        else {
+          res.json(null)
+        }
+        //});
+
+      });
     }
 
 
@@ -147,13 +161,13 @@ exports.unbook_a_locker = function(req, res) {
       res.send(err);
     }
 
-      if(req.body.machine == "1" || req.body.machine == "2")
+      /*if(req.body.machine == "1" || req.body.machine == "2")
       {
         req.body.machine = "100"+req.body.machine;
 
         boxes.boxCancel(req.body.vasteOrder,req.body.type,req.body.machine,function(vast){
 
-          if (vast != undefined && vast != null /*&& vast != 'error'*/)
+          if (vast != undefined && vast != null && vast != 'error')
           {
             res.json(lockers);
           }
@@ -163,7 +177,8 @@ exports.unbook_a_locker = function(req, res) {
 
         });
       }
-      else if (req.body.machine == "7" || req.body.machine == "8")
+      else*/
+      if (req.body.machine == "7" || req.body.machine == "8")
       {
         boxes.boxCancel(req.body.vasteOrder,req.body.type,"8600",function(vast){
 
@@ -178,7 +193,19 @@ exports.unbook_a_locker = function(req, res) {
         });
       }
       else {
-        res.json(lockers);
+        req.body.machine = "100"+req.body.machine;
+
+        boxes.boxCancel(req.body.vasteOrder,req.body.type,req.body.machine,function(vast){
+
+          if (vast != undefined && vast != null && vast != 'error')
+          {
+            res.json(lockers);
+          }
+          else {
+            res.json(null)
+          }
+
+        });
       }
   });
 };
