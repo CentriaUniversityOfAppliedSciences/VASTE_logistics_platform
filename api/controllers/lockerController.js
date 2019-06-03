@@ -145,6 +145,9 @@ exports.book_a_locker = function(req, res) {
 
           });
         }
+        else {
+          res.json(lockers);
+        }
       }
     }
     else {
