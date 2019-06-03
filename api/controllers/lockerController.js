@@ -128,25 +128,26 @@ exports.book_a_locker = function(req, res) {
         });
       }
       else {
-        res.json(lockers);
+        if (environment.environment =='prod')
+        {
+          req.body.machine = "100"+req.body.machine;
+          boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
+            //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
+            //{
+            if (vast != undefined && vast != null && vast != 'error')
+            {
+              res.json(lockers);
+            }
+            else {
+              res.json(null)
+            }
+            //});
+
+          });
+        }
       }
     }
-    else {
-      req.body.machine = "100"+req.body.machine;
-      boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
-        //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
-        //{
-        if (vast != undefined && vast != null && vast != 'error')
-        {
-          res.json(lockers);
-        }
-        else {
-          res.json(null)
-        }
-        //});
 
-      });
-    }
 
 
   });
@@ -193,19 +194,22 @@ exports.unbook_a_locker = function(req, res) {
         });
       }
       else {
-        req.body.machine = "100"+req.body.machine;
+        if (environment.environment == 'prod')
+        {
+          req.body.machine = "100"+req.body.machine;
 
-        boxes.boxCancel(req.body.vasteOrder,req.body.type,req.body.machine,function(vast){
+          boxes.boxCancel(req.body.vasteOrder,req.body.type,req.body.machine,function(vast){
 
-          if (vast != undefined && vast != null && vast != 'error')
-          {
-            res.json(lockers);
-          }
-          else {
-            res.json(null)
-          }
+            if (vast != undefined && vast != null && vast != 'error')
+            {
+              res.json(lockers);
+            }
+            else {
+              res.json(null)
+            }
 
-        });
+          });
+        }
       }
   });
 };
