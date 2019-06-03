@@ -1,5 +1,7 @@
 'use strict';
-
+var fs = require('fs');
+var environmentJson = fs.readFileSync("./environment.json");
+var environment = JSON.parse(environmentJson);
 
 var mongoose = require('mongoose'),
   Lockers = mongoose.model('Lockers');
