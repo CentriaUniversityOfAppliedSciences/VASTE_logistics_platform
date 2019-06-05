@@ -70,5 +70,13 @@ module.exports = function(app)
 	app.route('/updateLockerPin2')
 		.post(superiorRoutes.super_update_locker_pin2);
 
+	app.route('/superGetLockerData')
+		.post(superiorRoutes.super_get_locker_data);
+
+	app.route('/superGetPointData')
+		.post(superiorRoutes.super_list_all_points);
+
+	app.route('/getKebaLockers')
+		.post(superiorRoutes.get_locker_data_from_keba);
 
 };

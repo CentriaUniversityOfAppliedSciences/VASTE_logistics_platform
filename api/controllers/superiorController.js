@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 	var Companys = mongoose.model('Companys');
 	var Users = mongoose.model('Users');
 	var logger = mongoose.model('orderLog');
+	var Points = mongoose.model('Points');
 	var Payments = mongoose.model('Payments');
 	var CompanyProperties = mongoose.model('CompanyProperties');
 	var Deliverys = mongoose.model('Deliverys');
@@ -16,6 +17,8 @@ var mongoose = require('mongoose');
   var environmentJson = fs.readFileSync("./environment.json");
   var environment = JSON.parse(environmentJson);
   var apikey = environment.apikey;
+
+		var boxes = require('./boxController');
 
 	exports.get_company_id = function(req, res) {
     CompanyProperties.find({value: req.body.userID, type: 'superior'}, function(err, companys) {
@@ -364,6 +367,29 @@ exports.super_update_locker_pin2 = function(req,res){
 	})
 };
 
+exports.super_get_locker_data = function(req,res){
+	Lockers.find({}, function(err, lockers){
+		if(err)
+		{
+			res.send(err);
+		}
+		res.json(lockers);
+	});
+};
+
+exports.super_list_all_points = function(req, res) {
+  Points.find({}, function(err, point) {
+    if (err)
+      res.send(err);
+    res.json(point);
+  });
+};
+
+exports.get_locker_data_from_keba = function(req,res){
+	boxes.getStatesApi(req.body.machineCode, function(data){
+		res.send(data);
+	});
+}
 
 
 
