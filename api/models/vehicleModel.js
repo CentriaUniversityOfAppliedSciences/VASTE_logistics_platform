@@ -88,7 +88,17 @@ var VehicleSchema = new Schema({
   {
 	  type: String,
 	  default:"0"
-  }
+  },
+	fuelConsumption:
+	{
+		type: Number,
+		required: "Please enter estimated fuel consumption per 100km"
+	},
+	fuelType:
+	{
+		type: String,
+		required: "Please enter fuel type"
+	}
 });
 
 module.exports = mongoose.model('Vehicles', VehicleSchema);
