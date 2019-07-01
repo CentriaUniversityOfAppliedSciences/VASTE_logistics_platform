@@ -210,8 +210,119 @@ function getBoxes()
       }
     }
   });
-}
 
+  find_by_status_function("stowage_not_ready",function(res) // lähettäjä ei vielä vienyt säilöön
+  {
+    if (res != undefined && res != null && res != 'err')
+    {
+      for (var i = 0; i< res.length;i++)
+      {
+        boxes.boxAnnounceTrack(res[i].vasteOrder,res[i]._id, "pickup",function (ida,sa,aa,ra)
+        {
+          if (ra != undefined && ra != null && ra != 'error' && ra.length > 0 && ra[0].parcelCode != undefined && ra[0].parcelCode != null && ra[0].parcelCode.length > 4)
+          {
+            boxes.boxTrack(ida,aa, sa,function(id,s,a,r)
+            {
+              if (r != undefined && r != null && r != 'error')
+              {
+                if (r["IBstep"] != undefined && r["IBstep"] != null)
+                {
+                  if (r["PUstep"] != undefined && r["PUstep"] != null)
+                  {
+                    if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
+                    {
+
+                    }
+                  }
+                  else {
+                    if (r["IBstep"] == "PARCEL_DELIVERED")
+                    {
+                      if (s == 'pickup')
+                      {
+                        change_order_status(id,"stowage_ready");
+                        get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
+                        {
+                          var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                          boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                          {
+
+                          });
+                        });
+
+                      }
+                    }
+                  }
+                }
+                else {
+                  checkIfOvertime(id,s,a);
+                }
+              }
+              else {
+                console.log("pickup boxtrack fail");
+              }
+
+            });
+          }
+          else {
+            console.log("pickup boxAnnounceTrack fail");
+            announceAgain(ida,aa,sa);
+          }
+
+        });
+      }
+    }
+  });
+
+
+
+  find_by_status_function("stowage_ready",function(res) // vastaanottaja ei vielä hakenut säilöstä
+  {
+    if (res != undefined && res != null && res != 'err')
+    {
+      for (var i = 0; i< res.length;i++)
+      {
+        boxes.boxTrack(res[i].vasteOrder, res[i]._id, "pickup",function(id,s,a,r)
+        {
+          if (r != undefined && r != null )
+          {
+            if (r["IBstep"] != undefined && r["IBstep"] != null)
+            {
+              if (r["PUstep"] != undefined && r["PUstep"] != null)
+              {
+                if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
+                {
+                  if (s == 'delivery')
+                  {
+                    change_order_status(id,"stowage_done");
+                  }
+                }
+              }
+              else {
+                if (r["IBstep"] == "PARCEL_DELIVERED")
+                {
+                  if (s == 'pickup')
+                  {
+                    get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
+                    {
+                      if (ty != undefined && ty != null)
+                      {
+                        checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
+                      }
+                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+                    });
+                  }
+                }
+              }
+            }
+          }
+
+        });
+      }
+    }
+  });
+
+
+}
 
 var checkIfPincode = function(machine,id,dir,pin)
 {
@@ -308,6 +419,11 @@ var find_order_by_id = function(v,id,s,callback) {	//statuksen mukaan function
 };
 
 var change_order_status = function(vasteOrder, stat) {
+  var ss = stat;
+  if (stat == "stowage_done")
+  {
+    stat = "done";
+  }
   Orders.findOneAndUpdate({vasteOrder: vasteOrder}, {status:stat}, {new: true}, function(err, orders) {
     if (err)
       res.send(err);
@@ -323,21 +439,36 @@ var change_order_status = function(vasteOrder, stat) {
         companyID: orders.companyID,
       };
       logThis(jso);
-      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},
-      {status:stat},{new: true}, function(err, deliverys){
-        if (stat == 'done')
-        {
-          Lockers.updateMany({orderID:orders._id}, {lockerStatus: 'available',lockerCode:'000000',lockerCode2:'000000',orderID:'',type:''}, function(err, lockers) {
-            if (err)
-              res.send(err);
+      if (stat != "stowage_ready" || ss != "stowage_done")
+      {
+        Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},
+        {status:stat},{new: true}, function(err, deliverys){
+          if (stat == 'done')
+          {
+            Lockers.updateMany({orderID:orders._id}, {lockerStatus: 'available',lockerCode:'000000',lockerCode2:'000000',orderID:'',type:''}, function(err, lockers) {
+              if (err)
+                res.send(err);
+              sendStatusChange2(orders._id,stat);
+            });
+          }
+          else {
             sendStatusChange2(orders._id,stat);
-          });
-        }
-        else {
-          sendStatusChange2(orders._id,stat);
-        }
+          }
 
-      });
+        });
+      }
+      else if (ss == "stowage_done")
+      {
+        Lockers.updateMany({orderID:orders._id}, {lockerStatus: 'available',lockerCode:'000000',lockerCode2:'000000',orderID:'',type:''}, function(err, lockers) {
+          if (err)
+            res.send(err);
+          sendStatusChange2(orders._id,ss);
+        });
+      }
+      else if (stat == "stowage_ready")
+      {
+        sendStatusChange2(orders._id,stat);
+      }
     }
 
 
@@ -592,6 +723,41 @@ var sendBoxPasscode = function(receiver,address,code,last,tunnus,machine, callba
     });
 }
 
+var sendBoxPasscodeStowage = function(receiver,address,code,last,tunnus,machine, callback)
+{
+  var msg = "";
+  if (machine == "1006")
+  {
+    msg = '<h2>Toimitus noudettavissa!</h2>' +
+    '<br><br>Toimituksen tunnus: ' + tunnus +
+    '<br><br>Toimitus saapunut kohteeseen: ' + address +
+    '<br><br>Lokeron avauskoodi: ' + code +
+    '<br><img src="cid:uniqbarcode"/>' +
+    '<br><br>Ala-Viirteen ulko-oven avauskoodi: 27537' +
+    '<br><br><br> Toimitus on noudettava viimeistään ennen: ' + last +
+    '<br><br><br>Terveisin Vastetiimi,' +
+    '<br><br>Palvelun tarjoaa Centria-ammattikorkeakoulun EAKR-rahoitettu Vaste-hanke.';
+  }
+  else {
+    msg = '<h2>Toimitus noudettavissa!</h2>' +
+    '<br><br>Toimituksen tunnus: ' + tunnus +
+    '<br><br>Toimitus saapunut kohteeseen: ' + address +
+    '<br><br>Lokeron avauskoodi: ' + code +
+    '<br><img src="cid:uniqbarcode"/>' +
+    '<br><br><br> Toimitus on noudettava viimeistään ennen: ' + last +
+    '<br><br><br>Terveisin Vastetiimi,' +
+    '<br><br>Palvelun tarjoaa Centria-ammattikorkeakoulun EAKR-rahoitettu Vaste-hanke.';
+  }
+    sendEmailWithBar(receiver, 'Toimitus saapunut', msg,code, function(mailResult, error){
+
+        if (!mailResult) {
+            callback(false, error);
+        } else {
+            callback(true);
+        }
+    });
+}
+
 
 
 var sendEmail = function(receiver, subject, msgHTML, callback)
@@ -742,25 +908,50 @@ var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
         var em = res.receiver.name.email;
         generateVasteOrderNum3(res.vasteOrder,function(hhs)
         {
-          sendBoxPasscode(em,add,code,last,hhs["1"],machine, function(hhh){
-            if (hhh)
-            {
-              var new_messages = new Messages({
-                "timestamp": Date.now(),
-                "receiver":em,
-                "orderID":ij,
-                "companyID":res.companyID
-              });
-              new_messages.save(function(err, mes) {
-                if (err)
-                {
-                  console.log(err);
-                }
-                console.log("sent sendBoxPasscode");
-              });
-            }
-          });
-          sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+          if (status == "stowage_done")
+          {
+            sendBoxPasscodeStowage(em,add,code,last,hhs["1"],machine, function(hhh){
+              if (hhh)
+              {
+                var new_messages = new Messages({
+                  "timestamp": Date.now(),
+                  "receiver":em,
+                  "orderID":ij,
+                  "companyID":res.companyID
+                });
+                new_messages.save(function(err, mes) {
+                  if (err)
+                  {
+                    console.log(err);
+                  }
+                  console.log("sent sendBoxPasscode");
+                });
+              }
+            });
+            sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+          }
+          else {
+            sendBoxPasscode(em,add,code,last,hhs["1"],machine, function(hhh){
+              if (hhh)
+              {
+                var new_messages = new Messages({
+                  "timestamp": Date.now(),
+                  "receiver":em,
+                  "orderID":ij,
+                  "companyID":res.companyID
+                });
+                new_messages.save(function(err, mes) {
+                  if (err)
+                  {
+                    console.log(err);
+                  }
+                  console.log("sent sendBoxPasscode");
+                });
+              }
+            });
+            sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+          }
+
         });
       });
 

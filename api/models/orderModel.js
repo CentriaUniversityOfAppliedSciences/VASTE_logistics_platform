@@ -45,10 +45,14 @@ var OrderSchema = new Schema ({
 	},
 
 
-	status: {			//tilan seuranta //vastaanotettu, kuljettaja hyväksynyt, noudettu, peruutettu, valmis, lähettäjä ei ole vienyt boksiin, lähettäjä vienyt boksiin, kuljettaja ei ole vienyt boksiin,kuljettaja vienyt boksiin
+	status: {			//tilan seuranta //vastaanotettu, kuljettaja hyväksynyt, noudettu, peruutettu, valmis, lähettäjä ei ole vienyt boksiin, lähettäjä vienyt boksiin,
+								// kuljettaja ei ole vienyt boksiin,kuljettaja vienyt boksiin,boksi peruutettu,lähtee terminaalista, jäänyt terminaaliin, ei tuotu säilytykseen, tuotu säilytykseen,
+								// haetaan osoitteesta boksiin, viedään boksista osoitteeseen
 
 		type: String,
-		enum: ['received', 'accepted', 'inProgress', 'cancelled' ,'done', 'pickup_not_ready','pickup_ready','box_accepted','delivery_not_ready','delivery_ready','box_cancelled','terminal_start','terminal_stop'],
+		enum: ['received', 'accepted', 'inProgress', 'cancelled' ,'done', 'pickup_not_ready','pickup_ready','box_accepted','delivery_not_ready',
+					 'delivery_ready','box_cancelled','terminal_start','terminal_stop','stowage_not_ready','stowage_ready',
+					 'address_pickup_start','address_pickup_accepted','address_pickup_done','address_delivery_not_ready'],
 		default: ['received']
    },
 
@@ -156,7 +160,7 @@ var OrderSchema = new Schema ({
 	destination:
 	{
 		type: String,
-		enum: ['address', 'box', 'depot','driver'],
+		enum: ['address', 'box', 'depot','driver','stowage','box_pickup','box_delivery'],
 		default: ['address']
 	},
 	companyID:

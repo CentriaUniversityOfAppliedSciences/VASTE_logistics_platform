@@ -302,7 +302,7 @@ exports.getVehicleOrdersReceived = function(req,res)
 
 exports.getVehicleOrdersBoxes = function(req,res)
 {
-  Orders.find({companyID:req.body.companyID, archieved:0, $or:[{status:"pickup_ready"},{status:"terminal_start"}] }, function(err, orders) {
+  Orders.find({companyID:req.body.companyID, archieved:0, $or:[{status:"pickup_ready"},{status:"terminal_start"},{status:"address_pickup_start"}] }, function(err, orders) {
     if (err)
       res.send(err);
     getOrdersWithoutDelivery(orders, function(err,r)
@@ -376,14 +376,14 @@ function getOrdersForDelivery(deliveries,mode, callback)
           }
           else if (mode == 'received')
           {
-            if (delivery.status == 'received' || delivery.status == 'pickup_ready')
+            if (delivery.status == 'received' || delivery.status == 'pickup_ready' || delivery.status == 'address_pickup_start')
   					{
   						orders.push(h);
   					}
           }
           else if (mode == 'inprogress')
           {
-            if (delivery.status == 'accepted' || delivery.status == 'inProgress' || delivery.status == 'box_accepted' || delivery.status == 'delivery_not_ready')
+            if (delivery.status == 'accepted' || delivery.status == 'inProgress' || delivery.status == 'box_accepted' || delivery.status == 'delivery_not_ready' || 'address_pickup_accepted')
   					{
   						orders.push(h);
   					}
