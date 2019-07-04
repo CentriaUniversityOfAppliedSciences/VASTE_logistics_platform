@@ -167,7 +167,12 @@ function getBoxes()
     {
       for (var i = 0; i< res.length;i++)
       {
-        boxes.boxTrack(res[i].vasteOrder, res[i]._id, "delivery",function(id,s,a,r)
+        var moodi = "delivery";
+        if (res[i].destination == 'box_pickup')
+        {
+          moodi = "pickup";
+        }
+        boxes.boxTrack(res[i].vasteOrder, res[i]._id, moodi,function(id,s,a,r)
         {
           if (r != undefined && r != null )
           {
@@ -177,7 +182,7 @@ function getBoxes()
               {
                 if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  if (s == 'delivery')
+                  if (s == 'delivery' || s == 'pickup')
                   {
                     if (r["IBMachineCode"] == "8600")
                     {
@@ -193,7 +198,8 @@ function getBoxes()
                   {
                     if (r["IBMachineCode"] == "8600")
                     {
-                      change_order_status(id,"pickup_ready");
+
+                      //change_order_status(id,"pickup_ready");
                       get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                       {
                         if (ty != undefined && ty != null)
@@ -201,7 +207,7 @@ function getBoxes()
                           var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
                           boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
                           {
-
+                            checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
                           });
                         }
                       });
