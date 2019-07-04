@@ -32,7 +32,7 @@ var DeliverySchema = new Schema ({
       type: String,
       enum: ['received', 'accepted', 'inProgress', 'cancelled', 'done', 'pickup_not_ready','pickup_ready','box_accepted','delivery_not_ready','delivery_ready',
 						 'box_cancelled','terminal_start','terminal_stop','stowage_not_ready','stowage_ready','address_pickup_start','address_pickup_accepted',
-						 'address_pickup_done','address_delivery_not_ready'],
+						 'address_pickup','address_delivery_not_ready'],
       default: ['received']
    },
 	 companyID:

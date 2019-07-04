@@ -8,6 +8,8 @@ module.exports = function(app)
     .post(paymentRoutes.list_all_payments)
 		.get(paymentRoutes.list_all_payments);
 
+  app.route('/listPaymentsOther')
+    .post(paymentRoutes.list_all_payments_other);
 	app.route('/getCompanyPayments')
 		.post(paymentRoutes.find_by_companyid)
 		.get(paymentRoutes.find_by_companyid);

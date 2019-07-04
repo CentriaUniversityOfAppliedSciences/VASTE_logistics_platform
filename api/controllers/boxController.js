@@ -31,8 +31,8 @@ exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
       };
       //console.log(options);
       //callback("error");
-      sendToApi(options,function(vast){
-        callback(vast);
+      sendToApi(options,function(vast2){
+        callback(vast2);
       });
   });
 
@@ -62,8 +62,8 @@ exports.boxCancel = function(vasteOrder,status,machine,callback) {
 
     };
 
-    sendToApi(options,function(vast){
-      callback(vast);
+    sendToApi(options,function(vast2){
+      callback(vast2);
     });
   });
 };
@@ -91,8 +91,8 @@ exports.boxCancelApi = function(req, res) {
         }
 
     };
-    sendToApi(options,function(vast){
-      res.send(vast);
+    sendToApi(options,function(vast2){
+      res.send(vast2);
     });
   });
 };
@@ -120,8 +120,8 @@ exports.boxFindParcelApi = function(req, res) {
         }
 
     };
-    sendToApi(options,function(vast){
-      res.send(vast);
+    sendToApi(options,function(vast2){
+      res.send(vast2);
     });
   });
 };
@@ -148,10 +148,10 @@ exports.boxFindParcel = function(vasteOrder,machine,status,pin,callback) {
         }
 
     };
-    sendToApi(options,function(vast){
+    sendToApi(options,function(vast2){
       if (vast != undefined && vast != null && vast.length > 0)
       {
-        callback(vasteOrder,machine,status,pin,vast[0]);
+        callback(vasteOrder,machine,status,pin,vast2[0]);
       }
       else {
         callback(vasteOrder,machine,status,pin,"error")
@@ -172,8 +172,8 @@ exports.boxFreeLockers = function(req, res) {
         }
 
     };
-    sendToApi(options,function(vast){
-      res.send(vast);
+    sendToApi(options,function(vast2){
+      res.send(vast2);
     });
 };
 
@@ -199,11 +199,12 @@ exports.boxTrack = function(vasteOrder,id,status,callback) {
         }
 
     };
+
     //console.log(options);
-    sendToApi(options,function(vast){
+    sendToApi(options,function(vast2){
       //console.log("api resp:");
       //console.log(vast);
-      callback(vasteOrder,status,id,vast);
+      callback(vasteOrder,status,id,vast2);
     });
   });
 };
@@ -231,9 +232,9 @@ exports.boxAnnounceTrack = function(vasteOrder,id,status,callback) {
 
     };
     //console.log(options);
-    sendToApi(options,function(vast){
 
-      callback(vasteOrder,status,id,vast);
+    sendToApi(options,function(vast2){
+      callback(vasteOrder,status,id,vast2);
     });
   });
 };
@@ -261,9 +262,9 @@ exports.boxAnnounceTrackApi = function(req,res) {
 
     };
     //console.log(options);
-    sendToApi(options,function(vast){
+    sendToApi(options,function(vast2){
       //console.log(vast);
-      res.send(vast);
+      res.send(vast2);
     });
   });
 };
@@ -387,9 +388,9 @@ exports.getStates = function(machine,callback) {
         }
     };
     //console.log(options);
-    sendToApi(options,function(vast){
+    sendToApi(options,function(vast2){
       //console.log(vast);
-      callback(machine,vast);
+      callback(machine,vast2);
     });
 };
 
@@ -405,9 +406,9 @@ exports.getStatesApi = function(machine, callback) {
       }
   };
   //console.log(options);
-  sendToApi(options,function(vast){
+  sendToApi(options,function(vast2){
     //console.log(vast);
-    callback(vast);
+    callback(vast2);
   });
 };
 

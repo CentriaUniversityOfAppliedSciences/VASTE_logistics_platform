@@ -83,7 +83,7 @@ app.use(function(req,res,next){
               || req.path == '/failedOrder' || req.path == '/points/getById' || req.path == '/bystripe' || req.path == '/orderstatus/find_orderstatus_by_ID'
               || req.path == '/unbook_a_locker' || req.path == '/orderstatus/update_orderstatus_by_ID' || req.path == '/getOrderLogs'
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
-              || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message'
+              || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther'
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'
@@ -105,7 +105,7 @@ app.use(function(req,res,next){
         || req.path == '/updatevehicle' || req.path == '/changeDeliveryStatus' || req.path == '/createvehicle' || req.path == '/removevehicle'
         || req.path == '/users/updatePassword' || req.path == '/updateOrder'  || req.path == '/getCompanyPayments' || req.path == '/deleteOrder'  || req.path == '/users/remove' || req.path == '/users/getUser'
         || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders' || req.path == '/cancelBoxDelivery' || req.path == '/createSinglePayment' || req.path == '/createPayment'
-				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders'
+				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){

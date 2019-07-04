@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
   Payments = mongoose.model('Payments');
 
 exports.list_all_payments = function(req, res) {
-  Payments.find({}, function(err, payments) {
+  Payments.find({type:0}, function(err, payments) {
     if (err)
 		{
       res.send(err);
@@ -15,6 +15,16 @@ exports.list_all_payments = function(req, res) {
   });
 };
 
+exports.list_all_payments_other = function(req, res) {
+  Payments.find({type:req.body.type}, function(err, payments) {
+    if (err)
+		{
+      res.send(err);
+		}
+    console.log(payments);
+    res.json({payments});
+  });
+};
 
 exports.create_a_payments = function(req, res) {
   var new_payments = new Payments(req.body);

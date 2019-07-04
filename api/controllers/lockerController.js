@@ -196,7 +196,7 @@ exports.unbook_a_locker = function(req, res) {
             res.json(lockers);
           }
           else {
-            res.json(null)
+            res.json(null);
           }
 
         });
@@ -213,10 +213,14 @@ exports.unbook_a_locker = function(req, res) {
               res.json(lockers);
             }
             else {
-              res.json(null)
+              res.json(null);
             }
 
           });
+        }
+        else
+        {
+          res.json(lockers);
         }
       }
   });

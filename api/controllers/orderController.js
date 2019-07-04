@@ -383,7 +383,9 @@ function getOrdersForDelivery(deliveries,mode, callback)
           }
           else if (mode == 'inprogress')
           {
-            if (delivery.status == 'accepted' || delivery.status == 'inProgress' || delivery.status == 'box_accepted' || delivery.status == 'delivery_not_ready' || 'address_pickup_accepted')
+            if (delivery.status == 'accepted' || delivery.status == 'inProgress' || delivery.status == 'box_accepted'
+            || delivery.status == 'delivery_not_ready' || delivery.status == 'address_pickup_accepted' || delivery.status == 'address_pickup'
+            || delivery.status == 'address_delivery_not_ready')
   					{
   						orders.push(h);
   					}

@@ -33,5 +33,8 @@ module.exports = function(app)
  	 .post(deliveryRoutes.delete_a_deliverys);
   app.route('/cancelBoxDelivery')
   	.post(deliveryRoutes.delete_a_boxdeliverys);
+  app.route('/cancelAddressDelivery')
+    .post(deliveryRoutes.delete_a_addressdeliverys);
+
 
 };

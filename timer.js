@@ -66,13 +66,21 @@ function getBoxes()
                       if (s == 'pickup')
                       {
                         change_order_status(id,"pickup_ready");
+                        console.log(a);
+                        console.log(s);
+                        console.log(id);
+                        console.log(r["IBMachineCode"]);
                         get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                         {
-                          var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                          boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                          if (ty != undefined && ty != null)
                           {
+                            console.log(ty);
+                            var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                            boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                            {
 
-                          });
+                            });
+                          }
                         });
 
                       }
@@ -134,12 +142,15 @@ function getBoxes()
                     console.log("driver delivery completed");
                     get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                     {
-                      var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                      boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                      if (ty != undefined && ty != null)
                       {
+                        var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                        boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                        {
 
-                      });
-                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+                        });
+                        checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+                      }
 
                     });
 
@@ -183,11 +194,14 @@ function getBoxes()
                     change_order_status(id,"pickup_ready");
                     get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                     {
-                      var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                      boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                      if (ty != undefined && ty != null)
                       {
+                        var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                        boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                        {
 
-                      });
+                        });
+                      }
                     });
                   }
                   else if (s == 'delivery')
@@ -197,8 +211,9 @@ function getBoxes()
                       if (ty != undefined && ty != null)
                       {
                         checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
+                        checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
                       }
-                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+
                     });
                   }
                 }
@@ -242,11 +257,14 @@ function getBoxes()
                         change_order_status(id,"stowage_ready");
                         get_locker_pin(a,s,id,r["IBMachineCode"],function (ss,idd,mm,ty)
                         {
-                          var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                          boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                          if (ty != undefined && ty != null)
                           {
+                            var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
+                            boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                            {
 
-                          });
+                            });
+                          }
                         });
 
                       }
@@ -291,7 +309,7 @@ function getBoxes()
               {
                 if (r["PUstep"] == "PARCEL_PICKED_UP_BY_RECIPIENT")
                 {
-                  if (s == 'delivery')
+                  if (s == 'pickup')
                   {
                     change_order_status(id,"stowage_done");
                   }
@@ -306,9 +324,10 @@ function getBoxes()
                     {
                       if (ty != undefined && ty != null)
                       {
-                        checkIfPincode(mm,idd,"delivery",ty.lockerCode2);
+                        checkIfPincode(mm,idd,"pickup",ty.lockerCode2);
+                        checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
                       }
-                      checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+
                     });
                   }
                 }
@@ -928,7 +947,10 @@ var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
                 });
               }
             });
-            sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+            if (environment.environment == 'prod')
+            {
+              sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+            }
           }
           else {
             sendBoxPasscode(em,add,code,last,hhs["1"],machine, function(hhh){
@@ -949,7 +971,10 @@ var checkIfSendMessage = function(vasteOrder,status,id,code,machine)
                 });
               }
             });
-            sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+            if (environment.environment == 'prod')
+            {
+              sendDeliveryDoneSMS(res.receiver.name.phoneNumber,code,machine);
+            }
           }
 
         });
