@@ -149,7 +149,7 @@ exports.boxFindParcel = function(vasteOrder,machine,status,pin,callback) {
 
     };
     sendToApi(options,function(vast2){
-      if (vast != undefined && vast != null && vast.length > 0)
+      if (vast2 != undefined && vast2 != null && vast2.length > 0)
       {
         callback(vasteOrder,machine,status,pin,vast2[0]);
       }
