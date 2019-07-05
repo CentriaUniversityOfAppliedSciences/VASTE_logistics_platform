@@ -521,7 +521,7 @@ var change_order_status = function(vasteOrder, stat) {
 function sendStatusChange2(orderID,status)
 {
   var toport = "3511";
-  if (environment.port == 3000)
+  if (environment.environment == 'prod')
   {
     toport = "3501";
   }
