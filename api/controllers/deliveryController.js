@@ -460,6 +460,18 @@ exports.changeDeliveryStatus = function(req,res)
             {
               c = "address_pickup_accepted";
             }
+            else if (req.body.status == "address_pickup")
+            {
+              c = "address_pickup";
+            }
+            else if (req.body.status == "address_pickup_start")
+            {
+              c = "address_pickup_start";
+            }
+            else if (req.body.status == "address_delivery_not_ready")
+            {
+              c = "address_delivery_not_ready";
+            }
             var jso = {
               user:"api",
               ip: ipa,
