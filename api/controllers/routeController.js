@@ -5,7 +5,15 @@ var mongoose = require('mongoose'),
   Routes = mongoose.model('Routes');
 
 exports.list_all_routes = function(req, res) {
-  Routes.find({}, function(err, ) {
+  Routes.find({}, function(err,routes ) {
+    if (err)
+      res.send(err);
+    res.json(routes);
+  });
+};
+
+exports.getCompanyRoutes = function(req, res) {
+  Routes.find({companyID:req.body.companyID}, function(err, routes) {
     if (err)
       res.send(err);
     res.json(routes);
@@ -47,7 +55,7 @@ exports.delete_a_routes = function(req, res) {
       res.send(err);
     res.json({ route: 'Routes successfully deleted' });
   });
-}; 
+};
 
 exports.find_route_by_ID = function(req, res) {
   Routes.find({_id: req.params.routesId}, function(err, routes) {

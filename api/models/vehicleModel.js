@@ -18,7 +18,7 @@ var VehicleSchema = new Schema({
   type:
   {
     type: String,
-    default:  ['Car']
+    default:  ['car']
   },
   updateDate:
     {

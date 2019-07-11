@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(app) 
+module.exports = function(app)
 {
   var routeRoutes = require('../controllers/routeController');
 
@@ -10,10 +10,15 @@ module.exports = function(app)
 
  //app.route('/routes/find_by_ID')
 //	.post(routeRoutes.find_by_ID);
-	
+
 
   app.route('/routes/:routeId')
     .get(routeRoutes.read_a_routes)
     .put(routeRoutes.update_a_routes)
     .delete(routeRoutes.delete_a_routes);
+
+  app.route('/getCompanyRoutes')
+    .get(routeRoutes.getCompanyRoutes);
+
+
 };
