@@ -8,9 +8,6 @@ var RouteSchema = new Schema ({
 		companyID:{
 		type: String,
 		},
-		repetition:{		//taulukko? päivittäin, viikottain, tilauksesta
-			type: String,
-		},
 		weekDay:{
 			type: String //0 - 6, sunday - saturday
 		},
@@ -33,7 +30,10 @@ var RouteSchema = new Schema ({
 						type: Number
 					},
 					estimateTime:{
-						type: String
+						type: Number
+					},
+					deviation:{
+						type: Number
 					}
 			}
 		],

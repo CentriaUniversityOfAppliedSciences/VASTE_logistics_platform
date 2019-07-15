@@ -19,6 +19,9 @@ module.exports = function(app)
 
   app.route('/getCompanyRoutes')
     .get(routeRoutes.getCompanyRoutes);
+  app.route('/createNewRoute')
+    .post(routeRoutes.create_a_routes);
+
 
 
 };
