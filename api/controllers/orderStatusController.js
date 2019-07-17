@@ -11,7 +11,6 @@ exports.list_all_orderStatus = function(req, res) {
   };
   exports.list_by_company = function(req, res) {
       OrderStatus.find({CompanyID:req.body.companyID}, function(err, os) {
-        console.log(os);
         if (err)
           res.send(err);
         res.json(os);
