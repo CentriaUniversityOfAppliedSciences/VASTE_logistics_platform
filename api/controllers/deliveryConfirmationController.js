@@ -61,7 +61,7 @@ exports.findappdc = function(req, res) {
             "msg":"match"
           }
           res.send(ans);
-        )};
+        });
 
       }
       else {

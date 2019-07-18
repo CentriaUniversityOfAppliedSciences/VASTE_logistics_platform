@@ -512,7 +512,7 @@ exports.changeDeliveryStatus = function(req,res)
               }
             });
 
-          )};
+          });
         }
         else {
           res.json({'error':'Delivery not found'});
