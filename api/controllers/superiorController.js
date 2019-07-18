@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 	var CompanyProperties = mongoose.model('CompanyProperties');
 	var Deliverys = mongoose.model('Deliverys');
 	var Orders = mongoose.model('Orders');
+	var Routes = mongoose.model('Routes');
   var environmentJson = fs.readFileSync("./environment.json");
   var environment = JSON.parse(environmentJson);
   var apikey = environment.apikey;
@@ -391,6 +392,42 @@ exports.get_locker_data_from_keba = function(req,res){
 	});
 }
 
+exports.super_list_companies_routes = function(req, res) {
+  Routes.find({companyID: req.body.companyID}, function(err,routes) {
+    if (err){
+      res.send(err);
+		}
+
+		var r = [];
+		if(routes != undefined  || routes != null)
+		{
+			for(var i = 0; i < routes.length; i++){
+				var ro = routes[i].toObject();
+				r.push(ro);
+			}
+		}
+    res.json(r);
+  });
+};
+
+exports.super_create_a_routes = function(req, res) {
+  var new_routes = new Routes(req.body);
+  new_routes.save(function(err, routes) {
+    if (err)
+      res.send(err);
+    res.json(routes);
+  });
+};
+
+exports.super_delete_a_routes = function(req, res) {
+  Routes.remove({_id: req.body.id, companyID: req.body.companyID}, function(err, routes) {
+    if(err){
+			console.log(err);
+      res.send(err);
+		}
+    res.json({ route: 'Routes successfully deleted' });
+  });
+};
 
 
 function sendStatusChange(orderID,status,comp)

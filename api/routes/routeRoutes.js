@@ -21,6 +21,8 @@ module.exports = function(app)
     .get(routeRoutes.getCompanyRoutes);
   app.route('/createNewRoute')
     .post(routeRoutes.create_a_routes);
+	app.route('/deleteRoute')
+		.post(routeRoutes.delete_a_routes);
 
 
 

@@ -79,4 +79,13 @@ module.exports = function(app)
 	app.route('/getKebaLockers')
 		.post(superiorRoutes.get_locker_data_from_keba);
 
+	app.route('/getCompaniesRoutes')
+		.get(superiorRoutes.super_list_companies_routes);
+
+	app.route('/superCreateRoute')
+		.post(superiorRoutes.super_create_a_routes);
+
+	app.route('/superDeleteRoute')
+		.post(superiorRoutes.super_delete_a_routes);
+
 };
