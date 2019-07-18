@@ -5,9 +5,14 @@ module.exports = function(app)
 
   // dcRoutes Routes
   app.route('/dc')
-    .get(dcRoutes.list_all_confirmations)
+    .get(dcRoutes.list_all_confirmations);
+  app.route('/getDeliveryConfirmation')
+  	.post(dcRoutes.finddc);
+  app.route('/createDeliveryConfirmation')
     .post(dcRoutes.create_a_confirmation);
-  app.route('/dc/:deliveryID')
-  	.get(dcRoutes.finddc);
+  app.route('/getAppDeliveryConfirmation')
+  	.post(dcRoutes.findappdc);
+  app.route('/announceDeliveryConfirmation')
+  	.post(dcRoutes.announcedc);
 
 };

@@ -8,6 +8,7 @@ var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
 var Lockers = mongoose.model('Lockers');
+var dc = mongoose.model('DeliveryConfirmation');
 
 
 exports.list_all_orders = function(req, res) {
@@ -90,6 +91,25 @@ exports.create_a_orders = function(req, res) {
           companyID: orders.companyID
         };
         log.logThis(jso);
+      }
+      if (req.body.destination == 'box_pickup')
+      {
+        try{
+          var randomstring = require("randomstring");
+          var pin = randomstring.generate({length:6,charset:'numeric'});
+          var j = {
+            "companyID": orders.companyID,
+            "orderID":orders._id,
+            "pin":pin
+          };
+          var new_dc = new dc(j);
+          new_dc.save(function(err, d) {
+          });
+        }
+        catch (e)
+        {
+          console.log(e);
+        }
       }
       res.json(orders);
     });
