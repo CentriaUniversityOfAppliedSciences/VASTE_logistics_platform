@@ -10,7 +10,7 @@ exports.list_all_payments = function(req, res) {
 		{
       res.send(err);
 		}
-    console.log(payments);
+    //console.log(payments);
     res.json({payments});
   });
 };
@@ -21,7 +21,7 @@ exports.list_all_payments_other = function(req, res) {
 		{
       res.send(err);
 		}
-    console.log(payments);
+    //console.log(payments);
     res.json({payments});
   });
 };
