@@ -413,14 +413,14 @@ exports.changeDeliveryStatus = function(req,res)
   }
   else
   {
-    if (req.body.status == "address_delivery_not_ready")
+    if (req.body.status == "done" && req.body.pincode != null && req.body.pincode.length > 4)
     {
       dc.findOne({orderID:req.body.orderID,companyID:req.body.companyID}, function(err, d) {
         if (err)
         {
           res.json({'error':'Delivery not found'});
         }
-        if (req.body.pincode == a.pin)
+        if (req.body.pincode == d.pin)
         {
           dc.findOneAndUpdate({orderID:req.body.orderID,companyID:req.body.companyID},{status:"verified"},{new: true}, function(err2, da) {
             if (err2)

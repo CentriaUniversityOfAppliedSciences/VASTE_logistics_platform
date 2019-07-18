@@ -92,7 +92,7 @@ exports.create_a_orders = function(req, res) {
         };
         log.logThis(jso);
       }
-      if (req.body.destination == 'box_pickup')
+      if (req.body.destination == 'box_delivery')
       {
         try{
           var randomstring = require("randomstring");
