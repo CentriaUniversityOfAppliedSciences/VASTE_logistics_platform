@@ -40,7 +40,9 @@ var express = require('express'),
   oe = require('./api/models/orderExtraModel'),
   cp = require('./api/models/companyPropertiesModel'),
   osm = require('./api/models/orderStatusModel'),
-  st = require('./api/models/stripeModel');
+  st = require('./api/models/stripeModel'),
+  school = require('./api/models/schoolRouteModel'),
+  schoolDaily = require('./api/models/schoolDailyModel');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -255,6 +257,10 @@ var superiorRoutes = require('./api/routes/superiorRoutes');
 superiorRoutes(app);
 var boxRoutes = require('./api/routes/boxRoutes');
 boxRoutes(app);
+var schoolModelRoutes = require('./api/routes/schoolRouteRoutes');
+schoolModelRoutes(app);
+var schoolDailyRoutes = require('./api/routes/schoolDailyRoutes');
+schoolDailyRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
