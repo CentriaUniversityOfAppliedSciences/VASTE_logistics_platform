@@ -13,7 +13,7 @@ var SchoolDailySchema = new Schema ({
 		},
     date:{
       type: String
-    }
+    },
 		points:[
 			{
 					address:{
