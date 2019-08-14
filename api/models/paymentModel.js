@@ -20,6 +20,9 @@ var PaymentSchema = new Schema ({
 	},
 	route:{
 		type: String
+	},
+	routeID:{
+		type:String
 	}
 
 

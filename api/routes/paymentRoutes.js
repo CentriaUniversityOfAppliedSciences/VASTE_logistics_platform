@@ -35,4 +35,7 @@ module.exports = function(app)
 
 	app.route('/deletePayment')
 		.post(paymentRoutes.delete_a_payments);
+
+	app.route('/findPaymentByRoute')
+		.post(paymentRoutes.find_payment_by_route_and_type);
 };

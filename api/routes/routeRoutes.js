@@ -8,6 +8,9 @@ module.exports = function(app)
     .get(routeRoutes.list_all_routes)
     .post(routeRoutes.create_a_routes);
 
+	app.route('/listAllRoutes')
+		.post(routeRoutes.list_all_routes)
+
  //app.route('/routes/find_by_ID')
 //	.post(routeRoutes.find_by_ID);
 

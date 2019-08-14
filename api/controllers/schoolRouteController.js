@@ -26,3 +26,12 @@ exports.create_a_route = function(req, res) {
       res.json(d);
     });
 };
+
+exports.list_day_route = function(req,res){
+	var day = req.body.day;
+	school.findOne({companyID: req.body.companyID, days: { $regex: day, $options: 'ig'}}, function(err, s){
+		if (err)
+			res.send(err)
+		res.json(s);
+	})
+}

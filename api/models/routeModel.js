@@ -11,6 +11,9 @@ var RouteSchema = new Schema ({
 		weekDay:{
 			type: String //0 - 6, sunday - saturday
 		},
+		name:{
+			type: String
+		},
 		routeID:
 		{
 			type: String

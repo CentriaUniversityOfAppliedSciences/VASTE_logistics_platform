@@ -86,7 +86,8 @@ app.use(function(req,res,next){
               || req.path == '/unbook_a_locker' || req.path == '/orderstatus/update_orderstatus_by_ID' || req.path == '/getOrderLogs'
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther'
-              || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation'
+              || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute'
+							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'

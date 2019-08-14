@@ -11,6 +11,9 @@ var SchoolRouteSchema = new Schema ({
 		name:{
 			type: String
 		},
+		days: {
+			type:String
+		},
 		points:[
 			{
 					address:{
