@@ -420,7 +420,7 @@ exports.changeDeliveryStatus = function(req,res)
         {
           res.json({'error':'Delivery not found'});
         }
-        if (req.body.pincode == d.pin)
+        if (d != undefined && d != null && req.body.pincode == d.pin)
         {
           dc.findOneAndUpdate({orderID:req.body.orderID,companyID:req.body.companyID},{status:"verified"},{new: true}, function(err2, da) {
             if (err2)
