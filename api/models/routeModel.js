@@ -42,7 +42,7 @@ var RouteSchema = new Schema ({
 		],
 		vehicleType:{
 			type: String,
-			default:  ['car']
+			default:  'car'
 		}
 
 

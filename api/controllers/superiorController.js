@@ -267,7 +267,7 @@ exports.super_get_companies_payments = function(req,res){
 };
 
 exports.super_delete_a_vehicle = function(req, res) {
-  Vehicles.remove({_id: req.body.vehiclesId}, function(err, vehicles){
+  Vehicles.deleteOne({_id: req.body.vehiclesId}, function(err, vehicles){
     if(err){
       res.send(err);
 		}
@@ -277,7 +277,7 @@ exports.super_delete_a_vehicle = function(req, res) {
 };
 
 exports.super_delete_a_user = function(req,res){
-	Users.remove({_id: req.body.userID}, function(err, users) {
+	Users.deleteOne({_id: req.body.userID}, function(err, users) {
 		if (err)
 			res.send(err);
 		res.json({ message: 'User successfully deleted' });
@@ -346,7 +346,7 @@ exports.super_create_a_payments = function(req, res) {
 };
 
 exports.super_delete_a_payment = function(req, res) {
-  Payments.remove({_id: req.body.paymentID}, function(err, payments) {
+  Payments.deleteOne({_id: req.body.paymentID}, function(err, payments) {
     if (err)
       res.send(err);
     res.json({ payment: 'Payments successfully deleted' });
@@ -420,7 +420,7 @@ exports.super_create_a_routes = function(req, res) {
 };
 
 exports.super_delete_a_routes = function(req, res) {
-  Routes.remove({_id: req.body.id, companyID: req.body.companyID}, function(err, routes) {
+  Routes.deleteOne({_id: req.body.id, companyID: req.body.companyID}, function(err, routes) {
     if(err){
 			console.log(err);
       res.send(err);

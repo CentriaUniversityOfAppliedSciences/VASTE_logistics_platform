@@ -42,7 +42,7 @@ exports.update_a_companys = function(req, res) {
 
 
 exports.delete_a_companys = function(req, res) {
-  Companys.remove({_id: req.params.companysId}, function(err, companys) {
+  Companys.deleteOne({_id: req.params.companysId}, function(err, companys) {
     if (err)
       res.send(err);
     res.json({ message: 'Companys successfully deleted' });

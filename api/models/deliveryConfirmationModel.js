@@ -17,7 +17,7 @@ var DeliveryConfirmationSchema = new Schema ({
 	{
 		type:String,
 		enum: ['initial','announced','verified'], //created, send to customer, customer used pin
-		default: ['initial']
+		default: 'initial'
 	},
 	companyID:
 	{

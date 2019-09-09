@@ -11,7 +11,7 @@ var LockerSchema = new Schema ({
 		lockerStatus:{
 			type: String,
 			enum: ['available','booked','in_use','malfunction'],
-			default: ['available']
+			default: 'available'
 		},
 
 		pointID: //point _id
@@ -34,7 +34,7 @@ var LockerSchema = new Schema ({
 		type:{ //pickup or delivery
 			type: String,
 			enum: ['pickup','delivery'],
-			default: ['pickup']
+			default: 'pickup'
 		}
 
 
