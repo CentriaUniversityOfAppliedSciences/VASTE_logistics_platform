@@ -11,7 +11,7 @@ var OrderExtraSchema = new Schema({
   value:{
     type:String,
     enum:['wheelchair','stretcher','cold','warm','normal'], //pyörätuoli,paari,kylmä,kuuma,normaali
-    default: ['normal']
+    default: 'normal'
   },
   companyID:
   {

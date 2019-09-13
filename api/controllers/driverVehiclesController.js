@@ -46,7 +46,7 @@ exports.update_a_dc = function(req, res) {
 };
 
 exports.delete_a_dc = function(req, res) {
-  DriverVehicles.remove({_id: req.params.id}, function(err, dc) {
+  DriverVehicles.deleteOne({_id: req.params.id}, function(err, dc) {
     if (err)
       res.send(err);
     res.json({ message: 'Driver/vehicle connection successfully deleted' });

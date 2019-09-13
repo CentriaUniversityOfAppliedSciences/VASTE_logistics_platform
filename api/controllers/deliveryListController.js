@@ -43,12 +43,12 @@ exports.update_a_deliveryLists = function(req, res) {
 
 
 exports.delete_a_deliveryLists = function(req, res) {
-  DeliveryLists.remove({_id: req.params.deliveryListsId}, function(err, deliveryLists) {
+  DeliveryLists.deleteOne({_id: req.params.deliveryListsId}, function(err, deliveryLists) {
     if (err)
       res.send(err);
     res.json({ deliveryList: 'DeliveryList successfully deleted' });
   });
-}; 
+};
 
 exports.find_deliveryLists_by_ID = function(req, res) {
   DeliveryLists.find({_id: req.params.deliveryListsId}, function(err, deliveryLists) {
@@ -62,14 +62,14 @@ exports.getDeliveryListsForVehicle = function(req, res) {
   DeliveryLists.find({vehicleId: req.body.vehicleId}, function(err, deliveryLists) {
     if (err)
 		res.send(err);
-	
+
 	getDeliveriesForLists(deliveryLists, function(err,r)
 	{
 		//console.log(r);
 		res.json(r);
 	});
-	
-    
+
+
   });
 };
 /*exports.getDeliveryListForVehicleById = function(req, res) {
@@ -81,7 +81,7 @@ exports.getDeliveryListsForVehicle = function(req, res) {
 			console.log(r);
 			res.json(r);
 		});
-    
+
   });
 };*/
 
@@ -95,7 +95,7 @@ function getDeliveriesForLists(lists, callback)
 			done();
 			return;
 		}
-		
+
 			//console.log(list);
 		getOrdersForList(list.list, function (err,r)
 		{
@@ -106,21 +106,21 @@ function getDeliveriesForLists(lists, callback)
 					h.timestamp = list.timestamp;
 					h.name = list.name;
 					h.vehicleId = list.vehicleId;
-					
+
 					//console.log(h);
-							
+
 					ordery.push(h);
-			
+
 			done();
 			return;
 		} );
-		
+
 	};
 	var doneIteratingFcn = function(err)
 	{
 		callback(err,ordery);
 	};
-	
+
 	async.forEach(lists, iteratorFcn, doneIteratingFcn);
 }
 
@@ -134,23 +134,23 @@ function getOrdersForList(onelist, callback)
 			done();
 			return;
 		}
-		
+
 			var query1 = {'_id':list.orderNumber};
-			
+
 			Orders.find(query1, function(err1, result1) {
 				if (err1)
 				{
 				  res.send(err1);
 				}
 				var query2 = {'orderID':result1[0]._id};
-			
+
 				Deliveries.find(query2, function(err2, result2) {
 					if (err2)
 					{
 					  res.send(err2);
 					}
 					console.log(result2);
-				
+
 					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{}, "type":"","orderInfo":"","orderDescription":"" };
 					h.subscriber = result1[0].subscriber;
 					h.receiver = result1[0].receiver;
@@ -172,19 +172,19 @@ function getOrdersForList(onelist, callback)
 					h.type = list.type;
 					h.number = list.number;
 					//console.log(h);
-							
+
 					ordery.push(h);
 					done();
 					return;
 				});
-				
+
 			  });
-		
+
 	};
 	var doneIteratingFcn = function(err)
 	{
 		callback(err,ordery);
 	};
-	
+
 	async.forEach(onelist, iteratorFcn, doneIteratingFcn);
 }

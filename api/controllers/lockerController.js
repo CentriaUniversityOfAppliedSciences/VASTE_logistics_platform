@@ -55,7 +55,7 @@ exports.update_a_lockers = function(req, res) {
 
 
 exports.delete_a_lockers = function(req, res) {
-  Lockers.remove({_id: req.body.lockersId}, function(err, lockers) {
+  Lockers.deleteOne({_id: req.body.lockersId}, function(err, lockers) {
     if (err)
       res.send(err);
     res.json({ message: 'Lockers successfully deleted' });

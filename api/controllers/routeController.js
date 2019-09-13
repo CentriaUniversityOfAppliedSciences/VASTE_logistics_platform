@@ -50,7 +50,7 @@ exports.update_a_routes = function(req, res) {
 
 
 exports.delete_a_routes = function(req, res) {
-  Routes.remove({_id: req.body.id, companyID: req.body.companyID}, function(err, routes) {
+  Routes.deleteOne({_id: req.body.id, companyID: req.body.companyID}, function(err, routes) {
     if(err){
 			console.log(err);
       res.send(err);

@@ -62,7 +62,7 @@ exports.update_a_vehicle = function(req, res) {
 };
 
 exports.delete_a_vehicles = function(req, res) {
-  Vehicles.remove({_id: req.body.vehiclesId, companyID: req.body.companyID}, function(err, vehicles) {
+  Vehicles.deleteOne({_id: req.body.vehiclesId, companyID: req.body.companyID}, function(err, vehicles) {
     if (err)
       res.send(err);
     res.json({ message: 'Vehicle successfully deleted' });

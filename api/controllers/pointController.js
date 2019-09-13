@@ -44,7 +44,7 @@ exports.update_a_points = function(req, res) {
 
 
 exports.delete_a_points = function(req, res) {
-  Points.remove({_id: req.body.pointId}, function(err, point) {
+  Points.deleteOne({_id: req.body.pointId}, function(err, point) {
     if (err)
       res.send(err);
     res.json({ message: 'Point successfully deleted' });

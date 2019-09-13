@@ -39,7 +39,7 @@ exports.update_OrderStatus = function(req, res){
   });
 };
 exports.delete_OrderStatus = function(req, res){
-  OrderStatus.remove({OrderNumber: req.body.OrderNumber}, function(err, os) {
+  OrderStatus.deleteMany({OrderNumber: req.body.OrderNumber}, function(err, os) {
     if (err)
       res.send(err);
     res.json({"status" : 'OrderStatus successfully deleted' });

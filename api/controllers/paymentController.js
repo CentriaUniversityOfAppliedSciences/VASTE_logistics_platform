@@ -71,7 +71,7 @@ exports.update_a_payments = function(req, res) {
 
 
 exports.delete_a_payments = function(req, res) {
-  Payments.remove({_id: req.body.paymentID, companyID: req.body.companyID}, function(err, payments) {
+  Payments.deleteOne({_id: req.body.paymentID, companyID: req.body.companyID}, function(err, payments) {
     if (err)
 		{
       res.send(err);

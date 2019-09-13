@@ -35,7 +35,7 @@ exports.update_a_oe = function(req, res) {
 };
 
 exports.delete_a_oe = function(req, res) {
-  orderExtra.remove({_id: req.body.extraID}, function(err, oe) {
+  orderExtra.deleteOne({_id: req.body.extraID}, function(err, oe) {
     if (err)
       res.send(err);
     res.json({ message: 'Successfully deleted' });

@@ -277,7 +277,7 @@ exports.updatePincode = function(req, res) {
 
 
 exports.delete_a_orders = function(req, res) {
-  Orders.remove({_id: req.body.orderID}, function(err, orders) {
+  Orders.deleteOne({_id: req.body.orderID}, function(err, orders) {
     if (err)
       res.send(err);
     res.json(orders);

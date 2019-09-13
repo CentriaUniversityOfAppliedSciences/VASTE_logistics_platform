@@ -32,7 +32,7 @@ var mongoose = require('mongoose'),
 
 
   exports.delete_a_property = function(req, res) {
-    CompanyProperties.remove({_id: req.params.propertyid}, function(err, companys) {
+    CompanyProperties.deleteOne({_id: req.params.propertyid}, function(err, companys) {
       if (err)
         res.send(err);
       res.json({ message: 'Companys successfully deleted' });

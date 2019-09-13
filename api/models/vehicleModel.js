@@ -18,7 +18,7 @@ var VehicleSchema = new Schema({
   type:
   {
     type: String,
-    default:  ['car']
+    default:  'car'
   },
   updateDate:
     {
@@ -29,19 +29,19 @@ var VehicleSchema = new Schema({
   {
     type: String,
     enum: ['online', 'offline'],
-    default: ['offline']
+    default: 'offline'
   },
   state:
   {
     type: String,
     enum: ['booked', 'available'],
-    default: ['available']
+    default: 'available'
   },
   space:
   {
 	type:String,
 	enum: ['space','full'],
-	default: ['space']
+	default: 'space'
   },
   longitude:
   {

@@ -48,6 +48,9 @@ var express = require('express'),
 //Mongoose yhteys
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
+mongoose.set('useNewUrlParser',true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 if (environment.environment == 'prod')
 {
   mongoose.connect('mongodb://localhost/VasteDB');

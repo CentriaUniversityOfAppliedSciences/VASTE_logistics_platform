@@ -15,7 +15,7 @@ var InUseSchema = new Schema ({
   status:{
     type: String,
     enum: ['active', 'offline'],
-    default: ['active']
+    default: 'active'
   },
   companyID:{
     type: String

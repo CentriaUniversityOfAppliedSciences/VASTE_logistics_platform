@@ -42,7 +42,7 @@ exports.update_a_messages = function(req, res) {
 
 
 exports.delete_a_messages = function(req, res) {
-  Messages.remove({_id: req.body.id}, function(err, messages) {
+  Messages.deleteOne({_id: req.body.id}, function(err, messages) {
     if (err)
       res.send(err);
     res.json({ message: 'Messages successfully deleted' });
