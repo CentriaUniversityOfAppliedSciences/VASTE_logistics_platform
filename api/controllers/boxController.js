@@ -32,8 +32,6 @@ exports.boxAnnounce = function(status,vasteOrder,machine,size,valid, callback) {
       //console.log(options);
       //callback("error");
       sendToApi(options,function(vast2){
-				console.log("vast2@boxcontroller:35");
-				console.log(vast2);
         callback(vast2);
       });
   });

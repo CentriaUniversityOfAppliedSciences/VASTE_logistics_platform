@@ -42,7 +42,8 @@ var express = require('express'),
   osm = require('./api/models/orderStatusModel'),
   st = require('./api/models/stripeModel'),
   school = require('./api/models/schoolRouteModel'),
-  schoolDaily = require('./api/models/schoolDailyModel');
+  schoolDaily = require('./api/models/schoolDailyModel'),
+	coupon = require('./api/models/couponModel');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -95,6 +96,7 @@ app.use(function(req,res,next){
 							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
 							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'/*<-*/
+							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<--*/
             )
               && req.body.apikey == environment.apikey
           )
@@ -262,6 +264,8 @@ var schoolModelRoutes = require('./api/routes/schoolRouteRoutes');
 schoolModelRoutes(app);
 var schoolDailyRoutes = require('./api/routes/schoolDailyRoutes');
 schoolDailyRoutes(app);
+var couponRoutes = require('./api/routes/couponRoutes');
+couponRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
