@@ -6,7 +6,7 @@ var PaymentSchema = new Schema ({
 
 	type:{
 		type: Number
-		//0: box2box, 1: door2box, 2: box2door, 3: route km based
+		//0: box2box, 1: storage, 2: door2box, 3: box2door, 4: address2address
 	},
 	amount:{
 		type: Number
