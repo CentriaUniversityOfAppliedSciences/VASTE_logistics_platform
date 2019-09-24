@@ -415,103 +415,217 @@ exports.changeDeliveryStatus = function(req,res)
   {
     if (req.body.status == "done" && req.body.pincode != null && req.body.pincode.length > 4)
     {
-      dc.findOne({orderID:req.body.orderID,companyID:req.body.companyID}, function(err, d) {
+      dc.findOne({orderID:req.body.orderID,companyID:req.body.companyID,type:"delivery"}, function(err, d) {
         if (err)
         {
           res.json({'error':'Delivery not found'});
         }
         if (d != undefined && d != null && req.body.pincode == d.pin)
         {
-          dc.findOneAndUpdate({orderID:req.body.orderID,companyID:req.body.companyID},{status:"verified"},{new: true}, function(err2, da) {
+          dc.findOneAndUpdate({orderID:req.body.orderID,companyID:req.body.companyID,type:"delivery"},{status:"verified"},{new: true}, function(err2, da) {
             if (err2)
             {
               res.json({'error':'Delivery not found'});
             }
-            var query = { _id: req.body.deliveryID };
-          	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
-            Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
-              if (deli != undefined && deli.length > 0)
-              {
-                Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
-                  if(err)
-                  {
-                    res.send(err);
-                  }
-                  var oQuery = { _id: req.body.orderID };
-                  var oUpdate = { status: req.body.orderStatus };
-                  Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
-                  {
-                    if (err2)
+            else
+            {
+              var query = { _id: req.body.deliveryID };
+            	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+              Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
+                if (deli != undefined && deli.length > 0)
+                {
+                  Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+                    if(err)
                     {
-                      res.send(err2);
+                      res.send(err);
                     }
-                    var log = require('../controllers/orderLogController');
-                    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-                    var c = "";
-                    if (req.body.status == "accepted" || req.body.status == 'box_accepted')
+                    var oQuery = { _id: req.body.orderID };
+                    var oUpdate = { status: req.body.orderStatus };
+                    Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
                     {
-                      c = "driver_accept";
-                    }
-                    else if (req.body.status == "inProgress")
-                    {
-                      c = "driver_pickup";
-                    }
-                    else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
-                    {
-                      c = "driver_cancel";
-                    }
-                    else if (req.body.status == "done")
-                    {
-                      c = "driver_delivery";
-                    }
-                    else if (req.body.status == "delivery_ready")
-                    {
-                      c = "delivery_ready";
-                    }
-                    else if (req.body.status == "delivery_not_ready")
-                    {
-                      c = "delivery_not_ready";
-                    }
-                    else if (req.body.status == "address_pickup_accepted")
-                    {
-                      c = "address_pickup_accepted";
-                    }
-                    else if (req.body.status == "address_pickup")
-                    {
-                      c = "address_pickup";
-                    }
-                    else if (req.body.status == "address_pickup_start")
-                    {
-                      c = "address_pickup_start";
-                    }
-                    else if (req.body.status == "address_delivery_not_ready")
-                    {
-                      c = "address_delivery_not_ready";
-                    }
-                    var jso = {
-                      user:"api",
-                      ip: ipa,
-                      timestamp: Math.floor(new Date() / 1000),
-                      code: c,
-                      orderID:req.body.orderID,
-                      deliveryID: req.body.deliveryID,
-                      companyID: ord.companyID,
-                      vehicleID:req.body.vehicleID
-                    };
-                    log.logThis(jso);
-                    sendStatusChange(req.body.orderID,c,ord.companyID);
-                    sendStatusChange2(req.body.orderID,c);
-                    res.json(deliverys);
+                      if (err2)
+                      {
+                        res.send(err2);
+                      }
+                      var log = require('../controllers/orderLogController');
+                      var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+                      var c = "";
+                      if (req.body.status == "accepted" || req.body.status == 'box_accepted')
+                      {
+                        c = "driver_accept";
+                      }
+                      else if (req.body.status == "inProgress")
+                      {
+                        c = "driver_pickup";
+                      }
+                      else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
+                      {
+                        c = "driver_cancel";
+                      }
+                      else if (req.body.status == "done")
+                      {
+                        c = "driver_delivery";
+                      }
+                      else if (req.body.status == "delivery_ready")
+                      {
+                        c = "delivery_ready";
+                      }
+                      else if (req.body.status == "delivery_not_ready")
+                      {
+                        c = "delivery_not_ready";
+                      }
+                      else if (req.body.status == "address_pickup_accepted")
+                      {
+                        c = "address_pickup_accepted";
+                      }
+                      else if (req.body.status == "address_pickup")
+                      {
+                        c = "address_pickup";
+                      }
+                      else if (req.body.status == "address_pickup_start")
+                      {
+                        c = "address_pickup_start";
+                      }
+                      else if (req.body.status == "address_delivery_not_ready")
+                      {
+                        c = "address_delivery_not_ready";
+                      }
+                      var jso = {
+                        user:"api",
+                        ip: ipa,
+                        timestamp: Math.floor(new Date() / 1000),
+                        code: c,
+                        orderID:req.body.orderID,
+                        deliveryID: req.body.deliveryID,
+                        companyID: ord.companyID,
+                        vehicleID:req.body.vehicleID
+                      };
+                      log.logThis(jso);
+                      sendStatusChange(req.body.orderID,c,ord.companyID);
+                      sendStatusChange2(req.body.orderID,c);
+                      res.json(deliverys);
 
-                   });
+                     });
 
-              });
+                });
               }
               else {
                 res.json({'error':'Delivery not found'});
               }
             });
+          }
+          });
+        }
+        else {
+          res.json({'error':'Delivery not found'});
+        }
+      });
+    }
+    else if (req.body.status == "inProgress" && req.body.pincode != null && req.body.pincode.length > 4)
+    {
+      dc.findOne({orderID:req.body.orderID,companyID:req.body.companyID,type:"pickup"}, function(err, d) {
+        if (err)
+        {
+          res.json({'error':'Delivery not found'});
+        }
+        if (d != undefined && d != null && req.body.pincode == d.pin)
+        {
+          dc.findOneAndUpdate({orderID:req.body.orderID,companyID:req.body.companyID,type:"pickup"},{status:"verified"},{new: true}, function(err2, da) {
+            if (err2)
+            {
+              res.json({'error':'Delivery not found'});
+            }
+            else
+            {
+              var query = { _id: req.body.deliveryID };
+            	var update = { vehicleID:req.body.vehicleID,status: req.body.status, time: {pickupTime: req.body.pickupTime, deliveryTime: req.body.deliveryTime} };
+              Deliverys.find({_id:req.body.deliveryID,vehicleID:req.body.vehicleID, status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}, companyID:req.body.companyID}, function(err, deli){
+                if (deli != undefined && deli.length > 0)
+                {
+                  Deliverys.findOneAndUpdate(query,update, function(err, deliverys){
+                    if(err)
+                    {
+                      res.send(err);
+                    }
+                    var oQuery = { _id: req.body.orderID };
+                    var oUpdate = { status: req.body.orderStatus };
+                    Orders.findOneAndUpdate(oQuery, oUpdate, function(err2, ord)
+                    {
+                      if (err2)
+                      {
+                        res.send(err2);
+                      }
+                      var log = require('../controllers/orderLogController');
+                      var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+                      var c = "";
+                      if (req.body.status == "accepted" || req.body.status == 'box_accepted')
+                      {
+                        c = "driver_accept";
+                      }
+                      else if (ord.destination == "box_address" && req.body.status == "inProgress")
+                      {
+                        c = "driver_pickup_box_address"
+                      }
+                      else if (req.body.status == "inProgress")
+                      {
+                        c = "driver_pickup";
+                      }
+                      else if (req.body.status == "cancelled" || req.body.status == 'box_cancelled')
+                      {
+                        c = "driver_cancel";
+                      }
+                      else if (req.body.status == "done")
+                      {
+                        c = "driver_delivery";
+                      }
+                      else if (req.body.status == "delivery_ready")
+                      {
+                        c = "delivery_ready";
+                      }
+                      else if (req.body.status == "delivery_not_ready")
+                      {
+                        c = "delivery_not_ready";
+                      }
+                      else if (req.body.status == "address_pickup_accepted")
+                      {
+                        c = "address_pickup_accepted";
+                      }
+                      else if (req.body.status == "address_pickup")
+                      {
+                        c = "address_pickup";
+                      }
+                      else if (req.body.status == "address_pickup_start")
+                      {
+                        c = "address_pickup_start";
+                      }
+                      else if (req.body.status == "address_delivery_not_ready")
+                      {
+                        c = "address_delivery_not_ready";
+                      }
+                      var jso = {
+                        user:"api",
+                        ip: ipa,
+                        timestamp: Math.floor(new Date() / 1000),
+                        code: c,
+                        orderID:req.body.orderID,
+                        deliveryID: req.body.deliveryID,
+                        companyID: ord.companyID,
+                        vehicleID:req.body.vehicleID
+                      };
+                      log.logThis(jso);
+                      sendStatusChange(req.body.orderID,c,ord.companyID);
+                      sendStatusChange2(req.body.orderID,c);
+                      res.json(deliverys);
 
+                     });
+
+                });
+              }
+              else {
+                res.json({'error':'Delivery not found'});
+              }
+            });
+          }
           });
         }
         else {

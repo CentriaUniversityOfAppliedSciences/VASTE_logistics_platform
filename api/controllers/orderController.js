@@ -111,6 +111,43 @@ exports.create_a_orders = function(req, res) {
           console.log(e);
         }
       }
+      if (req.body.destination == 'box_address')
+      {
+        try{
+          var randomstring = require("randomstring");
+          var pin = randomstring.generate({length:6,charset:'numeric'});
+          var j = {
+            "companyID": orders.companyID,
+            "orderID":orders._id,
+            "pin":pin,
+            "type":"delivery"
+          };
+          var new_dc = new dc(j);
+          new_dc.save(function(err, d) {
+          });
+        }
+        catch (e)
+        {
+          console.log(e);
+        }
+        try{
+          var randomstring = require("randomstring");
+          var pin = randomstring.generate({length:6,charset:'numeric'});
+          var j = {
+            "companyID": orders.companyID,
+            "orderID":orders._id,
+            "pin":pin,
+            "type":"pickup"
+          };
+          var new_dc = new dc(j);
+          new_dc.save(function(err, d) {
+          });
+        }
+        catch (e)
+        {
+          console.log(e);
+        }
+      }
       res.json(orders);
     });
   });

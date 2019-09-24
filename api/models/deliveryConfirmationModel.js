@@ -23,6 +23,12 @@ var DeliveryConfirmationSchema = new Schema ({
 	{
 		type: String,
 		required: 'Missing companyID'
+	},
+	type:
+	{
+		type:String,
+		enum:['pickup','delivery'],
+		default: 'delivery'
 	}
 
 
