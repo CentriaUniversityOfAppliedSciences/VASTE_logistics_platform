@@ -141,6 +141,7 @@ exports.create_a_orders = function(req, res) {
           };
           var new_dc = new dc(j);
           new_dc.save(function(err, d) {
+            sendStatusChange2(orders._id,"box_address_received");
           });
         }
         catch (e)
