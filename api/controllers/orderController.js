@@ -359,7 +359,7 @@ exports.getVehicleOrdersReceived = function(req,res)
 
 exports.getVehicleOrdersBoxes = function(req,res)
 {
-  Orders.find({companyID:req.body.companyID, archieved:0, $or:[{status:"pickup_ready"},{status:"terminal_start"},{status:"address_pickup_start"}] }, function(err, orders) {
+  Orders.find({companyID:req.body.companyID, archieved:0, $or:[{status:"pickup_ready"},{status:"terminal_start"},{status:"address_pickup_start"},{status:"received",destination:"box_address"}] }, function(err, orders) {
     if (err)
       res.send(err);
     getOrdersWithoutDelivery(orders, function(err,r)
