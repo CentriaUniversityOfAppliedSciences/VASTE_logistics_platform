@@ -18,6 +18,8 @@ module.exports = function(app)
     .post(userRoutes.create_a_driver);
   app.route('/users/identification')
 	 .post(userRoutes.identification);
+  app.route('/users/customerauth')
+ 	 .post(userRoutes.customeridentification);
   app.route('/users/apiidentification')
  	 .post(userRoutes.apiidentification);
   app.route('/users/updatePassword')

@@ -267,6 +267,40 @@ exports.apiidentification = function(req, res) {
 
 };
 
+
+//android,www use, uses req.body
+exports.customeridentification = function(req, res) {
+
+    Users.find({ userID:req.body.userId, passWord:req.body.passWord }, function(err, users) {
+      if (err)
+      {
+        res.send(err);
+      }
+      else {
+        if (users != undefined && users != null && users.length > 0)
+        {
+            users = users[0].toObject();
+            delete users.passWord;
+            if (err)
+            {
+              res.send(err);
+            }
+            else{
+              users = [users];
+              res.json(users);
+            }
+
+        }
+        else {
+          res.send('error');
+        }
+      }
+
+    });
+
+};
+
+
 function createTempKey(callback)
 {
   var chars = "0123456789ABCDEFGHJKLMNPRSTUVWXTZabcdefhikmnprstuvwxyz";
