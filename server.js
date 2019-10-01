@@ -43,7 +43,8 @@ var express = require('express'),
   st = require('./api/models/stripeModel'),
   school = require('./api/models/schoolRouteModel'),
   schoolDaily = require('./api/models/schoolDailyModel'),
-	coupon = require('./api/models/couponModel');
+	coupon = require('./api/models/couponModel'),
+  userOrder = require('./api/models/userOrderModel');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -92,6 +93,7 @@ app.use(function(req,res,next){
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
               || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute'
 							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----*/
+              || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder'  /*<-----*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'
@@ -269,6 +271,8 @@ var schoolDailyRoutes = require('./api/routes/schoolDailyRoutes');
 schoolDailyRoutes(app);
 var couponRoutes = require('./api/routes/couponRoutes');
 couponRoutes(app);
+var userOrderRoutes = require('./api/routes/userOrderRoute');
+userOrderRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
