@@ -18,8 +18,6 @@ module.exports = function(app)
     .post(userRoutes.create_a_driver);
   app.route('/users/identification')
 	 .post(userRoutes.identification);
-  app.route('/users/customerauth')
- 	 .post(userRoutes.customeridentification);
   app.route('/users/apiidentification')
  	 .post(userRoutes.apiidentification);
   app.route('/users/updatePassword')
@@ -32,6 +30,12 @@ module.exports = function(app)
     .post(userRoutes.read_a_users);
   app.route('/users/resetPassword')
     .post(userRoutes.reset_a_user);
+	app.route('/createCustomer')
+		.post(userRoutes.create_a_customer);
+	app.route('/users/customerauth')
+		.post(userRoutes.customer_identification);
+	app.route('/users/customerupdatepass')
+		.post(userRoutes.update_a_customers);
 
 
   app.route('/getdrivers')

@@ -78,8 +78,25 @@ exports.create_a_users = function(req, res) {
         res.send(err);
       res.json(users);
     });
-
 };
+
+exports.create_a_customer = function(req,res){
+		var new_customer = new Users({userID:req.body.userID,passWord:req.body.passWord,status:'customer',
+                                userInformation:{userName:req.body.userName,userCompany:req.body.companyID,
+                                userPhone: req.body.userPhone, userAddress:req.body.userAddress,userMail:req.body.userMail}})
+
+		new_customer.save(function(err, users){
+			if(err)
+				res.send(err);
+
+			if(users != undefined || users != null){
+				users = users.toObject();
+				delete users.passWord;
+			}
+			res.json(users);
+		})
+};
+
 exports.create_a_driver = function(req, res) {
 
     var new_users = new Users({userID:req.body.userID,passWord:req.body.passWord,status:'driver',
@@ -148,7 +165,23 @@ exports.update_a_users = function(req, res) {
       //delete users.passWord;
       res.json(users);
     });
+};
 
+exports.update_a_customers = function(req, res) {
+
+    Users.findOneAndUpdate({_id: req.body.userID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
+      if (err){
+			console.log(err);
+        res.send(err);
+			}
+      if (users != undefined || users != null)
+      {
+        users = users.toObject();
+        delete users.passWord;
+      }
+      //delete users.passWord;
+      res.json(users);
+    });
 };
 exports.reset_a_user = function(req, res) {
 
@@ -220,6 +253,31 @@ exports.identification = function(req, res) {
 
 };
 
+//customer authentication
+
+exports.customer_identification = function(req,res){
+	Users.find({userID:req.body.userId, passWord:req.body.passWord}, function(err, users)
+	{
+		if(err)
+		{
+			res.send(err);
+		}
+		else{
+			if(users != undefined && users != null && users.length > 0)
+			{
+				users = users[0].toObject();
+				delete users.passWord;
+
+				users = [users];
+				res.json(users);
+			}
+			else{
+				res.send('error');
+			}
+		}
+	});
+}
+
 //api user authentication
 exports.apiidentification = function(req, res) {
 
@@ -266,40 +324,6 @@ exports.apiidentification = function(req, res) {
     });
 
 };
-
-
-//android,www use, uses req.body
-exports.customeridentification = function(req, res) {
-
-    Users.find({ userID:req.body.userId, passWord:req.body.passWord }, function(err, users) {
-      if (err)
-      {
-        res.send(err);
-      }
-      else {
-        if (users != undefined && users != null && users.length > 0)
-        {
-            users = users[0].toObject();
-            delete users.passWord;
-            if (err)
-            {
-              res.send(err);
-            }
-            else{
-              users = [users];
-              res.json(users);
-            }
-
-        }
-        else {
-          res.send('error');
-        }
-      }
-
-    });
-
-};
-
 
 function createTempKey(callback)
 {

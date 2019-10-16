@@ -111,7 +111,7 @@ exports.create_a_orders = function(req, res) {
           console.log(e);
         }
       }
-      if (req.body.destination == 'box_address')
+      if (req.body.destination == 'box_address' || req.body.destination == 'group_free')
       {
         try{
           var randomstring = require("randomstring");
@@ -177,6 +177,14 @@ exports.read_single_order = function(req, res) {
     res.json(orders);
   });
 };
+
+exports.read_a_company_order = function(req,res){
+	Orders.find({_id:req.body.orderID, companyID:req.body.companyID}, function(err,orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	})
+}
 
 
 exports.get_api_order = function(req, res) {
