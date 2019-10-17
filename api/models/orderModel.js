@@ -160,7 +160,7 @@ var OrderSchema = new Schema ({
 	destination:
 	{
 		type: String,
-		enum: ['address', 'box', 'depot','driver','stowage','box_pickup','box_delivery', 'box_address'],
+		enum: ['address', 'box', 'depot','driver','stowage','box_pickup','box_delivery', 'box_address', 'group_free'],
 		default: 'address'
 	},
 	companyID:

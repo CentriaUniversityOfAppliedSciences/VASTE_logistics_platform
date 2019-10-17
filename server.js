@@ -67,7 +67,7 @@ var httpsServer = https.createServer(credentials, app);
 
 app.use(function(req,res,next){
   //console.log(req.path);
-  if (req.path == '/users/identification')
+  if (req.path == '/users/identification' || req.path == '/users/customerauth')
   {
     next();
   }
@@ -102,7 +102,8 @@ app.use(function(req,res,next){
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
 							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'/*<-*/
 							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<--*/
-            )
+							|| req.path == '/createCustomer' || req.path == '/users/customerupdatepass'
+						)
               && req.body.apikey == environment.apikey
           )
   {
@@ -116,7 +117,8 @@ app.use(function(req,res,next){
         || req.path == '/updatevehicle' || req.path == '/changeDeliveryStatus' || req.path == '/createvehicle' || req.path == '/removevehicle'
  				|| req.path == '/updateOrder'  || req.path == '/getCompanyPayments' || req.path == '/deleteOrder'  || req.path == '/users/remove' || req.path == '/users/getUser'
         || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders' || req.path == '/cancelBoxDelivery' || req.path == '/createSinglePayment' || req.path == '/createPayment'
-				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute' || req.path == '/deleteRoute' || req.path == '/get_locker_pin'
+				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute'
+				|| req.path == '/deleteRoute' || req.path == '/get_locker_pin' || req.path == '/getCompanyOrder'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
