@@ -10,5 +10,9 @@ module.exports = function(app)
     .post(userOrderRoutes.create_user_order);
   app.route('/removeusersorder')
     .post(userOrderRoutes.remove_user_order);
+  app.route('/getuserorderlist')
+    .post(userOrderRoutes.get_user_orders);
+
+
 
 };

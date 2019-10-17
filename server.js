@@ -93,7 +93,7 @@ app.use(function(req,res,next){
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
               || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute'
 							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----*/
-              || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder'  /*<-----*/
+              || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'
