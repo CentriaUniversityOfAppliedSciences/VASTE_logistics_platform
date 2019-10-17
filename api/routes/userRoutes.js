@@ -36,6 +36,8 @@ module.exports = function(app)
 		.post(userRoutes.customer_identification);
 	app.route('/users/customerupdatepass')
 		.post(userRoutes.update_a_customers);
+	app.route('/getUsers')
+		.post(userRoutes.list_all_userids);
 
 
   app.route('/getdrivers')
