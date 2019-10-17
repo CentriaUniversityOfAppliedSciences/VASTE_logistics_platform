@@ -21,6 +21,22 @@ exports.list_all_users = function(req, res) {
   }
 };
 
+exports.list_all_userids = function(req,res){
+	Users.find({}, function(err, users){
+		if(err)
+			res.send(err);
+
+		var u = [];
+		if(users != undefined && users != null)
+		{
+			for (var i = 0; i < users.length; i++) {
+				u.push(users[i].userID);
+			}
+		}
+		res.json(u);
+	})
+}
+
 exports.get_company_drivers = function(req, res) {
 
     Users.find({'userInformation.userCompany':req.body.companyID, status:'driver'}, function(err, users) {
@@ -126,7 +142,7 @@ exports.read_a_users = function(req, res) {
         users = users.toObject();
         delete users.passWord;
       }
-      console.log(users);
+      //console.log(users);
       res.json(users);
     });
 
@@ -169,7 +185,7 @@ exports.update_a_users = function(req, res) {
 
 exports.update_a_customers = function(req, res) {
 
-    Users.findOneAndUpdate({_id: req.body.userID}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
+    Users.findOneAndUpdate({_id: req.body.userID, status:'customer'}, {$set:{passWord:req.body.passWord}}, {new: true}, function(err, users) {
       if (err){
 			console.log(err);
         res.send(err);
@@ -256,7 +272,7 @@ exports.identification = function(req, res) {
 //customer authentication
 
 exports.customer_identification = function(req,res){
-	Users.find({userID:req.body.userId, passWord:req.body.passWord}, function(err, users)
+	Users.find({userID:req.body.userId, passWord:req.body.passWord, status:'customer'}, function(err, users)
 	{
 		if(err)
 		{
