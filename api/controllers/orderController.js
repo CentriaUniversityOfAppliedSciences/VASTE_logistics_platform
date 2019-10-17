@@ -379,6 +379,19 @@ exports.getVehicleOrdersBoxes = function(req,res)
   });
 };
 
+exports.getVehicleOrdersGroup = function(req,res)
+{
+  Orders.find({archieved:0,destination:"group_free", status:"received"}, function(err, orders) {
+    if (err)
+      res.send(err);
+    getOrdersWithoutDelivery(orders, function(err,r)
+    {
+      res.json(r);
+    });
+
+  });
+};
+
 
 exports.getVehicleOrdersInprogress = function(req,res)
 {
