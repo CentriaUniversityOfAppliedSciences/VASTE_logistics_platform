@@ -142,6 +142,10 @@ exports.create_a_orders = function(req, res) {
           var new_dc = new dc(j);
           new_dc.save(function(err, d) {
             sendStatusChange2(orders._id,"box_address_received");
+            if (req.body.destination == 'group_free')
+            {
+              sendStatusChange2(orders._id,"new_group_free");
+            }
           });
         }
         catch (e)
