@@ -38,6 +38,8 @@ module.exports = function(app)
 		.post(userRoutes.update_a_customers);
 	app.route('/getUsers')
 		.post(userRoutes.list_all_userids);
+	app.route('/getUserByMail')
+		.post(userRoutes.find_customer_by_mail);
 
 
   app.route('/getdrivers')

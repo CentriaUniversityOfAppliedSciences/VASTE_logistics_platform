@@ -37,6 +37,22 @@ exports.list_all_userids = function(req,res){
 	})
 }
 
+exports.find_customer_by_mail = function(req,res){
+	Users.find({'userInformation.userMail': req.body.userMail, status:'customer'}, function(err, users){
+		if(err)
+			res.send(err);
+		var u = [];
+
+		if(users != null && users != undefined)
+		{
+			for (var i = 0; i < users.length; i++) {
+				u.push(users[i].userID);
+			}
+		}
+		res.json(u);
+	});
+}
+
 exports.get_company_drivers = function(req, res) {
 
     Users.find({'userInformation.userCompany':req.body.companyID, status:'driver'}, function(err, users) {
@@ -49,7 +65,8 @@ exports.get_company_drivers = function(req, res) {
         for (var i = 0;i< users.length;i++)
         {
           var us = users[i].toObject();
-          delete us.passWord;
+					delete us.passWord;
+
           u.push(us);
         }
 

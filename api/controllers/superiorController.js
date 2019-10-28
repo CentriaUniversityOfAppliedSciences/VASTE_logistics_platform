@@ -138,7 +138,12 @@ var mongoose = require('mongoose');
 	        for (var i = 0;i< users.length;i++)
 	        {
 	          var us = users[i].toObject();
-	          delete us.passWord;
+
+						if(environment.environment != 'test')
+						{
+							delete us.passWord;
+						}
+
 	          u.push(us);
 	        }
 
