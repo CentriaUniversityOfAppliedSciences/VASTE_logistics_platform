@@ -51,6 +51,7 @@ var express = require('express'),
 mongoose.Promise = global.Promise;
 mongoose.set('useNewUrlParser',true);
 mongoose.set('useFindAndModify', false);
+mongoose.set('useUnifiedTopology', true);
 mongoose.set('useCreateIndex', true);
 if (environment.environment == 'prod')
 {
