@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Orders = mongoose.model('Orders');
+  Orders = mongoose.model('Orders'),
+  orderStatusFunc = mongoose.model('OrderStatus');
 var Deliveries = mongoose.model('Deliverys');
 var async = require('async');
 var fs = require('fs');
@@ -19,9 +20,13 @@ exports.list_all_orders = function(req, res) {
   });
 };
 exports.list_all_orders_by_company = function(req, res) {
+
   Orders.find({$or:[{companyID:req.body.companyID, archieved:0},{companyID:"0", archieved:0}]}, function(err, orders) {
     if (err)
+    {
+      console.log(err);
       res.send(err);
+    }
     res.json(orders);
   });
 };
@@ -345,7 +350,11 @@ exports.getVehicleOrders = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"mine", function (err,r)
 			{
-				res.json(r);
+        checkForPrices(r,function(err2,rr)
+        {
+          res.json(rr);
+        });
+
 			});
 
 		}
@@ -363,12 +372,18 @@ exports.getVehicleOrdersReceived = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"received", function (err,r)
 			{
-				res.json(r);
+        checkForPrices(r,function (err2,rr)
+        {
+          res.json(rr);
+        });
+
 			});
 
 		}
 	});
 };
+
+
 
 exports.getVehicleOrdersBoxes = function(req,res)
 {
@@ -377,7 +392,10 @@ exports.getVehicleOrdersBoxes = function(req,res)
       res.send(err);
     getOrdersWithoutDelivery(orders, function(err,r)
     {
-      res.json(r);
+      checkForPrices(r,function(err2,rr)
+      {
+        res.json(rr);
+      });
     });
 
   });
@@ -390,7 +408,10 @@ exports.getVehicleOrdersGroup = function(req,res)
       res.send(err);
     getOrdersWithoutDelivery(orders, function(err,r)
     {
-      res.json(r);
+      checkForPrices(r,function(err2,rr)
+      {
+        res.json(rr);
+      });
     });
 
   });
@@ -408,7 +429,10 @@ exports.getVehicleOrdersInprogress = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"inprogress", function (err,r)
 			{
-				res.json(r);
+        checkForPrices(r,function(rr)
+        {
+          res.json(rr);
+        });
 			});
 
 		}
@@ -664,7 +688,7 @@ function getDeliveryForOrder(orders, callback)
 
 				done();
 				return;
-			  });
+		});
 
 	};
 	var doneIteratingFcn = function(err)
@@ -711,4 +735,41 @@ function sendStatusChange2(orderID,status)
   		  console.log(response);
   	  }
   	});
+}
+function checkForPrices(orders,callback)
+{
+  var ordery = [];
+	var iteratorFcn = function(order,done)
+	{
+
+		if (order._id == null)
+		{
+			done();
+			return;
+		}
+			var query = {'OrderNumber':order._id};
+			orderStatusFunc.findOne(query, function(err, result) {
+				if (err)
+				{
+				  res.send(err);
+				}
+        if (result != undefined && result != null && result.OrderPaid > 0)
+        {
+          order.price = result.OrderPaid;
+        }
+        else {
+          order.price = 0;
+        }
+        ordery.push(order);
+				done();
+				return;
+			});
+
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,ordery);
+	};
+
+	async.forEach(orders, iteratorFcn, doneIteratingFcn);
 }
