@@ -429,7 +429,7 @@ exports.getVehicleOrdersInprogress = function(req,res)
 		{
 			getOrdersForDelivery(deliverys,"inprogress", function (err,r)
 			{
-        checkForPrices(r,function(rr)
+        checkForPrices(r,function(err2,rr)
         {
           res.json(rr);
         });
