@@ -289,7 +289,7 @@ exports.identification = function(req, res) {
 //customer authentication
 
 exports.customer_identification = function(req,res){
-	Users.find({userID:req.body.userId, passWord:req.body.passWord, status:'customer'}, function(err, users)
+	Users.find({userID:req.body.userId, passWord:req.body.passWord, $or:[{status:'customer'}, {status:'driver'}]}, function(err, users)
 	{
 		if(err)
 		{
@@ -310,6 +310,23 @@ exports.customer_identification = function(req,res){
 		}
 	});
 }
+
+exports.create_a_user_from_confirm = function(req, res) {
+	var new_user = new Users({userID:req.body.userID,passWord:req.body.passWord,status:req.body.status,
+															userInformation:{userName:req.body.userName,userCompany:req.body.companyID,
+															userPhone: req.body.userPhone, userAddress:req.body.userAddress,userMail:req.body.userMail}})
+
+	new_user.save(function(err, users){
+		if(err)
+			res.send(err);
+
+		if(users != undefined || users != null){
+			users = users.toObject();
+			delete users.passWord;
+		}
+		res.json(users);
+	})
+};
 
 //api user authentication
 exports.apiidentification = function(req, res) {

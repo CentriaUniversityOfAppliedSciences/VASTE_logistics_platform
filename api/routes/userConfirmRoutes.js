@@ -1,0 +1,15 @@
+'use strict';
+module.exports = function(app)
+{
+  var userConfirmRoutes = require('../controllers/userConfirmController');
+
+	app.route('/newUserConfirm')
+		.post(userConfirmRoutes.create_new_confirm);
+	app.route('/getConfirm')
+		.post(userConfirmRoutes.find_confirm);
+	app.route('/deleteConfirm')
+	 	.post(userConfirmRoutes.delete_confirm);
+	app.post('/updateConfirm')
+		.post(userConfirmRoutes.update_confirm);
+
+};
