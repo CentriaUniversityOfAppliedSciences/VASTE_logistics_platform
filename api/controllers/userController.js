@@ -59,7 +59,7 @@ exports.get_company_drivers = function(req, res) {
       if (err)
         res.send(err);
       var u = [];
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
 
         for (var i = 0;i< users.length;i++)
@@ -83,7 +83,7 @@ exports.getDrivers = function(req, res) {
       if (err)
         res.send(err);
         var u = [];
-        if (users != undefined || users != null)
+        if (users != undefined && users != null)
         {
 
           for (var i = 0;i< users.length;i++)
@@ -122,7 +122,7 @@ exports.create_a_customer = function(req,res){
 			if(err)
 				res.send(err);
 
-			if(users != undefined || users != null){
+			if(users != undefined && users != null){
 				users = users.toObject();
 				delete users.passWord;
 			}
@@ -138,7 +138,7 @@ exports.create_a_driver = function(req, res) {
     new_users.save(function(err, users) {
       if (err)
         res.send(err);
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
@@ -154,7 +154,7 @@ exports.read_a_users = function(req, res) {
       if (err)
         res.send(err);
 
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
@@ -171,12 +171,12 @@ exports.get_api_user = function(req, res) {
       if (err)
         res.send(err);
 
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
       }
-      console.log(users);
+      //console.log(users);
       res.json(users);
     });
 
@@ -190,7 +190,7 @@ exports.update_a_users = function(req, res) {
 			console.log(err);
         res.send(err);
 			}
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
@@ -207,7 +207,7 @@ exports.update_a_customers = function(req, res) {
 			console.log(err);
         res.send(err);
 			}
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
@@ -224,7 +224,7 @@ exports.reset_a_user = function(req, res) {
         res.send(err);
 			}
       console.log(users);
-      if (users != undefined || users != null)
+      if (users != undefined && users != null)
       {
         users = users.toObject();
         delete users.passWord;
