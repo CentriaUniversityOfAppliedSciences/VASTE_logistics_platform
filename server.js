@@ -108,6 +108,7 @@ app.use(function(req,res,next){
               && req.body.apikey == environment.apikey
           )
   {
+
     next();
   }
   else {
@@ -154,7 +155,6 @@ app.use(function(req,res,next){
             }
             else if (temp == true)
             {
-
                 sec_remove_tempkey(req.body.companyID,req.body.api_key,function(vast){
                   if (vast == 'success')
                   {
@@ -170,8 +170,6 @@ app.use(function(req,res,next){
                       res.send("error");
                   }
                 });
-
-
             }
             else {
               res.send("error");
