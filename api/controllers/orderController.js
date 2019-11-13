@@ -195,6 +195,14 @@ exports.read_a_company_order = function(req,res){
 	})
 }
 
+exports.read_group_free_orders = function(req,res){
+	Orders.find({companyID:req.body.companyID, destination:"group_free",  archieved:0, status:"received"}, function(err,orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	})
+}
+
 
 exports.get_api_order = function(req, res) {
   Orders.find({companyID:req.body.companyID,_id:req.body.orderID, archieved:0}, function(err, orders) {

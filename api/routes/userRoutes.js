@@ -40,6 +40,8 @@ module.exports = function(app)
 		.post(userRoutes.list_all_userids);
 	app.route('/getUserByMail')
 		.post(userRoutes.find_customer_by_mail);
+	app.route('/createConfirmUser')
+		.post(userRoutes.create_a_user_from_confirm);
 
 
   app.route('/getdrivers')

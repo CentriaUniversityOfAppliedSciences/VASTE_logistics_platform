@@ -63,6 +63,8 @@ app.route('/deleteOrder')
 		.post(orderRoutes.customer_archive_a_orders_removal);
 	app.route('/getCompanyOrder')
 		.post(orderRoutes.read_a_company_order);
+	app.route('/getGroupFreeOrders')
+		.post(orderRoutes.read_group_free_orders);
 
 
 

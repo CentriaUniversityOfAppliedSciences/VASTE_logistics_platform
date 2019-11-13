@@ -44,7 +44,8 @@ var express = require('express'),
   school = require('./api/models/schoolRouteModel'),
   schoolDaily = require('./api/models/schoolDailyModel'),
 	coupon = require('./api/models/couponModel'),
-  userOrder = require('./api/models/userOrderModel');
+  userOrder = require('./api/models/userOrderModel'),
+	userConfirm = require('./api/models/userConfirmModel');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -103,7 +104,8 @@ app.use(function(req,res,next){
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
 							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'/*<-*/
 							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<--*/
-							|| req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail'
+							|| req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
+							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----*/
 						)
               && req.body.apikey == environment.apikey
           )
@@ -274,6 +276,8 @@ var couponRoutes = require('./api/routes/couponRoutes');
 couponRoutes(app);
 var userOrderRoutes = require('./api/routes/userOrderRoute');
 userOrderRoutes(app);
+var userConfirmRoutes = require('./api/routes/userConfirmRoutes');
+userConfirmRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
