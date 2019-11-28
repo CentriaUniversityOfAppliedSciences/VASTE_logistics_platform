@@ -12,6 +12,15 @@ exports.list_all_vehicles = function(req, res) {
   });
 };
 
+exports.find_by_vehicleID = function(req,res){
+	Vehicles.find({_id: req.body.vehicleID}, function(err, vehicles){
+		if(err){
+			res.send(err);
+		}
+		res.json(vehicles);
+	})
+}
+
 exports.find_by_status = function(req, res) {
   Vehicles.find({status:req.params.status}, function(err, vehicles) {
     if (err)
@@ -103,6 +112,15 @@ exports.find_by_companyid2 = function(req, res) {
 
 exports.find_by_companyid3 = function(req, res) {
   Vehicles.find({"companyID":req.body.companyID}, function(err, vehicles) {
+    if (err)
+      res.send(err);
+    res.json(vehicles);
+  });
+};
+
+exports.driver_create_a_vehicles = function(req, res) {
+  var new_vehicles = new Vehicles(req.body);
+  new_vehicles.save(function(err, vehicles) {
     if (err)
       res.send(err);
     res.json(vehicles);
