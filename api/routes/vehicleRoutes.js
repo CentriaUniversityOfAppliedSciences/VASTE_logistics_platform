@@ -41,4 +41,8 @@ module.exports = function(app)
     .post(vehicleRoutes.create_a_vehicles);
   app.route('/removevehicle')
     .post(vehicleRoutes.delete_a_vehicles);
+	app.route('/driverAddVehicle')
+		.post(vehicleRoutes.driver_create_a_vehicles);
+	app.route('/getVehicleByID')
+		.post(vehicleRoutes.find_by_vehicleID);
 };
