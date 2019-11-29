@@ -113,6 +113,10 @@ app.use(function(req,res,next){
 
     next();
   }
+  else if ((req.path == '/appCreateCustomer') && req.body.apikey == environment.joukkoistusapikey)
+  {
+    next();
+  }
   else {
     if (req.path == '/ordersby_company' || req.path == '/getCompanyVehicles' || req.path == '/getSingleOrder' || req.path == '/deliveryByCompany'
         || req.path == '/orders/getSingleOrder' || req.path == '/companyologs' || req.path == '/createsingleorder' || req.path == '/createDelivery'

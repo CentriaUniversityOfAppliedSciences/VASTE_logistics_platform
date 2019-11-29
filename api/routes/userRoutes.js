@@ -42,7 +42,8 @@ module.exports = function(app)
 		.post(userRoutes.find_customer_by_mail);
 	app.route('/createConfirmUser')
 		.post(userRoutes.create_a_user_from_confirm);
-
+  app.route('/appCreateCustomer')
+    .post(userRoutes.create_a_customer);
 
   app.route('/getdrivers')
     .get(userRoutes.getDrivers);
