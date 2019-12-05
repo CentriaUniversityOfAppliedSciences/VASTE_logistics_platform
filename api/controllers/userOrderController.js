@@ -9,6 +9,7 @@ var Deliveries = mongoose.model('Deliverys');
 var environmentJson = fs.readFileSync("./environment.json");
 var environment = JSON.parse(environmentJson);
 var apikey = environment.apikey;
+var async = require('async');
 
 
 exports.list_user_order = function(req, res) {
@@ -52,7 +53,7 @@ exports.get_user_orders = function(req, res) {
         res.send(err);
       else {
         getOrderList(uo,function (err,r){
-
+          res.send(r);
         });
       }
       //res.json(uo);
@@ -101,8 +102,6 @@ function getOrderList(uos, callback)
               h.vasteOrder = result[0].vasteOrder;
               h.companyID = result[0].companyID;
               h.destination = result[0].destination;
-
-
               orders.push(h);
 
 
