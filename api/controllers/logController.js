@@ -25,7 +25,8 @@ exports.create_a_log = function(req, res) { //create a new log
 exports.logThis = function(jso)
 {
   var new_log = new logger(jso);
+	console.log(new_log);
   new_log.save(function(err, logs) {
-    console.log(logs);
+		console.log("logs " + logs);
   });
 }

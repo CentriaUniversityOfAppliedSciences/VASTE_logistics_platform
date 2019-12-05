@@ -176,7 +176,7 @@ exports.find_delivery_by_vehicle = function(req, res){
 };
 
 exports.find_delivery_by_order = function(req, res){
-	Deliverys.find({orderID:req.params.ordersId}, function(err, deliverys){
+	Deliverys.find({orderID:req.body.orderID}, function(err, deliverys){
 	if (err)
       res.send(err);
     res.json(deliverys);
