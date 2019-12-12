@@ -167,7 +167,7 @@ app.use(function(req,res,next){
                 sec_remove_tempkey(req.body.companyID,req.body.api_key,function(vast){
                   if (vast == 'success')
                   {
-                    if (req.path == '/orders/createapiorder' || req.path == '/orders/getapiorder' )
+                    if (req.path == '/orders/createapiorder' || req.path == '/orders/getapiorder' || req.path == '/createsingleorder' )
                     {
                       next();
                       }

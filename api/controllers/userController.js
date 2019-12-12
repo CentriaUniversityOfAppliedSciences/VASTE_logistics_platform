@@ -337,38 +337,44 @@ exports.apiidentification = function(req, res) {
         res.send(err);
       }
       else {
-        var CompanyProperties = mongoose.model('CompanyProperties');
-        CompanyProperties.find({companyID: users[0].userInformation.userCompany}, function(err, cp) {
-          var ret = {"userID":users[0].userID, "status":users[0].status};
-          if (err)
-          {
-            res.send(err);
-          }
-          else{
-            for(var x = 0;x < cp.length; x++)
+        if (users != undefined && users != null && users.length > 0)
+        {
+          var CompanyProperties = mongoose.model('CompanyProperties');
+          CompanyProperties.find({companyID: users[0].userInformation.userCompany}, function(err, cp) {
+            var ret = {"userID":users[0].userID, "status":users[0].status};
+            if (err)
             {
-              if (cp[x].type == 'apikey')
-              {
-                //ret['apikey'] = cp[x].value;
-                createTempKey(function (back){
-                  ret['api_key'] = back;
-                  ret = [ret];
-                  var CompanyProperties = mongoose.model('CompanyProperties');
-                  var new_companys = new CompanyProperties({companyID:users[0].userInformation.userCompany,type:'tempkey',value:back});
-                  new_companys.save(function(err, cp) {
-                    if (err){
-                      res.send(err);
-                    }
-                    res.json(ret);
-                    //res.json(companys);
-                  });
-
-                });
-              }
+              res.send(err);
             }
+            else{
+              for(var x = 0;x < cp.length; x++)
+              {
+                if (cp[x].type == 'apikey')
+                {
+                  //ret['apikey'] = cp[x].value;
+                  createTempKey(function (back){
+                    ret['api_key'] = back;
+                    ret = [ret];
+                    var CompanyProperties = mongoose.model('CompanyProperties');
+                    var new_companys = new CompanyProperties({companyID:users[0].userInformation.userCompany,type:'tempkey',value:back});
+                    new_companys.save(function(err, cp) {
+                      if (err){
+                        res.send(err);
+                      }
+                      res.json(ret);
+                      //res.json(companys);
+                    });
+
+                  });
+                }
+              }
 
           }
         });
+        }
+        else {
+          res.json({"status":"error"});
+        }
       }
 
     });
