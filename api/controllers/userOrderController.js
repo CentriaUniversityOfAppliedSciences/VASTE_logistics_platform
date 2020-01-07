@@ -3,7 +3,9 @@
 var fs = require('fs');
 var mongoose = require('mongoose'),
   UserOrder = mongoose.model('UserOrder'),
-  Orders = mongoose.model('Orders');
+  Orders = mongoose.model('Orders'),
+  logger = mongoose.model('orderLog'),
+  OrderStatus = mongoose.model('OrderStatus');
 
 var Deliveries = mongoose.model('Deliverys');
 var environmentJson = fs.readFileSync("./environment.json");
@@ -52,11 +54,15 @@ exports.get_user_orders = function(req, res) {
       if (err)
         res.send(err);
       else {
-        getOrderList(uo,function (err,r){
-          res.send(r);
+        getOrderList(uo,function (err2,r){
+          getLogsList(r,function(err3,re){
+            getPriceList(re,function(err4,vast)
+            {
+              res.send(vast);
+            });
+          });
         });
       }
-      //res.json(uo);
     });
   }
   else {
@@ -82,7 +88,9 @@ function getOrderList(uos, callback)
 			Orders.find(query, function(err, result) {
 				if (err)
 				{
-				  res.send(err);
+          done();
+    			return;
+				  //res.send(err);
 				}
         else {
           Deliveries.find({orderID:uo.orderID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}}, function(err, deliverys){
@@ -109,6 +117,113 @@ function getOrderList(uos, callback)
             done();
             return;
           });
+        }
+
+		 });
+
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,orders);
+	};
+
+	async.forEach(uos, iteratorFcn, doneIteratingFcn);
+}
+
+
+
+function getLogsList(uos, callback)
+{
+	var orders = [];
+	var iteratorFcn = function(uo,done)
+	{
+		if (uo._id == null)
+		{
+			done();
+			return;
+		}
+			var query = {'orderID':uo._id};
+			logger.find(query, function(err, result) {
+				if (err)
+				{
+          done();
+    			return;
+				}
+        else {
+          if (result != undefined && result != null && result.length > 0)
+          {
+            var l = [];
+            for (var i = 0;i < result.length;i++)
+            {
+              var us = result[i].toObject();
+    					delete us.ip;
+              delete us.user;
+              delete us.companyID;
+              delete us.vehicleID;
+              l.push(us);
+            }
+            uo.logs = l;
+            orders.push(uo);
+            done();
+            return;
+          }
+          else {
+            uo.logs = [];
+            orders.push(uo);
+            done();
+            return;
+          }
+        }
+
+		 });
+
+	};
+	var doneIteratingFcn = function(err)
+	{
+		callback(err,orders);
+	};
+
+	async.forEach(uos, iteratorFcn, doneIteratingFcn);
+}
+
+
+function getPriceList(uos, callback)
+{
+	var orders = [];
+	var iteratorFcn = function(uo,done)
+	{
+		if (uo._id == null)
+		{
+			done();
+			return;
+		}
+			var query = {'OrderNumber':uo._id};
+			OrderStatus.find(query, function(err, result) {
+				if (err)
+				{
+          done();
+    			return;
+				}
+        else {
+          if (result != undefined && result != null && result.length > 0)
+          {
+            var pr = 0;
+            for (var i = 0;i < result.length;i++)
+            {
+              var us = result[i].toObject();
+              pr = us.OrderPaid/100
+            }
+            uo.price = pr;
+            orders.push(uo);
+            done();
+            return;
+          }
+          else {
+            uo.price = 0;
+            orders.push(uo);
+            done();
+            return;
+          }
         }
 
 		 });
