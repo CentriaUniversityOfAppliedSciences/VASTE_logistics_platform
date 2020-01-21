@@ -84,7 +84,7 @@ exports.create_a_orders = function(req, res) {
       }
       var log = require('../controllers/orderLogController');
       var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-      if (orders != undefined && orders != null && orders._id.length > 0)
+      if (orders != undefined && orders != null)
       {
         var jso = {
           user:"api",
@@ -95,6 +95,8 @@ exports.create_a_orders = function(req, res) {
           deliveryID: "",
           companyID: orders.companyID
         };
+
+				//console.log(jso);
         log.logThis(jso);
       }
       if (req.body.destination == 'box_delivery')

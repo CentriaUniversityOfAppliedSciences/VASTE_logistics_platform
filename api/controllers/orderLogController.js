@@ -61,9 +61,9 @@ exports.get_single_log = function(req, res) { // get all logs
 
 exports.logThis = function(jso)
 {
-	//console.log("logThis jso " + JSON.stringify(jso));
   var new_log = new logger(jso);
   new_log.save(function(err, logs) {
-		//console.log("logThis logs " + logs);
+		if(err)
+			console.log(err);
   });
 }

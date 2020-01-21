@@ -436,6 +436,8 @@ exports.changeDeliveryStatus = function(req,res)
                     companyID: ord.companyID,
                     vehicleID:req.body.vehicleID
                   };
+
+									//console.log(jso);
                   log.logThis(jso);
                   sendStatusChange(req.body.orderID,c,ord.companyID);
                   sendStatusChange2(req.body.orderID,c);
@@ -491,6 +493,8 @@ exports.changeDeliveryStatus = function(req,res)
                 companyID: req.body.companyID,
                 vehicleID:req.body.vehicleID
               };
+
+							//console.log(jso);
               log.logThis(jso);
               res.json(deliverys);
               sendStatusChange2(req.body.orderID,c);
@@ -543,6 +547,7 @@ exports.changeDeliveryStatus = function(req,res)
                 companyID: req.body.companyID,
                 vehicleID:req.body.vehicleID
               };
+							//console.log(jso);
               log.logThis(jso);
               res.json(deliverys22);
               sendStatusChange2(req.body.orderID,c);
@@ -646,6 +651,7 @@ exports.changeDeliveryStatus = function(req,res)
                         companyID: ord.companyID,
                         vehicleID:req.body.vehicleID
                       };
+											//console.log(jso);
                       log.logThis(jso);
                       sendStatusChange(req.body.orderID,c,ord.companyID);
                       sendStatusChange2(req.body.orderID,c);

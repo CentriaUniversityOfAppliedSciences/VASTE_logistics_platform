@@ -182,6 +182,7 @@ exports.super_create_a_deliverys = function(req,res){
 			companyID: req.body.companyID,
 			vehicleID: req.body.vehicleID
 		};
+		console.log(jso);
 		log.logThis(jso);
 		sendStatusChange(deliverys.orderID, "operator_delivery", req.body.companyID);
 
@@ -214,6 +215,7 @@ exports.super_delete_a_delivery = function(req,res){
       deliveryID: req.body.deliverysId,
       companyID: req.body.companyID
     };
+		console.log(jso);
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
 
@@ -237,6 +239,7 @@ exports.super_archive_a_orders_removal = function(req, res) {
       orderID:req.body.orderID,
       companyID: req.body.companyID,
     };
+		console.log(jso);
     log.logThis(jso);
 
     res.json(orders);
@@ -331,6 +334,7 @@ exports.super_delete_a_boxdeliverys = function(req, res) {
       deliveryID: req.body.deliverysId,
       companyID: req.body.companyID
     };
+		console.log(jso);
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
 
