@@ -230,6 +230,17 @@ exports.update_a_orders = function(req, res) {
   });
 };
 
+exports.update_a_orders_company = function(req,res){
+	Orders.findOneAndUpdate({_id: req.body.orderID}, {companyID:req.body.companyID}, function(err, orders){
+		if(err){
+			res.send(err);
+		}
+		else{
+			res.json(orders);
+		}
+	})
+}
+
 exports.change_order_status = function(req, res) {
   Orders.findOneAndUpdate({vasteOrder: req.body.vasteOrder}, {status:req.body.status}, {new: true}, function(err, orders) {
     if (err)
@@ -246,7 +257,6 @@ exports.change_order_status = function(req, res) {
         orderID:orders._id,
         companyID: orders.companyID,
       };
-			console.log(jso);
       log.logThis(jso);
       Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},{status:req.body.status},{new: false}, function(err, deliverys){
         if (req.body.status == 'done')

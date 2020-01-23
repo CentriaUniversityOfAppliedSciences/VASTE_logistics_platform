@@ -886,7 +886,7 @@ exports.driver_create_a_deliverys = function(req, res) {
 		"vehicleID": req.body.vehicleID,
 		"orderID": req.body.orderID,
 		"companyID":req.body.companyID,
-		"status":"accepted",
+		"status":req.body.status,
 		"start":"address"
 	});
 
