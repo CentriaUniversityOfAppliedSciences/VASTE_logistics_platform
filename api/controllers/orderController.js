@@ -107,7 +107,28 @@ exports.create_a_orders = function(req, res) {
           var j = {
             "companyID": orders.companyID,
             "orderID":orders._id,
-            "pin":pin
+            "pin":pin,
+            "type":"delivery"
+          };
+          var new_dc = new dc(j);
+          new_dc.save(function(err, d) {
+          });
+        }
+        catch (e)
+        {
+          console.log(e);
+        }
+      }
+      else if (req.body.destination == 'box_pickup')
+      {
+        try{
+          var randomstring = require("randomstring");
+          var pin = randomstring.generate({length:6,charset:'numeric'});
+          var j = {
+            "companyID": orders.companyID,
+            "orderID":orders._id,
+            "pin":pin,
+            "type":"pickup"
           };
           var new_dc = new dc(j);
           new_dc.save(function(err, d) {
@@ -148,10 +169,14 @@ exports.create_a_orders = function(req, res) {
           };
           var new_dc = new dc(j);
           new_dc.save(function(err, d) {
-            sendStatusChange2(orders._id,"box_address_received");
+
             if (req.body.destination == 'group_free')
             {
               sendStatusChange2(orders._id,"new_group_free");
+            }
+            else if (req.body.destination == 'box_address')
+            {
+              sendStatusChange2(orders._id,"box_address_received");
             }
           });
         }
