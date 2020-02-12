@@ -9,7 +9,9 @@ module.exports = function(app)
 		.post(userConfirmRoutes.find_confirm);
 	app.route('/deleteConfirm')
 	 	.post(userConfirmRoutes.delete_confirm);
-	app.post('/updateConfirm')
+	app.route('/listCompanyConfirms')
+		.post(userConfirmRoutes.list_company_driver_confirms);
+	app.route('/updateConfirm')
 		.post(userConfirmRoutes.update_confirm);
 
 };

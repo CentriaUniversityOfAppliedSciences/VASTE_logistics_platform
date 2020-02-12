@@ -88,4 +88,9 @@ module.exports = function(app)
 	app.route('/superDeleteRoute')
 		.post(superiorRoutes.super_delete_a_routes);
 
+	app.route('/superListApplicants')
+		.post(superiorRoutes.super_list_companies_confirms);
+
+	
+
 };

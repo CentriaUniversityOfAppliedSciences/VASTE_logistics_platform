@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 	var Companys = mongoose.model('Companys');
 	var Users = mongoose.model('Users');
 	var logger = mongoose.model('orderLog');
+	var UserConfirms = mongoose.model('confirmUsers');
 	var Points = mongoose.model('Points');
 	var Payments = mongoose.model('Payments');
 	var CompanyProperties = mongoose.model('CompanyProperties');
@@ -436,6 +437,15 @@ exports.super_delete_a_routes = function(req, res) {
 		}
     res.json({ route: 'Routes successfully deleted' });
   });
+};
+
+exports.super_list_companies_confirms = function(req,res){
+	UserConfirms.find({'userInformation.userCompany':req.body.companyID, status:'driver', confirmStatus:'pending'}, function(err, userconfirms){
+		if(err){
+			res.send(err);
+		}
+		res.send(userconfirms);
+	});
 };
 
 

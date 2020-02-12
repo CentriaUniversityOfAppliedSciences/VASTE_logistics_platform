@@ -24,13 +24,22 @@ exports.create_new_confirm = function(req,res){
 	});
 };
 
+exports.list_company_driver_confirms = function(req,res){
+	UserConfirms.find({'userInformation.userCompany':req.body.companyID, status:'driver'}, function(err, userconfirms){
+		if(err){
+			res.send(err);
+		}
+		res.send(userconfirms);
+	})
+}
+
 exports.find_confirm = function(req,res){
 	UserConfirms.find({_id:req.body.confirmID, confirmStatus:"pending"}, function(err, userconfirms){
 		if(err)
 			res.send(err);
 		res.json(userconfirms);
 	})
-}
+};
 
 exports.delete_confirm = function(req,res){
 	UserConfirms.deleteOne({_id:req.body.confirmID}, function(err, userconfirms){
@@ -39,11 +48,10 @@ exports.delete_confirm = function(req,res){
 		res.json({message: "UserConfirm successfully deleted"});
 	})
 }
-
 exports.update_confirm = function(req,res){
-	UserConfirms.findOneAndUpdate({_id:req.body.confirmID},{$set:{confirmStatus:req.body.confirmStatus}},{new: true}, function(err, userconfirms){
+	UserConfirms.findOneAndUpdate({_id:req.body.confirmID},{confirmStatus:req.body.confirmStatus},{new:true}, function(err, userconfirms){
 		if(err)
-			res.send(err);
+			console.log(err);
 		res.json(userconfirms);
 	})
-}
+};
