@@ -91,8 +91,14 @@ exports.listbox = function(req, res) {
       res.json(r);
     });
   });
+};
 
-
+exports.testLock = function(req, res) {
+    var Lock = require('./api/lockController');
+    Lock.createCode(req.name, req.code, req.days, req.door, req.vaste,order,function(r)
+    {
+        res.send(r);
+    });
 };
 
 function getBoxStatuses(boxes, callback)
