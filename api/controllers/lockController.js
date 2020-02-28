@@ -24,9 +24,10 @@ exports.createCode = function(name, code, days, door, vaste,order, callback) {
           }
 
       };
-      //console.log(options);
+      console.log(options);
       //callback("error");
       sendToApi(options,function(vast){
+        console.log(vast);
         var j = {
           "calendarDataTitle_Id": vast.CalendarDataTitle_Id,
           "calendarData_Id":vast.CalendarData_Id,
@@ -37,6 +38,11 @@ exports.createCode = function(name, code, days, door, vaste,order, callback) {
         };
         var new_Lock = new Locks(j);
         new_Lock.save(function(err, lock) {
+          if (err)
+          {
+            console.log(err);
+          }
+          console.log(lock);
             callback(vast);
         });
 
