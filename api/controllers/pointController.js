@@ -97,7 +97,7 @@ exports.listbox = function(req, res) {
 exports.testLock = function(req, res) {
 
   var Lock = require('./lockController.js');
-    Lock.createCode(req.name, req.code, req.days, req.door, req.vaste,req.order,function(r)
+    Lock.createCode(req.body.name, req.body.code, req.body.days, req.body.door, req.body.vaste,req.body.order,function(r)
     {
         res.send(r);
     });
