@@ -82,6 +82,9 @@ exports.deleteCode = function(calendarDataTitle_Id, calendarData_Id, calendarDat
 function sendToApi(options, callback)
 {
       request(options, function (error, response, body) {
+        console.log(error);
+        console.log(response);
+        console.log(body);
           if (!error && response.statusCode == 200) {
             callback(body);
           }
