@@ -46,7 +46,8 @@ var express = require('express'),
 	coupon = require('./api/models/couponModel'),
   userOrder = require('./api/models/userOrderModel'),
 	userConfirm = require('./api/models/userConfirmModel'),
-	usersVehicles = require('./api/models/usersVehiclesModel.js');
+	usersVehicles = require('./api/models/usersVehiclesModel.js'),
+  locks = require('./api/models/lockModel.js');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
