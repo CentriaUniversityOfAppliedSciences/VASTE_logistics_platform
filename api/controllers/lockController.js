@@ -1,5 +1,5 @@
 'use strict';
-
+var request = require('request');
 var async = require('async');
 var fs = require('fs');
 var environmentJson = fs.readFileSync("./environment.json");
