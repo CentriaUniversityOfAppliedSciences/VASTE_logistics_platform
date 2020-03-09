@@ -91,6 +91,9 @@ module.exports = function(app)
 	app.route('/superListApplicants')
 		.post(superiorRoutes.super_list_companies_confirms);
 
-	
+	app.route('/superCancelAddressDelivery')
+		.post(superiorRoutes.super_delete_a_addressdeliverys);
+
+
 
 };

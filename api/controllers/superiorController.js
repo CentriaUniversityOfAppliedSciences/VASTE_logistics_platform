@@ -216,7 +216,7 @@ exports.super_delete_a_delivery = function(req,res){
       deliveryID: req.body.deliverysId,
       companyID: req.body.companyID
     };
-		console.log(jso);
+		//console.log(jso);
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
 
@@ -336,6 +336,30 @@ exports.super_delete_a_boxdeliverys = function(req, res) {
       companyID: req.body.companyID
     };
 		console.log(jso);
+    log.logThis(jso);
+    sendStatusChange(req.body.orderID, "operator_cancel");
+
+    res.json(deliverys);
+  });
+};
+
+exports.super_delete_a_addressdeliverys = function(req, res) {
+  Deliverys.findOneAndUpdate({_id: req.body.deliveryID, companyID: req.body.companyID},{status:"cancelled"} ,{new: true},function(err, deliverys) {
+		if (err)
+    {
+      res.send(err);
+    }
+		var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var jso = {
+      user:"api",
+      ip: ipa,
+      timestamp: Math.floor(new Date() / 1000),
+      code: "operator_cancel",
+      orderID:req.body.orderID,
+      deliveryID: req.body.deliverysId,
+      companyID: req.body.companyID
+    };
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
 

@@ -32,7 +32,7 @@ exports.create_a_coupon = function(req,res){
 };
 
 exports.delete_a_coupon = function(req,res){
-	Coupons.remove({couponID: req.body.couponID}, function(err, coupons){
+	Coupons.deleteOne({_id: req.body.couponID}, function(err, coupons){
 		if(err){
 			console.log(err);
 			res.send(err);
