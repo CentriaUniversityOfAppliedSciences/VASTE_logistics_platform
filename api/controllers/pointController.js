@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
   var Lockers = mongoose.model('Lockers');
   var async = require('async');
 
+
 exports.list_all_points = function(req, res) {
   Points.find({}, function(err, point) {
     if (err)
@@ -91,8 +92,15 @@ exports.listbox = function(req, res) {
       res.json(r);
     });
   });
+};
 
+exports.testLock = function(req, res) {
 
+  var Lock = require('./lockController.js');
+    Lock.createCode(req.body.name, req.body.code, req.body.days, req.body.door, req.body.vaste,req.body.order,function(r)
+    {
+        res.send(r);
+    });
 };
 
 function getBoxStatuses(boxes, callback)

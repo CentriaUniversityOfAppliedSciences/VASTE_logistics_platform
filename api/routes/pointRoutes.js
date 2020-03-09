@@ -14,6 +14,7 @@ module.exports = function(app)
     .post(pointRoutes.listbox);
   app.route('/points/getById')
     .post(pointRoutes.getPointById);
-
+  app.route('/points/testLock')
+    .post(pointRoutes.testLock);
 
 };

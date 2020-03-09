@@ -46,7 +46,8 @@ var express = require('express'),
 	coupon = require('./api/models/couponModel'),
   userOrder = require('./api/models/userOrderModel'),
 	userConfirm = require('./api/models/userConfirmModel'),
-	usersVehicles = require('./api/models/usersVehiclesModel.js');
+	usersVehicles = require('./api/models/usersVehiclesModel.js'),
+  locks = require('./api/models/lockModel.js');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -108,7 +109,7 @@ app.use(function(req,res,next){
 							|| req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
 							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----*/
 							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---*/
-							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany'
+							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
 						)
               && req.body.apikey == environment.apikey
           )
