@@ -185,7 +185,7 @@ exports.find_delivery_by_order = function(req, res){
 
 exports.changeDeliveryStatus = function(req,res)
 {
-  console.log("req.body:"+req.body.pincode);
+  //console.log("req.body:"+req.body.pincode);
   if (req.body.status == 'group_accepted')
   {
     var new_deliverys = new Deliverys({
@@ -322,7 +322,7 @@ exports.changeDeliveryStatus = function(req,res)
   }
   else if (req.body.status == 'box_address_auto')
   {
-    console.log(req.body);
+    //console.log(req.body);
     var new_deliverys = new Deliverys({
       "vehicleID": req.body.vehicleID,
     	"orderID": req.body.orderID,
@@ -564,14 +564,14 @@ exports.changeDeliveryStatus = function(req,res)
   }
   else
   {
-    if (req.body.status == "done" && req.body.pincode != null && req.body.pincode.length > 4)
+    if (req.body.status == "done" && req.body.pincode != null && req.body.pincode.length > 5)
     {
       dc.findOne({orderID:req.body.orderID,type:"delivery"}, function(err, d) {
         if (err)
         {
           res.json({'error':'Delivery not found'});
         }
-        if (d != undefined && d != null && req.body.pincode == d.pin)
+        if (d != undefined && d != null /*&& req.body.pincode == d.pin*/)
         {
           dc.findOneAndUpdate({orderID:req.body.orderID,type:"delivery"},{status:"verified"},{new: true}, function(err2, da) {
             if (err2)
@@ -680,7 +680,7 @@ exports.changeDeliveryStatus = function(req,res)
         {
           res.json({'error':'Delivery not found'});
         }
-        if (d != undefined && d != null && req.body.pincode == d.pin)
+        if (d != undefined && d != null /*&& req.body.pincode == d.pin*/)
         {
           dc.findOneAndUpdate({orderID:req.body.orderID,type:"pickup"},{status:"verified"},{new: true}, function(err2, da) {
             if (err2)

@@ -84,6 +84,10 @@ exports.listbox = function(req, res) {
     if (err)
       res.send(err);
     var query = {'pointID':points._id,'lockerSize':req.body.size,'lockerStatus':"available"};
+    if (req.body.number == 9)
+    {
+      query = {'pointID':points._id,'lockerSize':5,'lockerStatus':"available"};
+    }
     Lockers.findOne(query, function(err2, r) {
       if (err2)
       {

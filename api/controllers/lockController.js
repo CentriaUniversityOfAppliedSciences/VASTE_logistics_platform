@@ -25,8 +25,8 @@ exports.createCode = function(name, code, days, door, vaste,order, callback) {
 
       };
       console.log(options);
-      //callback("error");
-      sendToApi(options,function(vast){
+      callback("error");
+      /*sendToApi(options,function(vast){
         console.log(vast);
         var j = {
           "calendarDataTitle_Id": vast.CalendarDataTitle_Id,
@@ -46,7 +46,7 @@ exports.createCode = function(name, code, days, door, vaste,order, callback) {
             callback(vast);
         });
 
-      });
+      });*/
 
 };
 exports.deleteCode = function(calendarDataTitle_Id, calendarData_Id, calendarDataRecurringEntry_Id, calendarDataRecurringEntryException_Id, name, callback) {

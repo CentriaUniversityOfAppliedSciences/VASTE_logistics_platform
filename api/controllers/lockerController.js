@@ -95,29 +95,9 @@ exports.book_a_locker = function(req, res) {
     }
     if (req.body.type == 'pickup' || req.body.type == 'delivery')
     {
-      /*if(req.body.machine == "1" || req.body.machine == "2")
-      {
-        req.body.machine = "100"+req.body.machine;
-        boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
-          //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
-          //{
-          if (vast != undefined && vast != null && vast != 'error')
-          {
-            res.json(lockers);
-          }
-          else {
-            res.json(null)
-          }
-          //});
-
-        });
-      }
-      else */
       if (req.body.machine == "7" || req.body.machine == "8")
       {
         boxes.boxAnnounce(req.body.type,req.body.vasteOrder,"8600",req.body.size,req.body.valid ,function(vast){
-          //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
-          //{
           if (vast != undefined && vast != null && vast != 'error')
           {
             res.json(lockers);
@@ -125,17 +105,75 @@ exports.book_a_locker = function(req, res) {
           else {
             res.json(null)
           }
-          //});
-
         });
+      }
+      else if (req.body.machine == "9")
+      {
+          var Lock = require('./lockController.js');
+          if (req.body.mode == 'stowage')
+          {
+            Lock.createCode(req.body.name1, req.body.code1, 5.0, "Centria", req.body.vasteOrder,req.body.orderID,function(r)
+            {
+                //res.json(r);
+            });
+            Lock.createCode(req.body.name2, req.body.code2, 15.0, "Centria", req.body.vasteOrder,req.body.orderID,function(re)
+            {
+                res.json(lockers);
+            });
+          }
+          else if (req.body.mode == 'box_pickup')
+          {
+            Lock.createCode("Kuljetusliike", req.body.code1, 10.0, "Centria", req.body.vasteOrder,req.body.orderID,function(r)
+            {
+                //res.json(r);
+            });
+            Lock.createCode(req.body.name, req.body.code2, 20.0, "Centria", req.body.vasteOrder,req.body.orderID,function(re)
+            {
+                res.json(lockers);
+            });
+          }
+          else if (req.body.mode == 'box_delivery')
+          {
+            Lock.createCode(req.body.name, req.body.code1, 5.0, "Centria", req.body.vasteOrder,req.body.orderID,function(r)
+            {
+                //res.json(r);
+            });
+            Lock.createCode("Kuljetusliike", req.body.code2, 15.0, "Centria", req.body.vasteOrder,req.body.orderID,function(re)
+            {
+                res.json(lockers);
+            });
+          }
+          else if (req.body.mode == 'box')
+          {
+            if (req.body.type == 'pickup')
+            {
+              Lock.createCode(req.body.name, req.body.code1, 5.0, "Centria", req.body.vasteOrder,req.body.orderID,function(r)
+              {
+                  //res.json(r);
+              });
+              Lock.createCode("Kuljetusliike", req.body.code2, 15.0, "Centria", req.body.vasteOrder,req.body.orderID,function(re)
+              {
+                  res.json(lockers);
+              });
+            }
+            else {
+              Lock.createCode("Kuljetusliike", req.body.code1, 10.0, "Centria", req.body.vasteOrder,req.body.orderID,function(r)
+              {
+                  //res.json(r);
+              });
+              Lock.createCode(req.body.name, req.body.code2, 20.0, "Centria", req.body.vasteOrder,req.body.orderID,function(re)
+              {
+                  res.json(lockers);
+              });
+            }
+          }
       }
       else {
         if (environment.environment =='prod')
         {
           req.body.machine = "100"+req.body.machine;
           boxes.boxAnnounce(req.body.type,req.body.vasteOrder,req.body.machine,req.body.size,req.body.valid ,function(vast){
-            //boxes.boxUpdate(req.body.vasteOrder,req.body.type,req.body.machine,req.body.lockerCode2,req.body.valid,function(rt)
-            //{
+
             if (vast != undefined && vast != null && vast != 'error')
             {
               res.json(lockers);
@@ -143,8 +181,6 @@ exports.book_a_locker = function(req, res) {
             else {
               res.json(null)
             }
-            //});
-
           });
         }
         else {
@@ -155,9 +191,6 @@ exports.book_a_locker = function(req, res) {
     else {
       res.json(lockers);
     }
-
-
-
   });
 };
 
