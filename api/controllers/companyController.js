@@ -52,6 +52,7 @@ exports.delete_a_companys = function(req, res) {
 exports.find_company_by_ID = function(req, res) {
   Companys.find({_id: req.body.companysId}, function(err, companys) {
     if (err)
+			console.log(err);
       res.send(err);
     res.json({companys });
   });

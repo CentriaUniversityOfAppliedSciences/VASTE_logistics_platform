@@ -69,6 +69,8 @@ app.route('/deleteOrder')
 		.post(orderRoutes.driver_read_a_company_order);
 	app.route('/updateOrdersCompany')
 		.post(orderRoutes.update_a_orders_company);
+	app.route('/editOrder')
+		.post(orderRoutes.edit_a_orders);
 
 
 

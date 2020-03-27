@@ -96,20 +96,22 @@ app.use(function(req,res,next){
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
               || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute'
-							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----*/
-              || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----*/
+							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----koulukyydit*/
+              || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----asiakkaan tilaukset*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
 							|| req.path == "/getCompaniesVehicles" || req.path == '/getCompaniesLogs' || req.path == '/getCompaniesDrivers' || req.path == '/superGetSingleOrder'
 						  || req.path == '/superCreateDelivery' || req.path == '/superUpdateOrder' || req.path == '/superCancelDelivery' || req.path == '/createPayment'
 							|| req.path == '/superDeleteOrder' || req.path == '/superDeliveryLists' || req.path == '/getCompaniesPayments' || req.path == '/superDeleteVehicle'
 							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
-							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'  || req.path == '/superListApplicants'/*<-*/
-							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' || req.path == '/superCancelAddressDelivery' /*<--*/
-							|| req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
-							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----*/
-							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---*/
+							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'
+							|| req.path == '/superListApplicants' || req.path == '/superEditOrder'/*<-super*/
+							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<-- kupongit*/
+							|| req.path == '/superCancelAddressDelivery' || req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
+							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----userconfirms*/
+							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---usercars*/
 							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
+							|| req.path == '/editOrder'
 						)
               && req.body.apikey == environment.apikey
           )
@@ -131,6 +133,7 @@ app.use(function(req,res,next){
         || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders' || req.path == '/cancelBoxDelivery' || req.path == '/createSinglePayment' || req.path == '/createPayment'
 				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute'
 				|| req.path == '/deleteRoute' || req.path == '/get_locker_pin' || req.path == '/getCompanyOrder' || req.path == '/orders/groupOrders' || req.path == '/listCompanyConfirms'
+				|| req.path == '/companys/find_company_by_ID'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){

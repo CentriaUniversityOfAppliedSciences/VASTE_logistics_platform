@@ -255,6 +255,26 @@ exports.update_a_orders = function(req, res) {
   });
 };
 
+exports.edit_a_orders = function(req, res) {
+  Orders.findOneAndUpdate({_id: req.body.orderID}, req.body, {new: true}, function(err, orders) {
+    if (err)
+      res.send(err);
+
+		var log = require('../controllers/orderLogController');
+		var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		var jso = {
+			user:"api",
+			ip: ipa,
+			timestamp: Math.floor(new Date() / 1000),
+			code: "operator_edit",
+			orderID:req.body.orderID,
+			companyID: req.body.companyID
+		};
+		log.logThis(jso);
+    res.json(orders);
+  });
+};
+
 exports.update_a_orders_company = function(req,res){
 	Orders.findOneAndUpdate({_id: req.body.orderID}, {companyID:req.body.companyID}, function(err, orders){
 		if(err){

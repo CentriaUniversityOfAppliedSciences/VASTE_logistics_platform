@@ -183,7 +183,7 @@ exports.super_create_a_deliverys = function(req,res){
 			companyID: req.body.companyID,
 			vehicleID: req.body.vehicleID
 		};
-		console.log(jso);
+		//console.log(jso);
 		log.logThis(jso);
 		sendStatusChange(deliverys.orderID, "operator_delivery", req.body.companyID);
 
@@ -195,6 +195,26 @@ exports.super_update_a_order = function(req,res){
 	Orders.findOneAndUpdate({_id: req.body.orderID}, req.body, {new: true}, function(err, orders) {
     if (err)
       res.send(err);
+    res.json(orders);
+  });
+}
+
+exports.super_edit_a_order = function(req,res){
+	Orders.findOneAndUpdate({_id: req.body.orderID}, req.body, {new: true}, function(err, orders) {
+    if (err)
+      res.send(err);
+		var log = require('../controllers/orderLogController');
+		var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		var jso = {
+			user:"api",
+			ip: ipa,
+			timestamp: Math.floor(new Date() / 1000),
+			code: "operator_edit",
+			orderID:req.body.orderID,
+			companyID: req.body.companyID
+		};
+		//console.log(jso);
+		log.logThis(jso);
     res.json(orders);
   });
 }
@@ -240,7 +260,7 @@ exports.super_archive_a_orders_removal = function(req, res) {
       orderID:req.body.orderID,
       companyID: req.body.companyID,
     };
-		console.log(jso);
+		//console.log(jso);
     log.logThis(jso);
 
     res.json(orders);
@@ -335,7 +355,7 @@ exports.super_delete_a_boxdeliverys = function(req, res) {
       deliveryID: req.body.deliverysId,
       companyID: req.body.companyID
     };
-		console.log(jso);
+		//console.log(jso);
     log.logThis(jso);
     sendStatusChange(req.body.orderID, "operator_cancel");
 

@@ -94,6 +94,9 @@ module.exports = function(app)
 	app.route('/superCancelAddressDelivery')
 		.post(superiorRoutes.super_delete_a_addressdeliverys);
 
+	app.route('/superEditOrder')
+		.post(superiorRoutes.super_edit_a_order);
+
 
 
 };
