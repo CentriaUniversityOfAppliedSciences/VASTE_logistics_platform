@@ -111,7 +111,7 @@ app.use(function(req,res,next){
 							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----userconfirms*/
 							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---usercars*/
 							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
-							|| req.path == '/editOrder'
+							|| req.path == '/editOrder' || req.path == '/getUnfinishedOrderAmount'
 						)
               && req.body.apikey == environment.apikey
           )

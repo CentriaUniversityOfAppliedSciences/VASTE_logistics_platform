@@ -21,10 +21,10 @@ module.exports = function(app)
     .get(orderRoutes.read_a_orders)
     .put(orderRoutes.update_a_orders);
 
-app.route('/updateOrder')
+	app.route('/updateOrder')
     .post(orderRoutes.update_a_orders);
 
-app.route('/deleteOrder')
+	app.route('/deleteOrder')
 		.post(orderRoutes.archive_a_orders_removal);
 
 	app.route('/orders/getVehicleOrders')
@@ -71,6 +71,8 @@ app.route('/deleteOrder')
 		.post(orderRoutes.update_a_orders_company);
 	app.route('/editOrder')
 		.post(orderRoutes.edit_a_orders);
+	app.route('/getUnfinishedOrderAmount')
+		.post(orderRoutes.list_amount_of_orders);
 
 
 

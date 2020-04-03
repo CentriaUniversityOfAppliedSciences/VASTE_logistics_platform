@@ -697,6 +697,14 @@ exports.getAllForId2 = function(req, res) {
   });
 };
 
+exports.list_amount_of_orders = function(req, res){
+	Orders.find({companyID: req.body.companyID, archieved:0}, function(err, orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	})
+};
+
 function getDeliveryForOrder(orders, callback)
 {
 	var ordery = [];
