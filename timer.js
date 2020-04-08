@@ -198,10 +198,11 @@ function getBoxes()
                       if (ty != undefined && ty != null)
                       {
                         var valid = moment(Date.now()).add(3, 'day').format("YYYY-MM-DDTHH:mm:ss");
-                        boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
-                        {
-                            checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
-                        });
+                        //boxes.boxUpdate(idd,ss,mm,ty.lockerCode2,valid,function(rt)
+                        //{
+                          checkIfPincode(mm,idd,"pickup",ty.lockerCode2);
+                          checkIfSendMessage(idd,ss,a,ty.lockerCode2,mm);
+                        //});
                       }
                     });
                   }
