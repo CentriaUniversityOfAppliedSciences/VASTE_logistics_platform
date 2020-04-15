@@ -219,7 +219,7 @@ exports.read_a_company_order = function(req,res){
 		if(err)
 			res.send(err);
 		res.json(orders);
-	})
+	});
 }
 
 exports.driver_read_a_company_order = function(req,res){
@@ -227,7 +227,7 @@ exports.driver_read_a_company_order = function(req,res){
 		if(err)
 			res.send(err);
 		res.json(orders);
-	})
+	});
 }
 
 exports.read_group_free_orders = function(req,res){
@@ -235,9 +235,61 @@ exports.read_group_free_orders = function(req,res){
 		if(err)
 			res.send(err);
 		res.json(orders);
-	})
+	});
 }
 
+exports.getRouteOrdersReceived = function (req,res){
+  Orders.find({companyID:req.body.companyID, destination:"route_delivery",  archieved:0, status:"received"}, function(err,orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	});
+}
+exports.getRouteOrders = function (req,res){
+  Orders.find({companyID:req.body.companyID, destination:"route_delivery",  archieved:0, status:"accepted"}, function(err,orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	});
+}
+
+exports.updateRouteOrder = function (req,res){
+  Orders.findOneAndUpdate({_id:req.body.orderID,"address.deliveryList._id":req.body.item},{$set:{"address.deliveryList.$.visited":req.body.visited}},{new:true}, function(err,orders){
+		if(err)
+			res.send(err);
+		res.json(orders);
+	});
+}
+exports.updateRouteOrderStatus = function (req,res){
+  Orders.findOneAndUpdate({_id:req.body.orderID,destination:"route_delivery"},{$set:{"status":req.body.status}},{new:true}, function(err,orders){
+    if (err)
+      res.send(err);
+    var log = require('../controllers/orderLogController');
+    var ipa = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if (orders != undefined && orders != null)
+    {
+      var jso = {
+        user:"api",
+        ip: ipa,
+        timestamp: Math.floor(new Date() / 1000),
+        code: req.body.status,
+        orderID:orders._id,
+        companyID: orders.companyID,
+      };
+      log.logThis(jso);
+      Deliveries.findOneAndUpdate({orderID:orders._id, companyID:orders.companyID,status: {$nin:['cancelled','done','box_cancelled','terminal_stop']}},{status:req.body.status},{new: false}, function(err, deliverys){
+
+        sendStatusChange2(orders._id,req.body.status);
+        res.json({"msg":"Order and delivery changed"});
+
+
+      });
+    }
+    else {
+      res.json({"msg":"Order not found"});
+    }
+	});
+}
 
 exports.get_api_order = function(req, res) {
   Orders.find({companyID:req.body.companyID,_id:req.body.orderID, archieved:0}, function(err, orders) {

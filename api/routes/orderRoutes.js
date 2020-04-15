@@ -73,6 +73,14 @@ module.exports = function(app)
 		.post(orderRoutes.edit_a_orders);
 	app.route('/getUnfinishedOrderAmount')
 		.post(orderRoutes.list_amount_of_orders);
+  app.route('/orders/routeOrders')
+    .post(orderRoutes.getRouteOrders);
+  app.route('/orders/updateRouteOrder')
+    .post(orderRoutes.updateRouteOrder);
+  app.route('/orders/routeOrdersReceived')
+    .post(orderRoutes.getRouteOrdersReceived);
+  app.route('/orders/updateRouteOrderStatus')
+    .post(orderRoutes.updateRouteOrderStatus);
 
 
 

@@ -92,7 +92,36 @@ var OrderSchema = new Schema ({
 				type: String
 			},
 		},
-    },
+		deliveryList:[
+			{
+					street:{
+						type:String
+					},
+					zipcode:{
+						type:String
+					},
+					city:{
+						type:String
+					},
+					apartment:{
+						type:String
+					},
+					contact:{
+						type:String
+					},
+					contactEmail:{
+						type: String
+					},
+					contactPhone:{
+						type: String
+					},
+					visited:{ //0 = not delivered, 1 = delivery complete to this address
+						type:Number,
+						default:0
+					}
+			}
+		]
+  },
 
 	time: {				//aikaikkunat, nouto ja toimitus
 		pickupTime:{
@@ -160,7 +189,7 @@ var OrderSchema = new Schema ({
 	destination:
 	{
 		type: String,
-		enum: ['address', 'box', 'depot','driver','stowage','box_pickup','box_delivery', 'box_address', 'group_free'],
+		enum: ['address', 'box', 'depot','driver','stowage','box_pickup','box_delivery', 'box_address', 'group_free', 'route_delivery'],
 		default: 'address'
 	},
 	companyID:

@@ -133,7 +133,8 @@ app.use(function(req,res,next){
         || req.path == '/cancelDelivery' || req.path == '/logs' || req.path == '/orders/getVehicleOrders' || req.path == '/cancelBoxDelivery' || req.path == '/createSinglePayment' || req.path == '/createPayment'
 				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute'
 				|| req.path == '/deleteRoute' || req.path == '/get_locker_pin' || req.path == '/getCompanyOrder' || req.path == '/orders/groupOrders' || req.path == '/listCompanyConfirms'
-				|| req.path == '/companys/find_company_by_ID'
+				|| req.path == '/companys/find_company_by_ID' || req.path == '/orders/routeOrders' || req.path == '/orders/updateRouteOrder'
+        || req.path == '/orders/updateRouteOrderStatus' || req.path == '/orders/routeOrdersReceived'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
