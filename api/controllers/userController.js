@@ -53,6 +53,28 @@ exports.find_customer_by_mail = function(req,res){
 	});
 }
 
+//Find customer company / store's users
+exports.find_store_users = function(req,res){
+	Users.find({'userInformation.userCompany': req.body.companyID, $or:[{status:'customer'}, {status: 'shopkeeper'}]}, function(err, users){
+		if(err)
+			res.send(err);
+		var u = [];
+		if (users != undefined && users != null)
+		{
+
+			for (var i = 0;i< users.length;i++)
+			{
+				var us = users[i].toObject();
+				delete us.passWord;
+
+				u.push(us);
+			}
+
+		}
+		res.json(u);
+	});
+}
+
 exports.get_company_drivers = function(req, res) {
 
     Users.find({'userInformation.userCompany':req.body.companyID, status:'driver'}, function(err, users) {
@@ -114,7 +136,7 @@ exports.create_a_users = function(req, res) {
 };
 
 exports.create_a_customer = function(req,res){
-		var new_customer = new Users({userID:req.body.userID,passWord:req.body.passWord,status:'customer',
+		var new_customer = new Users({userID:req.body.userID,passWord:req.body.passWord,status:req.body.status,
                                 userInformation:{userName:req.body.userName,userCompany:req.body.companyID,
                                 userPhone: req.body.userPhone, userAddress:req.body.userAddress,userMail:req.body.userMail}})
 
@@ -289,7 +311,7 @@ exports.identification = function(req, res) {
 //customer authentication
 
 exports.customer_identification = function(req,res){
-	Users.find({userID:req.body.userId, passWord:req.body.passWord, $or:[{status:'customer'}, {status:'driver'}]}, function(err, users)
+	Users.find({userID:req.body.userId, passWord:req.body.passWord, $or:[{status:'customer'}, {status:'driver'}, {status:'shopkeeper'}]}, function(err, users)
 	{
 		if(err)
 		{

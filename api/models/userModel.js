@@ -16,7 +16,7 @@ var UserSchema = new Schema ({
 	},
 	status:{
 		type: String,
-		enum: ['customer', 'operator','superoperator', 'driver','apiuser'],
+		enum: ['customer', 'operator','superoperator', 'driver','apiuser', 'shopkeeper'],
       default: 'customer'
 	},
 	userInformation:{

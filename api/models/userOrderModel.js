@@ -8,7 +8,10 @@ var UserOrderSchema = new Schema ({
   },
   orderID:{
     type:String
-  }
+  },
+	customerCompany:{
+		type: String
+	}
 });
 
 module.exports = mongoose.model('UserOrder', UserOrderSchema);

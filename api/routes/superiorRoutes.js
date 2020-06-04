@@ -97,6 +97,12 @@ module.exports = function(app)
 	app.route('/superEditOrder')
 		.post(superiorRoutes.super_edit_a_order);
 
+	app.route('/superGetCustomerUsers')
+    .post(superiorRoutes.super_get_customers);
+	app.route('/superGetCustomerCompanies')
+	   .post(superiorRoutes.super_get_customer_companies);
+
+
 
 
 };
