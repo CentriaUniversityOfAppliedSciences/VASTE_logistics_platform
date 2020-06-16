@@ -19,4 +19,9 @@ module.exports = function(app)
 
   app.route('/companybylink')
     .post(companyRoutes.find_company_by_link);
+
+  app.route('/createCustomerCompany')
+	  .post(companyRoutes.create_a_customer_company);
+	app.route('/findCustomerCompany')
+    .post(companyRoutes.find_customer_company);
 };

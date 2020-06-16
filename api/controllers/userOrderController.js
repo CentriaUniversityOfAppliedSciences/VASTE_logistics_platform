@@ -70,6 +70,29 @@ exports.get_user_orders = function(req, res) {
   }
 };
 
+exports.get_user_company_orders = function(req, res) {
+  if (req.body.apikey == apikey)
+  {
+    UserOrder.find({customerCompany:req.body.customerCompany}, function(err, uo) {
+      if (err)
+        res.send(err);
+      else {
+        getOrderList(uo,function (err2,r){
+          getLogsList(r,function(err3,re){
+            getPriceList(re,function(err4,vast)
+            {
+              res.send(vast);
+            });
+          });
+        });
+      }
+    });
+  }
+  else {
+    res.send("error");
+  }
+};
+
 
 
 

@@ -22,6 +22,15 @@ exports.create_a_companys = function(req, res) {
   });
 };
 
+exports.create_a_customer_company = function(req, res){
+	var new_companys = new Companys(req.body);
+	new_companys.save(function(err, companys) {
+		if (err)
+			res.send(err);
+		res.json(companys);
+	});
+}
+
 
 exports.read_a_companys = function(req, res) {
   Companys.findById(req.params.companysId, function(err, companys) {
@@ -65,3 +74,11 @@ exports.find_company_by_link = function(req, res) {
     res.json({companys});
   });
 };
+
+exports.find_customer_company = function(req,res){
+	Companys.find({_id:req.body.companyID, companyType: 'store'}, function(err, companys){
+		if(err)
+      res.send(err);
+		res.json(companys);
+	})
+}

@@ -492,6 +492,24 @@ exports.super_list_companies_confirms = function(req,res){
 	});
 };
 
+exports.super_get_customers = function(req,res){
+	Users.find({$or:[{status:'customer'}, {status: 'shopkeeper'}]}, function(err, customers){
+		if(err){
+			res.send(err);
+		}
+		res.send(customers);
+	})
+}
+
+exports.super_get_customer_companies = function(req,res){
+	Companys.find({companyType: 'store'}, function(err, companies){
+		if(err){
+			res.send(err);
+		}
+		res.send(companies);
+	})
+}
+
 
 function sendStatusChange(orderID,status,comp)
 {

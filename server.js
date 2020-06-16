@@ -116,13 +116,14 @@ app.use(function(req,res,next){
 							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
 							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'
-							|| req.path == '/superListApplicants' || req.path == '/superEditOrder'/*<-super*/
+							|| req.path == '/superListApplicants' || req.path == '/superEditOrder' || req.path == '/superGetCustomerUsers' || req.path == '/superGetCustomerCompanies'/*<-super*/
 							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<-- kupongit*/
 							|| req.path == '/superCancelAddressDelivery' || req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
 							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----userconfirms*/
 							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---usercars*/
 							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
 							|| req.path == '/editOrder' || req.path == '/getUnfinishedOrderAmount'
+							|| /*customerCompanies ->*/req.path == '/createCustomerCompany' || req.path == '/getUserCompanyOrders' || req.path == '/findCustomerCompany' || req.path == '/findStoreCustomers'/*<--*/
 						)
               && req.body.apikey == environment.apikey
           )
