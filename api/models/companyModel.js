@@ -19,6 +19,11 @@ var CompanySchema = new Schema ({
 	},
 	link:{
 		type: String
+	},
+	type:{
+		type: String,
+		enum: ['shop','transport'],
+		default: 'transport'
 	}
 });
 

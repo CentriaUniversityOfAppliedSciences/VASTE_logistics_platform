@@ -10,7 +10,18 @@ var cert = fs.readFileSync( './encryption/vaste_info.crt' );
 var cat = fs.readFileSync('./encryption/DigiCertCA.crt');
 
 var credentials = {key: key, cert: cert, ca: cat,passphrase: secret.passphrase};
+var cert2 = fs.readFileSync( "./encryption/2020/www_vaste_info_cert.cer" );
+var cat2 = fs.readFileSync("./encryption/2020/www_vaste_info.cer");
+var key2 = fs.readFileSync("./encryption/2020/vaste.key");
 
+var credentials2 = {
+    key: key2,
+    ca: cat2,
+    cert: cert2,
+    passphrase: secret.passphrase2,
+    requestCert: true,
+    rejectUnauthorized: false
+  };
 // Constants
 const PORT =  environment.port;
 const HOST = '0.0.0.0';
@@ -67,7 +78,7 @@ else {
 //määritellään bodyparser käyttöön
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var httpsServer = https.createServer(credentials, app);
+var httpsServer = https.createServer(credentials2, app);
 
 app.use(function(req,res,next){
   //console.log(req.path);
