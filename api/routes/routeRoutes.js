@@ -26,7 +26,8 @@ module.exports = function(app)
     .post(routeRoutes.create_a_routes);
 	app.route('/deleteRoute')
 		.post(routeRoutes.delete_a_routes);
-
+	app.route('/findSingleRoute')
+    .post(routeRoutes.find_route_by_ID);
 
 
 };

@@ -8,8 +8,19 @@ var secret = JSON.parse(secretJson);
 var key = fs.readFileSync('./encryption/www_vaste_info.key');
 var cert = fs.readFileSync( './encryption/vaste_info.crt' );
 var cat = fs.readFileSync('./encryption/DigiCertCA.crt');
+var cert2 = fs.readFileSync( "./encryption/2020/www_vaste_info_cert.cer" );
+var cat2 = fs.readFileSync("./encryption/2020/www_vaste_info.cer");
+var key2 = fs.readFileSync("./encryption/2020/vaste.key");
 
 var credentials = {key: key, cert: cert, ca: cat,passphrase: secret.passphrase};
+var credentials2 = {
+    key: key2,
+    ca: cat2,
+    cert: cert2,
+    passphrase: secret.passphrase2,
+    requestCert: true,
+    rejectUnauthorized: false
+  };
 
 // Constants
 const PORT =  environment.port;
@@ -95,7 +106,8 @@ app.use(function(req,res,next){
               || req.path == '/unbook_a_locker' || req.path == '/orderstatus/update_orderstatus_by_ID' || req.path == '/getOrderLogs'
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
-              || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute'
+              || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute' || req.path == '/findSingleRoute'
+							|| req.path == '/findRoutePayments'
 							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----koulukyydit*/
               || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----asiakkaan tilaukset*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
@@ -112,7 +124,7 @@ app.use(function(req,res,next){
 							|| /*usercCars -->*/ req.path == '/driverAddVehicle' || req.path == '/createNewCarLink' || req.path == '/getDriversCars' || req.path == '/createDriverDelivery'/*<---usercars*/
 							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
 							|| req.path == '/editOrder' || req.path == '/getUnfinishedOrderAmount'
-							|| /*customerCompanies ->*/req.path == '/createCustomerCompany' || req.path == '/getUserCompanyOrders' || req.path == '/findCustomerCompany' || req.path == '/findStoreCustomers'/*<--*/
+							|| /*customerCompanies ->*/req.path == '/createCustomerCompany' || req.path == '/getUserCompanyOrders' || req.path == '/findCustomerCompany' || req.path == '/findStoreCustomers'/*<--customerCompanies*/
 						)
               && req.body.apikey == environment.apikey
           )

@@ -60,7 +60,15 @@ exports.delete_a_routes = function(req, res) {
 };
 
 exports.find_route_by_ID = function(req, res) {
-  Routes.find({_id: req.params.routesId}, function(err, routes) {
+  Routes.find({_id: req.body.routeID}, function(err, routes) {
+    if (err)
+      res.send(err);
+    res.json(routes );
+  });
+};
+
+exports.find_route_by_routeID = function(req, res) {
+  Routes.find({routeID: req.body.routeID}, function(err, routes) {
     if (err)
       res.send(err);
     res.json(routes );

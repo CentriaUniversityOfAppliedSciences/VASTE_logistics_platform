@@ -106,11 +106,19 @@ exports.find_payment_by_company = function(req, res){
   });
 }
 
-	exports.find_payment_by_route_and_type = function(req, res){
-		Payments.find({companyID: req.body.companyID, routeID:req.body.routeID, type: req.body.type}, function(err, payments){
-		if (err)
-	      res.send(err);
-	    res.json(payments);
+exports.find_payment_by_company_and_route = function(req, res){
+	Payments.find({companyID: req.body.companyID, routeID:req.body.routeID}, function(err, payments){
+	if (err)
+      res.send(err);
+    res.json(payments);
+  });
+}
 
-	  });
+exports.find_payment_by_route_and_type = function(req, res){
+	Payments.find({companyID: req.body.companyID, routeID:req.body.routeID, type: req.body.type}, function(err, payments){
+	if (err)
+      res.send(err);
+    res.json(payments);
+
+  });
 };

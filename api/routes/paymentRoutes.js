@@ -38,4 +38,7 @@ module.exports = function(app)
 
 	app.route('/findPaymentByRoute')
 		.post(paymentRoutes.find_payment_by_route_and_type);
+
+	app.route('/findRoutePayments')
+		.post(paymentRoutes.find_payment_by_company_and_route);
 };
