@@ -78,7 +78,7 @@ else {
 //määritellään bodyparser käyttöön
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var httpsServer = https.createServer(credentials, app);
+var httpsServer = https.createServer(credentials2, app);
 
 app.use(function(req,res,next){
   //console.log(req.path);
