@@ -59,6 +59,7 @@ typings/
 
 #environment variables
 /environment.json
+/encryption/
 /package-lock.json
 environment.json
 encryption/DigiCertCA.crt
