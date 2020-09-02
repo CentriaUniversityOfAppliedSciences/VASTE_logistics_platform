@@ -149,7 +149,7 @@ function getOrdersForList(onelist, callback)
 					{
 					  res.send(err2);
 					}
-					console.log(result2);
+					//console.log(result2);
 
 					var h = { "_id":"","subscriber":{},"receiver":{},"address":{},"time":{},"orderStatus":{},"status":"","delivery":{}, "type":"","orderInfo":"","orderDescription":"" };
 					h.subscriber = result1[0].subscriber;
