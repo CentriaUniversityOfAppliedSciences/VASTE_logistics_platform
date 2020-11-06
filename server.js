@@ -81,7 +81,6 @@ app.use(bodyParser.json());
 var httpsServer = https.createServer(credentials2, app);
 
 app.use(function(req,res,next){
-  //console.log(req.path);
   if (req.path == '/users/identification' || req.path == '/users/customerauth')
   {
     next();
@@ -107,7 +106,7 @@ app.use(function(req,res,next){
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
               || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute' || req.path == '/findSingleRoute'
-							|| req.path == '/findRoutePayments'
+							|| req.path == '/findRoutePayments' || req.path == '/lock'
 							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----koulukyydit*/
               || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----asiakkaan tilaukset*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
@@ -147,7 +146,7 @@ app.use(function(req,res,next){
 				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute'
 				|| req.path == '/deleteRoute' || req.path == '/get_locker_pin' || req.path == '/getCompanyOrder' || req.path == '/orders/groupOrders' || req.path == '/listCompanyConfirms'
 				|| req.path == '/companys/find_company_by_ID' || req.path == '/orders/routeOrders' || req.path == '/orders/updateRouteOrder'
-        || req.path == '/orders/updateRouteOrderStatus' || req.path == '/orders/routeOrdersReceived' || req.path == '/deliveryLists' 
+        || req.path == '/orders/updateRouteOrderStatus' || req.path == '/orders/routeOrdersReceived' || req.path == '/deliveryLists' || req.path == '/deliveryListForVehicle'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
@@ -305,6 +304,8 @@ var userConfirmRoutes = require('./api/routes/userConfirmRoutes');
 userConfirmRoutes(app);
 var usersVehiclesRoutes = require('./api/routes/usersVehiclesRoutes');
 usersVehiclesRoutes(app);
+var lockRoutes = require('./api/routes/lockRoutes');
+lockRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
