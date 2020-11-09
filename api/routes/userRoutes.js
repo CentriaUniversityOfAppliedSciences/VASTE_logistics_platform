@@ -46,6 +46,8 @@ module.exports = function(app)
     .post(userRoutes.create_a_customer);
 	app.route('/findStoreCustomers')
     .post(userRoutes.find_store_users)
+	app.route('/users/findByCompany')
+		.post(userRoutes.list_users_by_company);
 
   app.route('/getdrivers')
     .get(userRoutes.getDrivers);

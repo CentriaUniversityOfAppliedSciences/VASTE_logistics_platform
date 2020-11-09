@@ -21,6 +21,28 @@ exports.list_all_users = function(req, res) {
   }
 };
 
+exports.list_users_by_company = function(req, res){
+	Users.find({'userInformation.userCompany': req.body.companyID}, function(err, users){
+		if(err){
+			res.send(err);
+		}
+		var u = [];
+		if (users != undefined && users != null)
+		{
+
+			for (var i = 0;i< users.length;i++)
+			{
+				var us = users[i].toObject();
+				delete us.passWord;
+
+				u.push(us);
+			}
+
+		}
+		res.json(u);
+	})
+}
+
 exports.list_all_userids = function(req,res){
 	Users.find({}, function(err, users){
 		if(err)

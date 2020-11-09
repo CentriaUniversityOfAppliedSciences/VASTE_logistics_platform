@@ -31,6 +31,41 @@ var mongoose = require('mongoose');
     });
   };
 
+	exports.link_transport_company = function(req, res){
+		var new_companys = new CompanyProperties(req.body);
+		new_companys.save(function(err, companys) {
+			if (err)
+				res.send(err);
+			res.json(companys);
+		});
+	}
+
+	exports.super_delete_a_link = function(req,res){
+		CompanyProperties.deleteOne({_id: req.body.linkID}, function(err, users) {
+			if (err)
+				res.send(err);
+			res.json({ message: 'Link successfully deleted' });
+		});
+	}
+
+	exports.check_if_link_exists = function(req, res){
+		CompanyProperties.find({value: req.body.value, companyID: req.body.companyID, type: 'transporter'}, function(err, companys){
+			if(err){
+				res.send(err)
+			}
+			res.json(companys);
+		})
+	}
+
+	exports.get_transporter_links = function(req,res){
+		CompanyProperties.find({type: 'transporter'}, function(err, companys){
+			if(err){
+				res.send(err)
+			}
+			res.json(companys);
+		})
+	}
+
 	exports.get_company_name = function(req,res){
 		Companys.find({_id: req.body.companyID}, function(err, companys) {
 			if(err)
@@ -510,6 +545,24 @@ exports.super_get_customer_companies = function(req,res){
 	})
 }
 
+exports.super_create_company_from_confirm = function(req, res){
+	var new_comp = new Companys(req.body);
+	new_comp.save(function(err, companys){
+		if(err){
+			res.send(err);
+		}
+		res.json(companys);
+	})
+}
+
+exports.super_delete_failed_confirm_company = function(req,res){
+	Companys.deleteOne({_id: req.body.companyID}, function(err,companys){
+		if(err){
+			res.send(err);
+		}
+		res.json(companys);
+	})
+}
 
 function sendStatusChange(orderID,status,comp)
 {

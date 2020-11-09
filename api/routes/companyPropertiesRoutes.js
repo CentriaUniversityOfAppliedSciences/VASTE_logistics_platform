@@ -22,5 +22,7 @@ module.exports = function(app)
     .post(companyPropertiesRoutes.find_company_by_tempkey);
   app.route('/bystripe')
     .post(companyPropertiesRoutes.find_by_stripeaccount);
+	app.route('/deleteProperty')
+		.post(companyPropertiesRoutes.delete_a_property);
 
 };

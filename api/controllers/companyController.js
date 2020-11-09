@@ -31,6 +31,13 @@ exports.create_a_customer_company = function(req, res){
 	});
 }
 
+exports.find_company_by_VAT = function(req,res){//hae Y-tunnuksen perusteella
+	Companys.find({companyID: req.body.companyID}, function(err, companys) {
+    if (err)
+      res.send(err);
+    res.json(companys);
+  });
+}
 
 exports.read_a_companys = function(req, res) {
   Companys.findById(req.params.companysId, function(err, companys) {

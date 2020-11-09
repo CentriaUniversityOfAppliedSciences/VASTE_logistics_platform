@@ -101,6 +101,18 @@ module.exports = function(app)
     .post(superiorRoutes.super_get_customers);
 	app.route('/superGetCustomerCompanies')
 	   .post(superiorRoutes.super_get_customer_companies);
+	app.route('/superLinkCustomerCompany')
+     .post(superiorRoutes.link_transport_company);
+	app.route('/superCustomerCompanyLinkCheck')
+	   .post(superiorRoutes.check_if_link_exists);
+	app.route('/superGetTransporterLinks')
+	   .post(superiorRoutes.get_transporter_links);
+	app.route('/superDeleteLink')
+	   .post(superiorRoutes.super_delete_a_link);
+	app.route('/superCreateCompanyFromConfirm')
+ 		 .post(superiorRoutes.super_create_company_from_confirm);
+	app.route('/superRemoveUnfinishedCompany')
+		.post(superiorRoutes.super_delete_failed_confirm_company);
 
 
 

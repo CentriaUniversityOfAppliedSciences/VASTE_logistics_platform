@@ -24,4 +24,6 @@ module.exports = function(app)
 	  .post(companyRoutes.create_a_customer_company);
 	app.route('/findCustomerCompany')
     .post(companyRoutes.find_customer_company);
+	app.route('/findCompanyByVAT')
+		.post(companyRoutes.find_company_by_VAT)
 };

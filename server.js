@@ -58,7 +58,8 @@ var express = require('express'),
   userOrder = require('./api/models/userOrderModel'),
 	userConfirm = require('./api/models/userConfirmModel'),
 	usersVehicles = require('./api/models/usersVehiclesModel.js'),
-  locks = require('./api/models/lockModel.js');
+  locks = require('./api/models/lockModel.js'),
+	companyConfirms = require('./api/models/companyConfirmModel.js');
 
 //Mongoose yhteys
 // mongoose instance connection url connection
@@ -95,7 +96,7 @@ app.use(function(req,res,next){
   }
   else if ((req.path == '/users' || req.path == '/companys' || req.path == '/companyproperties'
               || req.path == '/companyproperties/find_by_companyid' || req.path == '/orders/getSingleOrder'
-              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs'
+              || req.path == '/companybytempkey' || req.path == '/companybylink' || req.path == '/users/apiidentification' || req.path == '/logs' || req.path == '/users/findByCompany'
               || req.path == '/users/resetPassword' || req.path == '/users/getResetUser' || req.path == '/orders/find_by_status_with_nodelivery'
               || req.path == '/getSeuraaOrder' || req.path == '/deliveryLists' || req.path == '/getCompanyApi' || req.path == '/listPayments' || req.path == '/stripemessage'
               || req.path == '/createsingleorder' || req.path == '/points' || req.path == '/lockers' || req.path == '/points/getboxes' || req.path == '/points/getbox'
@@ -107,7 +108,7 @@ app.use(function(req,res,next){
               || req.path == '/orderstatus/list_by_company' ||  req.path == '/find_locker_by_orderID' || req.path == '/customerDeleteOrder'
               || req.path == '/messages/find_message_by_order' || req.path == '/messages/create_message' || req.path == '/listPaymentsOther' || req.path == '/users/updatePassword'
               || req.path == '/getDeliveryConfirmation' || req.path == '/createDeliveryConfirmation' || req.path == '/announceDeliveryConfirmation' || req.path == '/listAllRoutes'  || req.path == '/findPaymentByRoute' || req.path == '/findSingleRoute'
-							|| req.path == '/findRoutePayments'
+							|| req.path == '/findRoutePayments' || req.path == '/findCompanyByVAT'
 							|| /*Koulukyydit ->*/ req.path == '/createSchoolRouteModel' || req.path == '/getDailySchoolRoute' || req.path == '/createSchoolDaily' || req.path == '/schoolRouteModels' /*<-----koulukyydit*/
               || /*asiakkaan tilaukset ->*/ req.path == '/usersorder' || req.path == '/createusersorder' || req.path == '/removeusersorder' || req.path == '/getuserorderlist'  /*<-----asiakkaan tilaukset*/
               || /*For superoperator ->*/req.path =='/getCompaniesDeliveries' ||req.path =='/getCompanies' || req.path == "/getCompaniesOrders"
@@ -117,7 +118,8 @@ app.use(function(req,res,next){
 							|| req.path == '/superDeleteUser' || req.path == '/getCompaniesName' || req.path == '/superCreateDriver' || req.path == '/superAddVehicle' || req.path == '/superCancelBoxDelivery'
 							|| req.path == '/superCreateSinglePayment' || req.path == '/superDeletePayment' || req.path == '/updateLockerPin2' || req.path == '/superGetLockerData'
 							|| req.path == '/superGetPointData' || req.path == '/getKebaLockers' || req.path == '/getCompaniesRoutes' || req.path == '/superCreateRoute' || req.path == '/superDeleteRoute'
-							|| req.path == '/superListApplicants' || req.path == '/superEditOrder' || req.path == '/superGetCustomerUsers' || req.path == '/superGetCustomerCompanies'/*<-super*/
+							|| req.path == '/superListApplicants' || req.path == '/superEditOrder' || req.path == '/superGetCustomerUsers' || req.path == '/superGetCustomerCompanies' || req.path == '/superLinkCustomerCompany' || req.path == '/superCustomerCompanyLinkCheck'
+							|| req.path == '/superGetTransporterLinks' || req.path == '/superDeleteLink' || req.path == '/superCreateCompanyFromConfirm' || req.path == '/superRemoveUnfinishedCompany' /*<-super*/
 							|| /*Kupongit ->*/req.path == '/getCoupons' || req.path == '/updateCoupon' || req.path == '/createCoupon' || req.path == '/deleteCoupon' || req.path == '/getSingleCoupon' /*<-- kupongit*/
 							|| req.path == '/superCancelAddressDelivery' || req.path == '/createCustomer' || req.path == '/users/customerupdatepass' || req.path == '/getUsers' ||req.path == '/getUserByMail' || req.path == '/getGroupFreeOrders'
 							|| /*userConfirms -->*/ req.path == '/newUserConfirm' || req.path == '/getConfirm' || req.path == '/deleteConfirm' || req.path == '/createConfirmUser' || req.path == '/updateConfirm' /*<-----userconfirms*/
@@ -125,6 +127,7 @@ app.use(function(req,res,next){
 							|| req.path == '/getVehicleByID' || req.path == '/findDeliveryByVehicle' || req.path == '/driverGetOrder' || req.path == '/findDeliveryByOrder' || req.path == '/updateOrdersCompany' || req.path == '/points/testLock'
 							|| req.path == '/editOrder' || req.path == '/getUnfinishedOrderAmount'
 							|| /*customerCompanies ->*/req.path == '/createCustomerCompany' || req.path == '/getUserCompanyOrders' || req.path == '/findCustomerCompany' || req.path == '/findStoreCustomers'/*<--customerCompanies*/
+							|| /*companyConfirms ->*/ req.path == '/newCompanyConfirm' || req.path == '/getPendingCompanyConfirms' || req.path == '/findCompanyConfirm' || req.path == '/updateCompanyConfirm'
 						)
               && req.body.apikey == environment.apikey
           )
@@ -147,7 +150,7 @@ app.use(function(req,res,next){
 				|| req.path == '/deletePayment' || req.path == '/orders/boxOrders' || req.path == '/cancelAddressDelivery' || req.path == '/getCompanyRoutes' || req.path == '/createNewRoute'
 				|| req.path == '/deleteRoute' || req.path == '/get_locker_pin' || req.path == '/getCompanyOrder' || req.path == '/orders/groupOrders' || req.path == '/listCompanyConfirms'
 				|| req.path == '/companys/find_company_by_ID' || req.path == '/orders/routeOrders' || req.path == '/orders/updateRouteOrder'
-        || req.path == '/orders/updateRouteOrderStatus' || req.path == '/orders/routeOrdersReceived' || req.path == '/deliveryLists' 
+        || req.path == '/orders/updateRouteOrderStatus' || req.path == '/orders/routeOrdersReceived' || req.path == '/deliveryLists'
        )
     {
       sec_find_by_companyid(req.body.companyID, function(rese){
@@ -305,6 +308,8 @@ var userConfirmRoutes = require('./api/routes/userConfirmRoutes');
 userConfirmRoutes(app);
 var usersVehiclesRoutes = require('./api/routes/usersVehiclesRoutes');
 usersVehiclesRoutes(app);
+var companyConfirmRoutes = require('./api/routes/companyConfirmRoutes')
+companyConfirmRoutes(app);
 
 //app.listen(PORT);
 httpsServer.listen(PORT);
