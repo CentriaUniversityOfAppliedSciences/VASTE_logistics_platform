@@ -74,7 +74,44 @@ exports.deleteCode = function(calendarDataTitle_Id, calendarData_Id, calendarDat
 
 };
 
+exports.createCodeMinutes = function(req,res) {
+    var options = {
+          uri: "http://localhost:"+environment.boxApi+"/api/vaste/app",
+          method: 'POST',
+          headers: {
+          "content-type": "application/json",
+          },
+          json: {
+            "Name":req.body.name,
+            "AccessCode":req.body.code,
+            "Minutes":req.body.minutes,
+            "Door":req.body.door,
+            "VasteCode":req.body.vaste
+          }
 
+      };
+      //res.json("{type:error}");
+      sendToApi(options,function(vast){
+        var j = {
+          "calendarDataTitle_Id": vast.CalendarDataTitle_Id,
+          "calendarData_Id":vast.CalendarData_Id,
+          "calendarDataRecurringEntry_Id":vast.CalendarDataRecurringEntry_Id,
+          "calendarDataRecurringEntryException_Id":vast.CalendarDataRecurringEntryException_Id,
+          "orderID": req.body.order,
+          "name":req.body.name
+        };
+        var new_Lock = new Locks(j);
+        new_Lock.save(function(err, lock) {
+          if (err)
+          {
+            console.log(err);
+          }
+          res.json(vast);
+        });
+
+      });
+
+};
 
 
 
@@ -82,9 +119,6 @@ exports.deleteCode = function(calendarDataTitle_Id, calendarData_Id, calendarDat
 function sendToApi(options, callback)
 {
       request(options, function (error, response, body) {
-        console.log(error);
-        console.log(response);
-        console.log(body);
           if (!error && response.statusCode == 200) {
             callback(body);
           }
