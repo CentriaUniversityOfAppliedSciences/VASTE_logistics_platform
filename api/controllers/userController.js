@@ -405,11 +405,14 @@ exports.apiidentification = function(req, res) {
                       if (err){
                         res.send(err);
                       }
-                      res.json(ret);
+					  else{
+						res.json(ret);
+					  }
                       //res.json(companys);
                     });
 
                   });
+				  break;
                 }
               }
 
